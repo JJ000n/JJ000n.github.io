@@ -1,6 +1,6 @@
 baseURL = "https://JJ000n.github.io/"
 languageCode = "ko-kr"
-title = "JJ000n's Blog"
+title = "Seongjun Park"
 theme = "PaperMod"
 paginate = 10
 enableRobotsTXT = true
@@ -10,9 +10,9 @@ buildExpired = false
 
 [params]
   env = "production"
-  title = "JJ000n's Blog"
+  title = "Seongjun Park"
   description = "개발 기록과 메모를 남기는 공간"
-  author = "JJ000n"
+  author = "Seongjun Park"
   defaultTheme = "auto"
   disableThemeToggle = false
   ShowReadingTime = true
@@ -27,7 +27,7 @@ buildExpired = false
 
   [params.profileMode]
     enabled = true
-    title = "JJ000n"
+    title = "Seongjun Park"
     subtitle = "개발 기록과 생각을 남기는 공간"
 
     [[params.profileMode.buttons]]

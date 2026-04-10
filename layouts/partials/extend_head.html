@@ -1,0 +1,92 @@
+<style>
+#pw-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--theme, #fff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+#pw-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 48px 40px;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  min-width: 280px;
+}
+#pw-box h2 {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+#pw-input {
+  width: 100%;
+  padding: 10px 14px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  text-align: center;
+  letter-spacing: 4px;
+  box-sizing: border-box;
+}
+#pw-input:focus { border-color: #555; }
+#pw-btn {
+  width: 100%;
+  padding: 10px;
+  background: #111;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+#pw-btn:hover { background: #333; }
+#pw-error {
+  color: #e53935;
+  font-size: 0.85rem;
+  display: none;
+}
+</style>
+
+<div id="pw-overlay">
+  <div id="pw-box">
+    <h2>🔒 비밀번호를 입력하세요</h2>
+    <input id="pw-input" type="password" placeholder="••••••" autofocus />
+    <button id="pw-btn">확인</button>
+    <span id="pw-error">비밀번호가 틀렸습니다</span>
+  </div>
+</div>
+
+<script>
+(function () {
+  const KEY = "sp_blog_auth";
+  const overlay = document.getElementById("pw-overlay");
+
+  if (sessionStorage.getItem(KEY) === "1") {
+    overlay.remove();
+    return;
+  }
+
+  function attempt() {
+    const val = document.getElementById("pw-input").value;
+    if (val === "271803") {
+      sessionStorage.setItem(KEY, "1");
+      overlay.remove();
+    } else {
+      document.getElementById("pw-error").style.display = "block";
+      document.getElementById("pw-input").value = "";
+      document.getElementById("pw-input").focus();
+    }
+  }
+
+  document.getElementById("pw-btn").addEventListener("click", attempt);
+  document.getElementById("pw-input").addEventListener("keydown", function (e) {
+    if (e.key === "Enter") attempt();
+  });
+})();
+</script>
