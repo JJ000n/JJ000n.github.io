@@ -1,0 +1,92 @@
+{{ define "title" }}{{ .Title }} — {{ .Site.Title }}{{ end }}
+
+{{ define "styles" }}
+.list-wrap { max-width: 760px; margin: 0 auto; padding: 4rem 2rem 5rem; }
+
+.list-header { margin-bottom: 2.8rem; }
+.list-title {
+  font-family: 'Playfair Display', serif; font-size: 1.9rem;
+  color: var(--text); margin-bottom: .4rem;
+}
+.list-meta { font-size: .82rem; color: var(--muted); }
+
+.post-list { display: flex; flex-direction: column; gap: .65rem; }
+.post-item {
+  display: grid; grid-template-columns: 90px 1fr auto;
+  align-items: center; gap: 1.2rem;
+  padding: .95rem 1.2rem;
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 12px; color: var(--text);
+  transition: border-color .2s, transform .2s;
+}
+.post-item:hover { border-color: var(--border2); transform: translateX(3px); }
+.post-item-date {
+  font-family: 'JetBrains Mono', monospace; font-size: .72rem;
+  color: var(--muted); white-space: nowrap;
+}
+.post-item-title { font-size: .94rem; font-weight: 500; }
+.post-item-tags { display: flex; gap: 4px; flex-wrap: wrap; justify-content: flex-end; }
+.tag {
+  padding: 2px 9px; background: var(--bg3);
+  border: 1px solid var(--border); border-radius: 5px;
+  font-size: .70rem; color: var(--muted);
+}
+
+/* Terms (tags index) */
+.terms-wrap { max-width: 760px; margin: 0 auto; padding: 4rem 2rem 5rem; }
+.terms-title {
+  font-family: 'Playfair Display', serif; font-size: 1.9rem;
+  color: var(--text); margin-bottom: 2.5rem;
+}
+.terms-grid { display: flex; flex-wrap: wrap; gap: .7rem; }
+.term-item {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 7px 18px; background: var(--bg2);
+  border: 1px solid var(--border); border-radius: 9px;
+  font-size: .85rem; color: var(--sub); transition: all .2s;
+}
+.term-item:hover { border-color: var(--accent); color: var(--accent); }
+.term-count {
+  font-family: 'JetBrains Mono', monospace; font-size: .70rem; color: var(--muted);
+}
+
+@media (max-width: 600px) {
+  .post-item { grid-template-columns: 1fr; gap: .4rem; }
+  .post-item-tags { justify-content: flex-start; }
+}
+{{ end }}
+
+{{ define "main" }}
+{{ if .Data.Terms }}
+  <!-- Tags index page -->
+  <div class="terms-wrap">
+    <h1 class="terms-title">Tags</h1>
+    <div class="terms-grid">
+      {{ range .Data.Terms.Alphabetical }}
+      <a href="{{ .Page.Permalink }}" class="term-item">
+        {{ .Page.Title }}<span class="term-count">{{ .Count }}</span>
+      </a>
+      {{ end }}
+    </div>
+  </div>
+{{ else }}
+  <!-- Regular list page (posts / tag detail) -->
+  <div class="list-wrap">
+    <div class="list-header">
+      <h1 class="list-title">{{ .Title }}</h1>
+      <div class="list-meta">{{ len .Pages }} posts</div>
+    </div>
+    <div class="post-list">
+      {{ range .Pages }}
+      <a href="{{ .Permalink }}" class="post-item">
+        <span class="post-item-date">{{ .Date.Format "2006.01.02" }}</span>
+        <span class="post-item-title">{{ .Title }}</span>
+        {{ with .Params.tags }}
+        <div class="post-item-tags">{{ range . }}<span class="tag">{{ . }}</span>{{ end }}</div>
+        {{ end }}
+      </a>
+      {{ end }}
+    </div>
+  </div>
+{{ end }}
+{{ end }}

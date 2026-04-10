@@ -1,0 +1,120 @@
+{{ define "title" }}{{ .Site.Title }}{{ end }}
+
+{{ define "styles" }}
+.home-wrap { max-width: 920px; margin: 0 auto; padding: 4rem 2rem 5rem; }
+
+.home-hero { margin-bottom: 4rem; }
+.home-tag {
+  font-family: 'JetBrains Mono', monospace; font-size: .72rem;
+  color: var(--gold); letter-spacing: .14em; margin-bottom: 1rem; display: block;
+}
+.home-name {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 4vw, 3rem); font-weight: 700;
+  background: linear-gradient(135deg, #fff 30%, var(--accent) 80%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  margin-bottom: .35rem; line-height: 1.15;
+}
+.home-sub { color: var(--sub); font-size: .96rem; margin-bottom: 1.8rem; }
+.home-btns { display: flex; gap: 10px; flex-wrap: wrap; }
+.home-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 20px; border: 1px solid var(--border2); border-radius: 9px;
+  font-size: .82rem; color: var(--sub); transition: all .2s;
+}
+.home-btn:hover { border-color: var(--accent); color: var(--accent); }
+.home-btn.primary {
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  border-color: transparent; color: #fff;
+}
+.home-btn.primary:hover { opacity: .88; color: #fff; }
+
+.section-label {
+  font-family: 'JetBrains Mono', monospace; font-size: .7rem;
+  letter-spacing: .14em; text-transform: uppercase; color: var(--accent);
+  margin-bottom: 1.5rem;
+  display: flex; align-items: center; gap: .8rem;
+}
+.section-label::after {
+  content: ''; flex: 1; height: 1px;
+  background: linear-gradient(90deg, var(--border2), transparent);
+}
+
+.posts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1rem;
+}
+.post-card {
+  display: flex; flex-direction: column; gap: .45rem;
+  padding: 1.4rem 1.5rem;
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 14px; color: var(--text);
+  transition: border-color .22s, box-shadow .22s, transform .22s;
+}
+.post-card:hover {
+  border-color: var(--border2);
+  box-shadow: 0 0 30px rgba(139,124,248,.08);
+  transform: translateY(-2px);
+}
+.post-card-date {
+  font-family: 'JetBrains Mono', monospace; font-size: .68rem; color: var(--muted);
+}
+.post-card-title { font-size: .96rem; font-weight: 600; line-height: 1.45; }
+.post-card-desc { font-size: .83rem; color: var(--sub); line-height: 1.6; }
+.post-card-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: auto; padding-top: .5rem; }
+.tag {
+  padding: 2px 9px; background: var(--bg3);
+  border: 1px solid var(--border); border-radius: 5px;
+  font-size: .70rem; color: var(--muted);
+}
+.all-posts-link {
+  display: inline-flex; align-items: center; gap: 5px;
+  margin-top: 1.6rem; font-size: .84rem; color: var(--muted); transition: color .2s;
+}
+.all-posts-link:hover { color: var(--accent); }
+
+.empty-state {
+  padding: 3rem 0; color: var(--muted); font-size: .9rem;
+  font-family: 'JetBrains Mono', monospace;
+}
+{{ end }}
+
+{{ define "main" }}
+<div class="home-wrap">
+
+  <div class="home-hero">
+    <span class="home-tag">UNIST · Ulsan, Korea</span>
+    <h1 class="home-name">Seongjun Park</h1>
+    <p class="home-sub">개발 기록과 생각을 남기는 공간</p>
+    <div class="home-btns">
+      <a class="home-btn primary" href="/posts/">All Posts</a>
+      <a class="home-btn" href="/cv/">CV</a>
+      <a class="home-btn" href="https://github.com/JJ000n" target="_blank">GitHub</a>
+    </div>
+  </div>
+
+  {{ $posts := where .Site.RegularPages "Section" "posts" }}
+  {{ if $posts }}
+    <div class="section-label">Recent Posts</div>
+    <div class="posts-grid">
+      {{ range first 6 $posts }}
+      <a href="{{ .Permalink }}" class="post-card">
+        <div class="post-card-date">{{ .Date.Format "2006.01.02" }}</div>
+        <div class="post-card-title">{{ .Title }}</div>
+        {{ with .Description }}<div class="post-card-desc">{{ . }}</div>{{ end }}
+        {{ with .Params.tags }}
+        <div class="post-card-tags">{{ range . }}<span class="tag">{{ . }}</span>{{ end }}</div>
+        {{ end }}
+      </a>
+      {{ end }}
+    </div>
+    {{ if gt (len $posts) 6 }}
+    <a href="/posts/" class="all-posts-link">All posts →</a>
+    {{ end }}
+  {{ else }}
+    <div class="empty-state">아직 작성된 글이 없습니다.</div>
+  {{ end }}
+
+</div>
+{{ end }}

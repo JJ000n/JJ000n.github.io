@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.LanguageCode | default "en" }}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ block "title" . }}{{ .Site.Title }}{{ end }}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #06080f; --bg2: #0c0e1a; --bg3: #111428;
+      --text: #e8ecf4; --muted: #5e6e8a; --sub: #8a9ab8;
+      --accent: #8b7cf8; --accent2: #5f8aff; --gold: #e8b84b;
+      --border: #181e30; --border2: #222840;
+      --glow: rgba(139,124,248,.15);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg); color: var(--text);
+      font-family: 'Inter', system-ui, sans-serif;
+      line-height: 1.75; -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--accent); text-decoration: none; }
+
+    /* ── Password overlay ── */
+    #pw-overlay {
+      position: fixed; inset: 0; z-index: 9999;
+      background: var(--bg);
+      display: flex; align-items: center; justify-content: center;
+    }
+    #pw-box {
+      display: flex; flex-direction: column; align-items: center;
+      gap: 14px; padding: 44px 36px;
+      background: var(--bg2); border: 1px solid var(--border2);
+      border-radius: 18px; min-width: 280px;
+    }
+    #pw-logo { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--text); }
+    #pw-sub { font-size: .8rem; color: var(--muted); }
+    #pw-input {
+      width: 100%; padding: 10px 14px;
+      background: var(--bg3); border: 1px solid var(--border2);
+      border-radius: 9px; color: var(--text);
+      font-size: 1rem; text-align: center; letter-spacing: 6px;
+      font-family: 'JetBrains Mono', monospace; outline: none;
+    }
+    #pw-input:focus { border-color: var(--accent); }
+    #pw-btn {
+      width: 100%; padding: 10px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff; border: none; border-radius: 9px;
+      font-size: .88rem; cursor: pointer;
+    }
+    #pw-btn:hover { opacity: .88; }
+    #pw-error { color: #f87171; font-size: .8rem; display: none; }
+
+    /* ── Nav ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      height: 58px; display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2.5rem;
+      background: rgba(6,8,15,.8); backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif; font-size: 1.05rem;
+      color: var(--text); transition: opacity .2s;
+    }
+    .nav-logo:hover { opacity: .7; }
+    .nav-menu { display: flex; gap: 2rem; list-style: none; }
+    .nav-menu a {
+      font-size: .78rem; font-weight: 500; letter-spacing: .06em; text-transform: uppercase;
+      color: var(--muted); transition: color .2s;
+    }
+    .nav-menu a:hover { color: var(--text); }
+
+    /* ── Cursor glow ── */
+    #cursor-glow {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background: radial-gradient(600px circle at -999px -999px, rgba(139,124,248,.10) 0%, transparent 70%);
+    }
+
+    /* ── Main ── */
+    main { position: relative; z-index: 1; padding-top: 58px; min-height: calc(100vh - 120px); }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center; padding: 2.5rem 2rem;
+      font-size: .76rem; color: var(--muted);
+      border-top: 1px solid var(--border);
+      position: relative; z-index: 1;
+    }
+    footer a { color: var(--muted); }
+    footer a:hover { color: var(--sub); }
+
+    {{ block "styles" . }}{{ end }}
+  </style>
+</head>
+<body>
+
+<!-- Password overlay -->
+<div id="pw-overlay">
+  <div id="pw-box">
+    <div id="pw-logo">Seongjun Park</div>
+    <div id="pw-sub">비밀번호를 입력하세요</div>
+    <input id="pw-input" type="password" placeholder="••••••" autofocus />
+    <button id="pw-btn">확인</button>
+    <span id="pw-error">비밀번호가 틀렸습니다</span>
+  </div>
+</div>
+
+<!-- Cursor glow -->
+<div id="cursor-glow"></div>
+
+<!-- Nav -->
+<nav>
+  <a class="nav-logo" href="/">Seongjun Park</a>
+  <ul class="nav-menu">
+    <li><a href="/posts/">Posts</a></li>
+    <li><a href="/tags/">Tags</a></li>
+    <li><a href="/cv/">CV</a></li>
+  </ul>
+</nav>
+
+<!-- Content -->
+<main>{{ block "main" . }}{{ end }}</main>
+
+<!-- Footer -->
+<footer>
+  © 2026 Seongjun Park &nbsp;·&nbsp;
+  <a href="/">JJ000n.github.io</a>
+</footer>
+
+<script>
+/* Password */
+(function () {
+  const KEY = "sp_blog_auth";
+  const overlay = document.getElementById("pw-overlay");
+  if (sessionStorage.getItem(KEY) === "1") { overlay.remove(); return; }
+  function attempt() {
+    if (document.getElementById("pw-input").value === "271803") {
+      sessionStorage.setItem(KEY, "1"); overlay.remove();
+    } else {
+      document.getElementById("pw-error").style.display = "block";
+      document.getElementById("pw-input").value = "";
+      document.getElementById("pw-input").focus();
+    }
+  }
+  document.getElementById("pw-btn").addEventListener("click", attempt);
+  document.getElementById("pw-input").addEventListener("keydown", e => { if (e.key === "Enter") attempt(); });
+})();
+
+/* Cursor glow */
+(function () {
+  const glow = document.getElementById("cursor-glow");
+  document.addEventListener("mousemove", e => {
+    glow.style.background = `radial-gradient(600px circle at ${e.clientX}px ${e.clientY}px, rgba(139,124,248,.10) 0%, transparent 70%)`;
+  });
+})();
+</script>
+</body>
+</html>
