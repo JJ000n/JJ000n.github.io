@@ -35,6 +35,10 @@ buildExpired = false
       url = "/posts"
 
     [[params.profileMode.buttons]]
+      name = "CV"
+      url = "/cv"
+
+    [[params.profileMode.buttons]]
       name = "Tags"
       url = "/tags"
 
@@ -52,10 +56,16 @@ buildExpired = false
     weight = 20
 
   [[menu.main]]
+    identifier = "cv"
+    name = "CV"
+    url = "/cv/"
+    weight = 30
+
+  [[menu.main]]
     identifier = "about"
     name = "About"
     url = "/about/"
-    weight = 30
+    weight = 40
 
 [taxonomies]
   category = "categories"
