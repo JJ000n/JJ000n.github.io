@@ -1,250 +1,474 @@
 <!DOCTYPE html>
-<html lang="en" dir="auto">
+<html lang="en">
 <head>
-  {{- partial "head.html" . }}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CV — Seongjun Park</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
-    /* ── CV-specific overrides ── */
-    .cv-wrap {
-      max-width: 720px;
-      margin: 0 auto;
-      padding: 3rem 1.5rem 6rem;
-      font-size: 0.97rem;
-      line-height: 1.75;
+    /* ── Base ── */
+    :root {
+      --bg:       #080b12;
+      --bg2:      #0e1220;
+      --bg3:      #141928;
+      --text:     #e2e8f4;
+      --muted:    #7a8aaa;
+      --accent:   #7b93f8;
+      --gold:     #f0c060;
+      --border:   #1e2a40;
+      --radius:   10px;
     }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', system-ui, sans-serif;
+      font-weight: 400;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
 
-    /* Header */
-    .cv-header { margin-bottom: 2.4rem; }
-    .cv-name {
-      font-size: 2.2rem;
-      font-weight: 700;
-      letter-spacing: -0.01em;
-      margin: 0 0 0.2rem;
-    }
-    .cv-sub {
-      color: var(--secondary);
-      font-size: 1rem;
-      margin: 0 0 1.2rem;
-    }
-    .cv-links {
+    /* ── Nav ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(8,11,18,.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      height: 56px;
       display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-    .cv-link {
-      display: inline-flex;
       align-items: center;
-      gap: 5px;
-      padding: 4px 12px;
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      font-size: 0.82rem;
-      color: var(--secondary);
-      text-decoration: none;
-      transition: border-color .15s, color .15s;
+      justify-content: space-between;
     }
-    .cv-link:hover { border-color: var(--primary); color: var(--primary); }
-
-    /* Section */
-    .cv-section { margin-bottom: 2.8rem; }
-    .cv-section-title {
-      font-size: 0.72rem;
-      font-weight: 700;
-      letter-spacing: .12em;
+    .nav-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      color: var(--text);
+      letter-spacing: .01em;
+    }
+    .nav-links {
+      display: flex;
+      gap: 1.8rem;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: .82rem;
+      font-weight: 500;
+      letter-spacing: .04em;
       text-transform: uppercase;
-      color: var(--secondary);
-      margin: 0 0 1.2rem;
-      padding-bottom: 0.5rem;
+      color: var(--muted);
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--text); text-decoration: none; }
+
+    /* ── Container ── */
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      padding: 130px 0 80px;
       border-bottom: 1px solid var(--border);
     }
-
-    /* Entry */
-    .cv-entry {
+    .hero-inner {
       display: grid;
-      grid-template-columns: 64px 1fr;
-      gap: 0 1.2rem;
-      margin-bottom: 1.4rem;
+      grid-template-columns: 1fr auto;
+      gap: 3rem;
+      align-items: start;
     }
-    .cv-entry:last-child { margin-bottom: 0; }
-    .cv-year {
-      font-size: 0.82rem;
-      color: var(--secondary);
-      padding-top: 0.12rem;
-      text-align: right;
-      white-space: nowrap;
+    .hero-kicker {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .78rem;
+      color: var(--gold);
+      letter-spacing: .1em;
+      margin-bottom: .8rem;
     }
-    .cv-entry-body {}
-    .cv-entry-title {
-      font-weight: 600;
-      margin: 0 0 0.15rem;
-      color: var(--primary);
+    .hero-name {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.8rem, 5vw, 3.8rem);
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: .4rem;
+      background: linear-gradient(120deg, var(--text) 60%, var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
-    .cv-entry-org {
-      font-size: 0.88rem;
-      color: var(--secondary);
-      margin: 0 0 0.3rem;
+    .hero-hangul {
+      font-size: 1rem;
+      color: var(--muted);
+      margin-bottom: 1.5rem;
     }
-    .cv-entry-desc {
-      font-size: 0.9rem;
-      color: var(--secondary);
-      margin: 0;
-    }
-    .cv-entry-desc ul {
-      margin: 0.3rem 0 0 1rem;
-      padding: 0;
-    }
-    .cv-entry-desc li { margin-bottom: 0.15rem; }
-
-    /* Bio */
-    .cv-bio {
-      color: var(--secondary);
-      font-size: 0.95rem;
-      margin: 0;
-      max-width: 600px;
-    }
-
-    /* Skills grid */
-    .cv-skills {
+    .hero-pills {
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
+      margin-bottom: 1.4rem;
     }
-    .cv-skill {
-      padding: 3px 12px;
-      background: var(--code-bg);
-      border-radius: 4px;
-      font-size: 0.85rem;
-      color: var(--secondary);
+    .pill {
+      padding: 4px 14px;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      font-size: .78rem;
+      color: var(--muted);
+      font-weight: 500;
+      transition: border-color .2s, color .2s;
+    }
+    .pill:hover { border-color: var(--accent); color: var(--accent); }
+    .hero-bio {
+      font-size: .95rem;
+      color: var(--muted);
+      max-width: 560px;
+      margin-bottom: 1.8rem;
+      line-height: 1.8;
+    }
+    .hero-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .link-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 16px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: .82rem;
+      font-weight: 500;
+      color: var(--muted);
+      transition: all .2s;
+    }
+    .link-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(123,147,248,.06);
+      text-decoration: none;
+    }
+    .link-btn svg { flex-shrink: 0; }
+
+    /* ── Section ── */
+    section { padding: 72px 0; border-bottom: 1px solid var(--border); }
+    section:last-child { border-bottom: none; }
+    .section-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .72rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 2.4rem;
     }
 
-    /* Responsive */
-    @media (max-width: 520px) {
-      .cv-entry { grid-template-columns: 48px 1fr; gap: 0 0.8rem; }
-      .cv-name { font-size: 1.7rem; }
+    /* ── Timeline ── */
+    .timeline { display: flex; flex-direction: column; gap: 2rem; }
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 90px 1fr;
+      gap: 0 1.6rem;
+    }
+    .timeline-year {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .8rem;
+      color: var(--muted);
+      padding-top: .18rem;
+      text-align: right;
+    }
+    .timeline-body {}
+    .timeline-title {
+      font-weight: 600;
+      font-size: 1rem;
+      color: var(--text);
+      margin-bottom: .25rem;
+    }
+    .timeline-sub {
+      font-size: .85rem;
+      color: var(--accent);
+      margin-bottom: .4rem;
+      font-weight: 500;
+    }
+    .timeline-desc {
+      font-size: .88rem;
+      color: var(--muted);
+      line-height: 1.75;
+    }
+    .timeline-desc ul { padding-left: 1.2rem; margin-top: .3rem; }
+    .timeline-desc li { margin-bottom: .2rem; }
+
+    /* ── Publication ── */
+    .pub-list { display: flex; flex-direction: column; gap: 1.4rem; }
+    .pub-item {
+      padding: 1.2rem 1.4rem;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      transition: border-color .2s;
+    }
+    .pub-item:hover { border-color: #2e3d58; }
+    .pub-venue {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .72rem;
+      font-weight: 500;
+      padding: 2px 10px;
+      border-radius: 4px;
+      margin-bottom: .6rem;
+      background: rgba(123,147,248,.12);
+      color: var(--accent);
+    }
+    .pub-venue.gold { background: rgba(240,192,96,.12); color: var(--gold); }
+    .pub-title {
+      font-weight: 600;
+      font-size: .95rem;
+      color: var(--text);
+      margin-bottom: .3rem;
+      line-height: 1.5;
+    }
+    .pub-authors {
+      font-size: .83rem;
+      color: var(--muted);
+      margin-bottom: .5rem;
+    }
+    .pub-authors strong { color: var(--text); }
+    .pub-links { display: flex; gap: .6rem; }
+    .pub-link {
+      font-size: .78rem;
+      padding: 3px 10px;
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      color: var(--muted);
+      transition: all .15s;
+    }
+    .pub-link:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+
+    /* ── Skills ── */
+    .skills-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .skill-chip {
+      padding: 6px 16px;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: .85rem;
+      color: var(--muted);
+    }
+
+    /* ── Footer ── */
+    footer {
+      padding: 2.5rem 0;
+      text-align: center;
+      font-size: .8rem;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 640px) {
+      nav { padding: 0 1rem; }
+      .nav-links { gap: 1rem; }
+      .nav-links li:nth-child(n+4) { display: none; }
+      .container { padding: 0 1.2rem; }
+      .hero { padding: 100px 0 60px; }
+      .hero-inner { grid-template-columns: 1fr; }
+      .timeline-item { grid-template-columns: 60px 1fr; }
     }
   </style>
 </head>
-<body class="{{- if (not .Site.Params.disableSpecialChars) }}dark{{- end }}" id="top">
-  {{- partial "header.html" . }}
-  <main class="main">
-    <div class="cv-wrap">
+<body>
 
-      <!-- ── Header ── -->
-      <div class="cv-header">
-        <h1 class="cv-name">Seongjun Park</h1>
-        <p class="cv-sub"><!-- e.g. PhD Candidate, UNIST --></p>
-        <div class="cv-links">
-          <a class="cv-link" href="https://github.com/JJ000n" target="_blank">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+<!-- ── Nav ── -->
+<nav>
+  <span class="nav-name">Seongjun Park</span>
+  <ul class="nav-links">
+    <li><a href="#teaching">Teaching</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#publications">Publications</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="/">Blog</a></li>
+  </ul>
+</nav>
+
+<!-- ── Hero ── -->
+<div class="hero">
+  <div class="container">
+    <div class="hero-inner">
+      <div>
+        <div class="hero-kicker"><!-- e.g. UNIST · Ulsan, Korea --></div>
+        <h1 class="hero-name">Seongjun Park</h1>
+        <p class="hero-hangul">박성준</p>
+
+        <!-- Research interest pills -->
+        <div class="hero-pills">
+          <!-- Add your research areas:
+          <span class="pill">Machine Learning</span>
+          <span class="pill">Computer Vision</span>
+          <span class="pill">LLM</span>
+          -->
+        </div>
+
+        <p class="hero-bio">
+          <!-- 2~3 sentence bio: who you are, what you research, where you are -->
+        </p>
+
+        <div class="hero-links">
+          <a class="link-btn" href="https://github.com/JJ000n" target="_blank">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
             GitHub
           </a>
-          <a class="cv-link" href="https://JJ000n.github.io" target="_blank">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg>
+          <!-- Add more buttons:
+          <a class="link-btn" href="mailto:your@email.com">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 01-2.06 0L2 7"/></svg>
+            Email
+          </a>
+          <a class="link-btn" href="https://scholar.google.com" target="_blank">Scholar</a>
+          -->
+          <a class="link-btn" href="https://JJ000n.github.io">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg>
             Blog
           </a>
-          <!-- Add more: email, scholar, linkedin, etc. -->
         </div>
       </div>
+    </div>
+  </div>
+</div>
 
-      <!-- ── About ── -->
-      <div class="cv-section">
-        <div class="cv-section-title">About</div>
-        <p class="cv-bio">
-          <!-- 한 두 문장으로 본인 소개 및 연구 관심사 -->
-        </p>
-      </div>
+<!-- ── Teaching ── -->
+<section id="teaching">
+  <div class="container">
+    <div class="section-label">Teaching</div>
+    <div class="timeline">
 
-      <!-- ── Teaching ── -->
-      <div class="cv-section">
-        <div class="cv-section-title">Teaching</div>
-
-        <div class="cv-entry">
-          <div class="cv-year">2026</div>
-          <div class="cv-entry-body">
-            <div class="cv-entry-title">Introduction to AI Programming Ⅱ</div>
-            <div class="cv-entry-org">ITP117 · Instructor</div>
-            <div class="cv-entry-desc">
-              Python 기반 AI/ML 프로그래밍 실습. ITP116 이수자 대상 심화 과목.
-            </div>
+      <div class="timeline-item">
+        <div class="timeline-year">2026</div>
+        <div class="timeline-body">
+          <div class="timeline-title">Introduction to AI Programming Ⅱ</div>
+          <div class="timeline-sub">ITP117 · Instructor</div>
+          <div class="timeline-desc">
+            Python 기반 AI/ML 프로그래밍 실습. ITP116 이수자 대상 심화 과목.
           </div>
         </div>
-
-        <div class="cv-entry">
-          <div class="cv-year">2026</div>
-          <div class="cv-entry-body">
-            <div class="cv-entry-title">DXI Course</div>
-            <div class="cv-entry-org">LG Electronics · Lecturer</div>
-            <div class="cv-entry-desc">
-              LG전자 임직원 대상 DX(Digital Transformation & Innovation) 교육 과정. AI/ML 기초 및 실습 커리큘럼 설계 및 진행.
-            </div>
-          </div>
-        </div>
-
       </div>
 
-      <!-- ── Education ── -->
-      <div class="cv-section">
-        <div class="cv-section-title">Education</div>
-
-        <!-- Example:
-        <div class="cv-entry">
-          <div class="cv-year">2022–</div>
-          <div class="cv-entry-body">
-            <div class="cv-entry-title">Ph.D. in Computer Science</div>
-            <div class="cv-entry-org">UNIST (Ulsan National Institute of Science and Technology)</div>
+      <div class="timeline-item">
+        <div class="timeline-year">2026</div>
+        <div class="timeline-body">
+          <div class="timeline-title">DXI Course</div>
+          <div class="timeline-sub">LG Electronics · Lecturer</div>
+          <div class="timeline-desc">
+            LG전자 임직원 대상 DX(Digital Transformation &amp; Innovation) 교육 과정. AI/ML 기초 및 실습 커리큘럼 설계·진행.
           </div>
-        </div>
-        -->
-
-      </div>
-
-      <!-- ── Research ── -->
-      <div class="cv-section">
-        <div class="cv-section-title">Research</div>
-
-        <!-- Example:
-        <div class="cv-entry">
-          <div class="cv-year">2022–</div>
-          <div class="cv-entry-body">
-            <div class="cv-entry-title">Research Assistant</div>
-            <div class="cv-entry-org">Lab Name, UNIST</div>
-            <div class="cv-entry-desc">Research interests: ...</div>
-          </div>
-        </div>
-        -->
-
-      </div>
-
-      <!-- ── Publications ── -->
-      <div class="cv-section">
-        <div class="cv-section-title">Publications</div>
-
-        <!-- Example:
-        <div class="cv-entry">
-          <div class="cv-year">2025</div>
-          <div class="cv-entry-body">
-            <div class="cv-entry-title">Paper Title</div>
-            <div class="cv-entry-org">Conference / Journal Name</div>
-            <div class="cv-entry-desc">Author1, <strong>Seongjun Park</strong>, Author3</div>
-          </div>
-        </div>
-        -->
-
-      </div>
-
-      <!-- ── Skills ── -->
-      <div class="cv-section">
-        <div class="cv-section-title">Skills</div>
-        <div class="cv-skills">
-          <!-- Add skills as chips:
-          <span class="cv-skill">Python</span>
-          <span class="cv-skill">PyTorch</span>
-          <span class="cv-skill">LLM Fine-tuning</span>
-          -->
         </div>
       </div>
 
     </div>
-  </main>
-  {{- partial "footer.html" . }}
+  </div>
+</section>
+
+<!-- ── Education ── -->
+<section id="education">
+  <div class="container">
+    <div class="section-label">Education</div>
+    <div class="timeline">
+      <!-- Example:
+      <div class="timeline-item">
+        <div class="timeline-year">2022–</div>
+        <div class="timeline-body">
+          <div class="timeline-title">Ph.D. in Computer Science Engineering</div>
+          <div class="timeline-sub">UNIST (Ulsan National Institute of Science and Technology)</div>
+          <div class="timeline-desc">Advisor: Prof. Name</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">2016–2022</div>
+        <div class="timeline-body">
+          <div class="timeline-title">B.S. in ...</div>
+          <div class="timeline-sub">University Name</div>
+        </div>
+      </div>
+      -->
+    </div>
+  </div>
+</section>
+
+<!-- ── Research ── -->
+<section id="research">
+  <div class="container">
+    <div class="section-label">Research Experience</div>
+    <div class="timeline">
+      <!-- Example:
+      <div class="timeline-item">
+        <div class="timeline-year">2022–</div>
+        <div class="timeline-body">
+          <div class="timeline-title">Graduate Researcher</div>
+          <div class="timeline-sub">Lab Name, UNIST</div>
+          <div class="timeline-desc">Research on ...</div>
+        </div>
+      </div>
+      -->
+    </div>
+  </div>
+</section>
+
+<!-- ── Publications ── -->
+<section id="publications">
+  <div class="container">
+    <div class="section-label">Publications</div>
+    <div class="pub-list">
+      <!-- Example:
+      <div class="pub-item">
+        <span class="pub-venue gold">CVPR 2025</span>
+        <div class="pub-title">Your Paper Title Here</div>
+        <div class="pub-authors">Author One, <strong>Seongjun Park</strong>, Author Three</div>
+        <div class="pub-links">
+          <a class="pub-link" href="#">Paper</a>
+          <a class="pub-link" href="#">Code</a>
+        </div>
+      </div>
+      <div class="pub-item">
+        <span class="pub-venue">ECCV 2024</span>
+        <div class="pub-title">Another Paper Title</div>
+        <div class="pub-authors"><strong>Seongjun Park</strong>, Co-author</div>
+        <div class="pub-links">
+          <a class="pub-link" href="#">Paper</a>
+        </div>
+      </div>
+      -->
+    </div>
+  </div>
+</section>
+
+<!-- ── Skills ── -->
+<section id="skills">
+  <div class="container">
+    <div class="section-label">Skills</div>
+    <div class="skills-grid">
+      <!-- Add:
+      <span class="skill-chip">Python</span>
+      <span class="skill-chip">PyTorch</span>
+      <span class="skill-chip">LLM Fine-tuning</span>
+      <span class="skill-chip">Computer Vision</span>
+      -->
+    </div>
+  </div>
+</section>
+
+<!-- ── Footer ── -->
+<footer>
+  <div class="container">
+    © 2026 Seongjun Park · <a href="https://JJ000n.github.io">JJ000n.github.io</a>
+  </div>
+</footer>
+
 </body>
 </html>
