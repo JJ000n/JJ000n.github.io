@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Seongjun Park</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+     
+    :root {
+      --bg:      #06080f;
+      --bg2:     #0c0e1a;
+      --bg3:     #111428;
+      --text:    #e8ecf4;
+      --muted:   #5e6e8a;
+      --sub:     #8a9ab8;
+      --accent:  #8b7cf8;
+      --accent2: #5f8aff;
+      --gold:    #e8b84b;
+      --border:  #181e30;
+      --border2: #222840;
+      --glow:    rgba(139,124,248,.15);
+    }
+
+     
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', system-ui, sans-serif;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    a { color: var(--accent); text-decoration: none; }
+
+     
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      height: 58px;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2.5rem;
+      background: rgba(6,8,15,.7);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      transition: background .3s;
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem;
+      color: var(--text);
+    }
+    .nav-menu {
+      display: flex; gap: 2rem; list-style: none;
+    }
+    .nav-menu a {
+      font-size: .78rem; font-weight: 500;
+      letter-spacing: .06em; text-transform: uppercase;
+      color: var(--muted); transition: color .2s;
+    }
+    .nav-menu a:hover { color: var(--text); }
+
+     
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex; align-items: center;
+      overflow: hidden;
+    }
+    #star-canvas {
+      position: absolute; inset: 0;
+      pointer-events: none;
+    }
+    .hero::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 90% 70% at 40% 50%, transparent 40%, var(--bg) 100%);
+      pointer-events: none;
+    }
+    .hero-inner {
+      position: relative; z-index: 2;
+      max-width: 1000px; margin: 0 auto;
+      padding: 120px 2.5rem 80px;
+      display: grid;
+      grid-template-columns: 1fr 280px;
+      gap: 4rem;
+      align-items: center;
+      width: 100%;
+    }
+    .hero-tag {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .72rem; letter-spacing: .14em;
+      color: var(--gold); margin-bottom: 1.2rem;
+      opacity: 0; animation: fadeUp .8s .2s forwards;
+    }
+    .hero-name {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.8rem, 5vw, 4.2rem);
+      font-weight: 700; line-height: 1.08;
+      background: linear-gradient(135deg, #fff 30%, var(--accent) 70%, var(--accent2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      opacity: 0; animation: fadeUp .8s .4s forwards;
+      margin-bottom: .4rem;
+    }
+    .hero-hangul {
+      font-size: .95rem; color: var(--muted);
+      opacity: 0; animation: fadeUp .8s .5s forwards;
+      margin-bottom: 1.6rem;
+    }
+    .hero-pills {
+      display: flex; flex-wrap: wrap;
+      gap: 8px; margin-bottom: 1.6rem;
+      opacity: 0; animation: fadeUp .8s .6s forwards;
+    }
+    .hero-pill {
+      padding: 5px 16px;
+      border: 1px solid var(--border2);
+      border-radius: 30px;
+      font-size: .78rem; color: var(--sub); font-weight: 500;
+      background: rgba(255,255,255,.02);
+      transition: all .2s;
+    }
+    .hero-pill:hover { border-color: var(--accent); color: var(--accent); background: var(--glow); }
+    .hero-bio {
+      font-size: .93rem; color: var(--sub); line-height: 1.85;
+      margin-bottom: 1.8rem;
+      opacity: 0; animation: fadeUp .8s .7s forwards;
+    }
+    .hero-btns {
+      display: flex; flex-wrap: wrap;
+      gap: 10px;
+      opacity: 0; animation: fadeUp .8s .85s forwards;
+    }
+     
+    .hero-photo-wrap {
+      opacity: 0; animation: fadeUp .8s .5s forwards;
+      display: flex; justify-content: center;
+    }
+    .hero-photo {
+      width: 240px; height: 240px;
+      border-radius: 50%;
+      object-fit: cover; object-position: center top;
+      border: 2px solid var(--border2);
+      box-shadow: 0 0 60px rgba(139,124,248,.18), 0 0 0 8px rgba(139,124,248,.05);
+      transition: box-shadow .3s;
+    }
+    .hero-photo:hover {
+      box-shadow: 0 0 80px rgba(139,124,248,.28), 0 0 0 8px rgba(139,124,248,.08);
+    }
+    .btn {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 9px 20px;
+      border: 1px solid var(--border2); border-radius: 10px;
+      font-size: .82rem; font-weight: 500; color: var(--sub);
+      background: rgba(255,255,255,.02);
+      transition: all .2s; position: relative; overflow: hidden;
+    }
+    .btn::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(120deg, transparent 0%, rgba(139,124,248,.12) 50%, transparent 100%);
+      transform: translateX(-100%); transition: transform .4s;
+    }
+    .btn:hover { border-color: var(--accent); color: var(--accent); }
+    .btn:hover::before { transform: translateX(100%); }
+    .btn.primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      border-color: transparent; color: #fff;
+    }
+    .btn.primary:hover { opacity: .88; }
+    .scroll-hint {
+      position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+      z-index: 2; display: flex; flex-direction: column; align-items: center;
+      gap: 8px; color: var(--muted); font-size: .72rem; letter-spacing: .08em;
+      opacity: 0; animation: fadeIn 1s 2s forwards;
+    }
+    .scroll-arrow {
+      width: 18px; height: 18px; border-right: 1.5px solid var(--muted);
+      border-bottom: 1.5px solid var(--muted); transform: rotate(45deg);
+      animation: bounce 1.6s infinite;
+    }
+
+     
+    .section {
+      max-width: 800px; margin: 0 auto;
+      padding: 96px 2rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .section:last-of-type { border-bottom: none; }
+    .section-head {
+      display: flex; align-items: center; gap: 1rem;
+      margin-bottom: 3rem;
+    }
+    .section-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .7rem; letter-spacing: .14em; text-transform: uppercase;
+      color: var(--accent); white-space: nowrap;
+    }
+    .section-line {
+      flex: 1; height: 1px;
+      background: linear-gradient(90deg, var(--border2), transparent);
+    }
+
+     
+    .timeline { display: flex; flex-direction: column; gap: 2.4rem; }
+    .tl-item {
+      display: grid; grid-template-columns: 80px 1fr;
+      gap: 0 1.8rem;
+      opacity: 0; transform: translateY(18px);
+      transition: opacity .6s, transform .6s;
+    }
+    .tl-item.visible { opacity: 1; transform: none; }
+    .tl-year {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .75rem; color: var(--muted);
+      text-align: right; padding-top: .22rem;
+    }
+    .tl-dot-col {
+      display: flex; flex-direction: column; align-items: center;
+      position: relative;
+    }
+    .tl-body {}
+    .tl-title {
+      font-size: 1rem; font-weight: 600; color: var(--text);
+      margin-bottom: .2rem;
+    }
+    .tl-org {
+      font-size: .82rem; color: var(--accent); font-weight: 500;
+      margin-bottom: .4rem;
+    }
+    .tl-desc {
+      font-size: .88rem; color: var(--sub); line-height: 1.8;
+    }
+    .tl-desc ul { padding-left: 1.2rem; margin-top: .3rem; }
+    .tl-desc li { margin-bottom: .2rem; }
+
+     
+    .pub-list { display: flex; flex-direction: column; gap: 1.2rem; }
+    .pub-card {
+      padding: 1.4rem 1.6rem;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      transition: border-color .25s, box-shadow .25s;
+      opacity: 0; transform: translateY(14px);
+      transition: opacity .5s, transform .5s, border-color .25s, box-shadow .25s;
+    }
+    .pub-card.visible { opacity: 1; transform: none; }
+    .pub-card:hover {
+      border-color: var(--border2);
+      box-shadow: 0 0 32px rgba(139,124,248,.07);
+    }
+    .pub-card.highlight {
+      border-color: rgba(139,124,248,.25);
+      background: linear-gradient(135deg, rgba(139,124,248,.05) 0%, var(--bg2) 60%);
+    }
+    .pub-badge {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .68rem; font-weight: 500;
+      padding: 3px 10px; border-radius: 5px;
+      margin-bottom: .7rem;
+      background: rgba(139,124,248,.14); color: var(--accent);
+    }
+    .pub-badge.gold { background: rgba(232,184,75,.14); color: var(--gold); }
+    .pub-title {
+      font-size: .97rem; font-weight: 600; color: var(--text);
+      margin-bottom: .35rem; line-height: 1.5;
+    }
+    .pub-authors {
+      font-size: .82rem; color: var(--muted); margin-bottom: .6rem;
+    }
+    .pub-authors strong { color: var(--sub); }
+    .pub-links { display: flex; gap: .5rem; }
+    .pub-btn {
+      font-size: .76rem; padding: 4px 12px;
+      border: 1px solid var(--border2); border-radius: 6px;
+      color: var(--muted); transition: all .15s;
+    }
+    .pub-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+     
+    .skill-groups { display: flex; flex-direction: column; gap: 1.4rem; }
+    .skill-group {}
+    .skill-group-label {
+      font-size: .75rem; color: var(--muted); font-weight: 500;
+      letter-spacing: .04em; margin-bottom: .6rem;
+    }
+    .skill-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip {
+      padding: 6px 16px;
+      border: 1px solid var(--border); border-radius: 8px;
+      font-size: .82rem; color: var(--sub);
+      background: var(--bg2);
+      transition: all .2s;
+      opacity: 0; transform: scale(.95);
+    }
+    .chip.visible { opacity: 1; transform: none; }
+    .chip:hover { border-color: var(--accent); color: var(--accent); }
+
+     
+    footer {
+      text-align: center; padding: 3rem 2rem;
+      font-size: .78rem; color: var(--muted);
+      border-top: 1px solid var(--border);
+    }
+
+     
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+    @keyframes bounce {
+      0%, 100% { transform: rotate(45deg) translateY(0); }
+      50%       { transform: rotate(45deg) translateY(5px); }
+    }
+
+     
+    @media (max-width: 700px) {
+      nav { padding: 0 1.2rem; }
+      .nav-menu li:nth-child(n+4) { display: none; }
+      .hero-inner {
+        grid-template-columns: 1fr;
+        text-align: center; padding: 100px 1.5rem 60px;
+        gap: 2.4rem;
+      }
+      .hero-inner > div:last-child { order: -1; }
+      .hero-pills { justify-content: center; }
+      .hero-photo { width: 160px; height: 160px; }
+      .tl-item { grid-template-columns: 52px 1fr; gap: 0 1rem; }
+      .section { padding: 72px 1.2rem; }
+    }
+  </style>
+</head>
+<body>
+
+
+<nav>
+  <span class="nav-logo">Seongjun Park</span>
+  <ul class="nav-menu">
+    <li><a href="#teaching">Teaching</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#publications">Publications</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="/">Blog →</a></li>
+  </ul>
+</nav>
+
+
+<section class="hero">
+  <canvas id="star-canvas"></canvas>
+  <div class="hero-inner">
+    <div>
+      <div class="hero-tag">UNIST · Ulsan, Korea</div>
+      <h1 class="hero-name">Seongjun Park</h1>
+      <p class="hero-hangul">박성준</p>
+      <div class="hero-pills">
+        <span class="hero-pill">Computer Vision</span>
+        <span class="hero-pill">Video Super-Resolution</span>
+        <span class="hero-pill">Deep Learning</span>
+      </div>
+      <p class="hero-bio">
+        
+      </p>
+      <div class="hero-btns">
+        <a class="btn" href="https://github.com/JJ000n" target="_blank">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          GitHub
+        </a>
+        
+        
+        <a class="btn" href="/">Blog</a>
+      </div>
+    </div>
+    <div class="hero-photo-wrap">
+      <img class="hero-photo" src="/img/profile.jpg" alt="Seongjun Park">
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <div class="scroll-arrow"></div>
+  </div>
+</section>
+
+
+<div class="section" id="teaching">
+  <div class="section-head">
+    <span class="section-label">Teaching</span>
+    <div class="section-line"></div>
+  </div>
+  <div class="timeline">
+
+    <div class="tl-item">
+      <div class="tl-year">2026</div>
+      <div class="tl-body">
+        <div class="tl-title">Introduction to AI Programming Ⅱ</div>
+        <div class="tl-org">ITP117 · Instructor</div>
+        <div class="tl-desc">Python 기반 AI/ML 프로그래밍 실습. ITP116 이수자 대상 심화 과목.</div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-year">2026</div>
+      <div class="tl-body">
+        <div class="tl-title">DXI Course</div>
+        <div class="tl-org">LG Electronics · Lecturer</div>
+        <div class="tl-desc">LG전자 임직원 대상 DX(Digital Transformation &amp; Innovation) 교육 과정. AI/ML 기초 및 실습 커리큘럼 설계·진행.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<div class="section" id="education">
+  <div class="section-head">
+    <span class="section-label">Education</span>
+    <div class="section-line"></div>
+  </div>
+  <div class="timeline">
+    
+  </div>
+</div>
+
+
+<div class="section" id="research">
+  <div class="section-head">
+    <span class="section-label">Research</span>
+    <div class="section-line"></div>
+  </div>
+  <div class="timeline">
+    
+  </div>
+</div>
+
+
+<div class="section" id="publications">
+  <div class="section-head">
+    <span class="section-label">Publications</span>
+    <div class="section-line"></div>
+  </div>
+  <div class="pub-list">
+
+    <div class="pub-card highlight">
+      <span class="pub-badge gold">CVPRW NTIRE 2026</span>
+      <div class="pub-title">C2-STVSR: Correlation-guided Continuous Spatial-Temporal Video Super-Resolution</div>
+      <div class="pub-authors"><strong>Seongjun Park</strong>, Jaejun Yoo</div>
+      <div class="pub-links">
+        
+        
+      </div>
+    </div>
+
+    <div class="pub-card">
+      <span class="pub-badge">Scientific Reports 2023</span>
+      <div class="pub-title">Deep learning visual field global index prediction with optical coherence tomography parameters in glaucoma patients</div>
+      <div class="pub-authors">Dongbock Kim†, Sat Byul Seo†, <strong>Seong Joon Park</strong>, Hyun-kyung Cho &nbsp;<span style="font-size:.75rem;color:var(--muted)">(†equal contribution)</span></div>
+      <div class="pub-links">
+        <a class="pub-btn" href="https://doi.org/10.1038/s41598-023-43104-y" target="_blank">DOI</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<div class="section" id="skills">
+  <div class="section-head">
+    <span class="section-label">Skills</span>
+    <div class="section-line"></div>
+  </div>
+  <div class="skill-groups">
+    
+  </div>
+</div>
+
+
+<footer>
+  © 2026 Seongjun Park &nbsp;·&nbsp;
+  <a href="https://JJ000n.github.io" style="color:var(--muted)">JJ000n.github.io</a>
+</footer>
+
+<script>
+ 
+(function () {
+  const canvas = document.getElementById('star-canvas');
+  const ctx = canvas.getContext('2d');
+  let W, H, stars = [];
+
+  function resize() {
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+
+  function init() {
+    stars = Array.from({ length: 160 }, () => ({
+      x: Math.random() * W,
+      y: Math.random() * H,
+      r: Math.random() * 1.1 + .2,
+      a: Math.random(),
+      speed: Math.random() * .0008 + .0003,
+      phase: Math.random() * Math.PI * 2,
+    }));
+  }
+
+  function draw(t) {
+    ctx.clearRect(0, 0, W, H);
+    for (const s of stars) {
+      const alpha = s.a * (.5 + .5 * Math.sin(t * s.speed * 1000 + s.phase));
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(180,190,255,${alpha})`;
+      ctx.fill();
+    }
+    requestAnimationFrame(draw);
+  }
+
+  resize(); init();
+  window.addEventListener('resize', () => { resize(); init(); });
+  requestAnimationFrame(draw);
+})();
+
+ 
+(function () {
+  const items = document.querySelectorAll('.tl-item, .pub-card, .chip');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: .12 });
+  items.forEach(el => io.observe(el));
+})();
+</script>
+</body>
+</html>
