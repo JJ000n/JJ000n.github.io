@@ -66,49 +66,53 @@
     .hero {
       position: relative;
       min-height: 100vh;
-      display: flex; align-items: center; justify-content: center;
-      text-align: center;
+      display: flex; align-items: center;
       overflow: hidden;
     }
     #star-canvas {
       position: absolute; inset: 0;
       pointer-events: none;
     }
-    /* Radial vignette */
     .hero::after {
       content: '';
       position: absolute; inset: 0;
-      background: radial-gradient(ellipse 80% 60% at 50% 50%, transparent 40%, var(--bg) 100%);
+      background: radial-gradient(ellipse 90% 70% at 40% 50%, transparent 40%, var(--bg) 100%);
       pointer-events: none;
     }
-    .hero-content {
+    .hero-inner {
       position: relative; z-index: 2;
-      padding: 0 1.5rem;
+      max-width: 1000px; margin: 0 auto;
+      padding: 120px 2.5rem 80px;
+      display: grid;
+      grid-template-columns: 1fr 280px;
+      gap: 4rem;
+      align-items: center;
+      width: 100%;
     }
     .hero-tag {
       display: inline-block;
       font-family: 'JetBrains Mono', monospace;
       font-size: .72rem; letter-spacing: .14em;
-      color: var(--gold); margin-bottom: 1.4rem;
+      color: var(--gold); margin-bottom: 1.2rem;
       opacity: 0; animation: fadeUp .8s .2s forwards;
     }
     .hero-name {
       font-family: 'Playfair Display', serif;
-      font-size: clamp(3.5rem, 8vw, 6.5rem);
-      font-weight: 700; line-height: 1.05;
+      font-size: clamp(2.8rem, 5vw, 4.2rem);
+      font-weight: 700; line-height: 1.08;
       background: linear-gradient(135deg, #fff 30%, var(--accent) 70%, var(--accent2));
       -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
       opacity: 0; animation: fadeUp .8s .4s forwards;
-      margin-bottom: .5rem;
+      margin-bottom: .4rem;
     }
     .hero-hangul {
-      font-size: 1rem; color: var(--muted);
+      font-size: .95rem; color: var(--muted);
       opacity: 0; animation: fadeUp .8s .5s forwards;
-      margin-bottom: 2rem;
+      margin-bottom: 1.6rem;
     }
     .hero-pills {
-      display: flex; flex-wrap: wrap; justify-content: center;
-      gap: 8px; margin-bottom: 2rem;
+      display: flex; flex-wrap: wrap;
+      gap: 8px; margin-bottom: 1.6rem;
       opacity: 0; animation: fadeUp .8s .6s forwards;
     }
     .hero-pill {
@@ -121,14 +125,30 @@
     }
     .hero-pill:hover { border-color: var(--accent); color: var(--accent); background: var(--glow); }
     .hero-bio {
-      max-width: 520px; margin: 0 auto 2rem;
-      font-size: .95rem; color: var(--sub); line-height: 1.85;
+      font-size: .93rem; color: var(--sub); line-height: 1.85;
+      margin-bottom: 1.8rem;
       opacity: 0; animation: fadeUp .8s .7s forwards;
     }
     .hero-btns {
-      display: flex; flex-wrap: wrap; justify-content: center;
+      display: flex; flex-wrap: wrap;
       gap: 10px;
       opacity: 0; animation: fadeUp .8s .85s forwards;
+    }
+    /* Profile photo */
+    .hero-photo-wrap {
+      opacity: 0; animation: fadeUp .8s .5s forwards;
+      display: flex; justify-content: center;
+    }
+    .hero-photo {
+      width: 240px; height: 240px;
+      border-radius: 50%;
+      object-fit: cover; object-position: center top;
+      border: 2px solid var(--border2);
+      box-shadow: 0 0 60px rgba(139,124,248,.18), 0 0 0 8px rgba(139,124,248,.05);
+      transition: box-shadow .3s;
+    }
+    .hero-photo:hover {
+      box-shadow: 0 0 80px rgba(139,124,248,.28), 0 0 0 8px rgba(139,124,248,.08);
     }
     .btn {
       display: inline-flex; align-items: center; gap: 7px;
@@ -301,10 +321,17 @@
     }
 
     /* ── Responsive ── */
-    @media (max-width: 600px) {
+    @media (max-width: 700px) {
       nav { padding: 0 1.2rem; }
       .nav-menu li:nth-child(n+4) { display: none; }
-      .hero-name { font-size: 3rem; }
+      .hero-inner {
+        grid-template-columns: 1fr;
+        text-align: center; padding: 100px 1.5rem 60px;
+        gap: 2.4rem;
+      }
+      .hero-inner > div:last-child { order: -1; }
+      .hero-pills { justify-content: center; }
+      .hero-photo { width: 160px; height: 160px; }
       .tl-item { grid-template-columns: 52px 1fr; gap: 0 1rem; }
       .section { padding: 72px 1.2rem; }
     }
@@ -327,30 +354,31 @@
 <!-- ── Hero ── -->
 <section class="hero">
   <canvas id="star-canvas"></canvas>
-  <div class="hero-content">
-    <div class="hero-tag"><!-- e.g. UNIST · Ulsan, Korea --></div>
-    <h1 class="hero-name">Seongjun Park</h1>
-    <p class="hero-hangul">박성준</p>
-    <div class="hero-pills">
-      <!-- 연구 분야 추가:
-      <span class="hero-pill">Machine Learning</span>
-      <span class="hero-pill">Computer Vision</span>
-      <span class="hero-pill">LLM</span>
-      -->
+  <div class="hero-inner">
+    <div>
+      <div class="hero-tag">UNIST · Ulsan, Korea</div>
+      <h1 class="hero-name">Seongjun Park</h1>
+      <p class="hero-hangul">박성준</p>
+      <div class="hero-pills">
+        <span class="hero-pill">Computer Vision</span>
+        <span class="hero-pill">Video Super-Resolution</span>
+        <span class="hero-pill">Deep Learning</span>
+      </div>
+      <p class="hero-bio">
+        <!-- 2~3문장 소개를 여기에 -->
+      </p>
+      <div class="hero-btns">
+        <a class="btn" href="https://github.com/JJ000n" target="_blank">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          GitHub
+        </a>
+        <!-- <a class="btn" href="mailto:your@email.com">✉ Email</a> -->
+        <!-- <a class="btn" href="#">Scholar</a> -->
+        <a class="btn" href="/">Blog</a>
+      </div>
     </div>
-    <p class="hero-bio">
-      <!-- 2~3문장 소개 -->
-    </p>
-    <div class="hero-btns">
-      <a class="btn" href="https://github.com/JJ000n" target="_blank">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-        GitHub
-      </a>
-      <!-- 추가 버튼:
-      <a class="btn" href="mailto:your@email.com">✉ Email</a>
-      <a class="btn" href="#">Scholar</a>
-      -->
-      <a class="btn" href="/">Blog</a>
+    <div class="hero-photo-wrap">
+      <img class="hero-photo" src="/img/profile.jpg" alt="Seongjun Park">
     </div>
   </div>
   <div class="scroll-hint">
@@ -434,23 +462,26 @@
     <div class="section-line"></div>
   </div>
   <div class="pub-list">
-    <!--
+
     <div class="pub-card highlight">
       <span class="pub-badge gold">CVPR 2025</span>
-      <div class="pub-title">Paper Title Here</div>
-      <div class="pub-authors">Author A, <strong>Seongjun Park</strong>, Author C</div>
+      <div class="pub-title">C2-STVSR: Correlation-guided Continuous Spatial-Temporal Video Super-Resolution</div>
+      <div class="pub-authors"><strong>Seongjun Park</strong>, Jaejun Yoo</div>
       <div class="pub-links">
-        <a class="pub-btn" href="#">Paper</a>
-        <a class="pub-btn" href="#">Code</a>
+        <!-- <a class="pub-btn" href="#">Paper</a> -->
+        <!-- <a class="pub-btn" href="#">Code</a> -->
       </div>
     </div>
+
     <div class="pub-card">
-      <span class="pub-badge">ECCV 2024</span>
-      <div class="pub-title">Another Paper</div>
-      <div class="pub-authors"><strong>Seongjun Park</strong>, Co-author</div>
-      <div class="pub-links"><a class="pub-btn" href="#">Paper</a></div>
+      <span class="pub-badge">Scientific Reports 2023</span>
+      <div class="pub-title">Deep learning visual field global index prediction with optical coherence tomography parameters in glaucoma patients</div>
+      <div class="pub-authors">Dongbock Kim†, Sat Byul Seo†, <strong>Seong Joon Park</strong>, Hyun-kyung Cho &nbsp;<span style="font-size:.75rem;color:var(--muted)">(†equal contribution)</span></div>
+      <div class="pub-links">
+        <a class="pub-btn" href="https://doi.org/10.1038/s41598-023-43104-y" target="_blank">DOI</a>
+      </div>
     </div>
-    -->
+
   </div>
 </div>
 
