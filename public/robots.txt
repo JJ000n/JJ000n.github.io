@@ -1,3 +1,0 @@
-User-agent: *
-Disallow:
-Sitemap: https://JJ000n.github.io/sitemap.xml
