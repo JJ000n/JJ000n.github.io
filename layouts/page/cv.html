@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+<head>
+  {{- partial "head.html" . }}
+  <style>
+    /* ── CV-specific overrides ── */
+    .cv-wrap {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem 6rem;
+      font-size: 0.97rem;
+      line-height: 1.75;
+    }
+
+    /* Header */
+    .cv-header { margin-bottom: 2.4rem; }
+    .cv-name {
+      font-size: 2.2rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      margin: 0 0 0.2rem;
+    }
+    .cv-sub {
+      color: var(--secondary);
+      font-size: 1rem;
+      margin: 0 0 1.2rem;
+    }
+    .cv-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .cv-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 12px;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      font-size: 0.82rem;
+      color: var(--secondary);
+      text-decoration: none;
+      transition: border-color .15s, color .15s;
+    }
+    .cv-link:hover { border-color: var(--primary); color: var(--primary); }
+
+    /* Section */
+    .cv-section { margin-bottom: 2.8rem; }
+    .cv-section-title {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--secondary);
+      margin: 0 0 1.2rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* Entry */
+    .cv-entry {
+      display: grid;
+      grid-template-columns: 64px 1fr;
+      gap: 0 1.2rem;
+      margin-bottom: 1.4rem;
+    }
+    .cv-entry:last-child { margin-bottom: 0; }
+    .cv-year {
+      font-size: 0.82rem;
+      color: var(--secondary);
+      padding-top: 0.12rem;
+      text-align: right;
+      white-space: nowrap;
+    }
+    .cv-entry-body {}
+    .cv-entry-title {
+      font-weight: 600;
+      margin: 0 0 0.15rem;
+      color: var(--primary);
+    }
+    .cv-entry-org {
+      font-size: 0.88rem;
+      color: var(--secondary);
+      margin: 0 0 0.3rem;
+    }
+    .cv-entry-desc {
+      font-size: 0.9rem;
+      color: var(--secondary);
+      margin: 0;
+    }
+    .cv-entry-desc ul {
+      margin: 0.3rem 0 0 1rem;
+      padding: 0;
+    }
+    .cv-entry-desc li { margin-bottom: 0.15rem; }
+
+    /* Bio */
+    .cv-bio {
+      color: var(--secondary);
+      font-size: 0.95rem;
+      margin: 0;
+      max-width: 600px;
+    }
+
+    /* Skills grid */
+    .cv-skills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .cv-skill {
+      padding: 3px 12px;
+      background: var(--code-bg);
+      border-radius: 4px;
+      font-size: 0.85rem;
+      color: var(--secondary);
+    }
+
+    /* Responsive */
+    @media (max-width: 520px) {
+      .cv-entry { grid-template-columns: 48px 1fr; gap: 0 0.8rem; }
+      .cv-name { font-size: 1.7rem; }
+    }
+  </style>
+</head>
+<body class="{{- if (not .Site.Params.disableSpecialChars) }}dark{{- end }}" id="top">
+  {{- partial "header.html" . }}
+  <main class="main">
+    <div class="cv-wrap">
+
+      <!-- ── Header ── -->
+      <div class="cv-header">
+        <h1 class="cv-name">Seongjun Park</h1>
+        <p class="cv-sub"><!-- e.g. PhD Candidate, UNIST --></p>
+        <div class="cv-links">
+          <a class="cv-link" href="https://github.com/JJ000n" target="_blank">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+            GitHub
+          </a>
+          <a class="cv-link" href="https://JJ000n.github.io" target="_blank">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg>
+            Blog
+          </a>
+          <!-- Add more: email, scholar, linkedin, etc. -->
+        </div>
+      </div>
+
+      <!-- ── About ── -->
+      <div class="cv-section">
+        <div class="cv-section-title">About</div>
+        <p class="cv-bio">
+          <!-- 한 두 문장으로 본인 소개 및 연구 관심사 -->
+        </p>
+      </div>
+
+      <!-- ── Teaching ── -->
+      <div class="cv-section">
+        <div class="cv-section-title">Teaching</div>
+
+        <div class="cv-entry">
+          <div class="cv-year">2026</div>
+          <div class="cv-entry-body">
+            <div class="cv-entry-title">Introduction to AI Programming Ⅱ</div>
+            <div class="cv-entry-org">ITP117 · Instructor</div>
+            <div class="cv-entry-desc">
+              Python 기반 AI/ML 프로그래밍 실습. ITP116 이수자 대상 심화 과목.
+            </div>
+          </div>
+        </div>
+
+        <div class="cv-entry">
+          <div class="cv-year">2026</div>
+          <div class="cv-entry-body">
+            <div class="cv-entry-title">DXI Course</div>
+            <div class="cv-entry-org">LG Electronics · Lecturer</div>
+            <div class="cv-entry-desc">
+              LG전자 임직원 대상 DX(Digital Transformation & Innovation) 교육 과정. AI/ML 기초 및 실습 커리큘럼 설계 및 진행.
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ── Education ── -->
+      <div class="cv-section">
+        <div class="cv-section-title">Education</div>
+
+        <!-- Example:
+        <div class="cv-entry">
+          <div class="cv-year">2022–</div>
+          <div class="cv-entry-body">
+            <div class="cv-entry-title">Ph.D. in Computer Science</div>
+            <div class="cv-entry-org">UNIST (Ulsan National Institute of Science and Technology)</div>
+          </div>
+        </div>
+        -->
+
+      </div>
+
+      <!-- ── Research ── -->
+      <div class="cv-section">
+        <div class="cv-section-title">Research</div>
+
+        <!-- Example:
+        <div class="cv-entry">
+          <div class="cv-year">2022–</div>
+          <div class="cv-entry-body">
+            <div class="cv-entry-title">Research Assistant</div>
+            <div class="cv-entry-org">Lab Name, UNIST</div>
+            <div class="cv-entry-desc">Research interests: ...</div>
+          </div>
+        </div>
+        -->
+
+      </div>
+
+      <!-- ── Publications ── -->
+      <div class="cv-section">
+        <div class="cv-section-title">Publications</div>
+
+        <!-- Example:
+        <div class="cv-entry">
+          <div class="cv-year">2025</div>
+          <div class="cv-entry-body">
+            <div class="cv-entry-title">Paper Title</div>
+            <div class="cv-entry-org">Conference / Journal Name</div>
+            <div class="cv-entry-desc">Author1, <strong>Seongjun Park</strong>, Author3</div>
+          </div>
+        </div>
+        -->
+
+      </div>
+
+      <!-- ── Skills ── -->
+      <div class="cv-section">
+        <div class="cv-section-title">Skills</div>
+        <div class="cv-skills">
+          <!-- Add skills as chips:
+          <span class="cv-skill">Python</span>
+          <span class="cv-skill">PyTorch</span>
+          <span class="cv-skill">LLM Fine-tuning</span>
+          -->
+        </div>
+      </div>
+
+    </div>
+  </main>
+  {{- partial "footer.html" . }}
+</body>
+</html>
