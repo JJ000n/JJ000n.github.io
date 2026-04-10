@@ -1,0 +1,65 @@
+baseURL = "https://JJ000n.github.io/"
+languageCode = "ko-kr"
+title = "JJ000n's Blog"
+theme = "PaperMod"
+paginate = 10
+enableRobotsTXT = true
+buildDrafts = false
+buildFuture = false
+buildExpired = false
+
+[params]
+  env = "production"
+  title = "JJ000n's Blog"
+  description = "개발 기록과 메모를 남기는 공간"
+  author = "JJ000n"
+  defaultTheme = "auto"
+  disableThemeToggle = false
+  ShowReadingTime = true
+  ShowShareButtons = false
+  ShowPostNavLinks = true
+  ShowBreadCrumbs = true
+  ShowCodeCopyButtons = true
+  ShowRssButtonInSectionTermList = true
+  ShowToc = true
+  TocOpen = false
+  comments = false
+
+  [params.profileMode]
+    enabled = true
+    title = "JJ000n"
+    subtitle = "개발 기록과 생각을 남기는 공간"
+
+    [[params.profileMode.buttons]]
+      name = "Posts"
+      url = "/posts"
+
+    [[params.profileMode.buttons]]
+      name = "Tags"
+      url = "/tags"
+
+[menu]
+  [[menu.main]]
+    identifier = "posts"
+    name = "Posts"
+    url = "/posts/"
+    weight = 10
+
+  [[menu.main]]
+    identifier = "tags"
+    name = "Tags"
+    url = "/tags/"
+    weight = 20
+
+  [[menu.main]]
+    identifier = "about"
+    name = "About"
+    url = "/about/"
+    weight = 30
+
+[taxonomies]
+  category = "categories"
+  tag = "tags"
+
+[markup.highlight]
+  noClasses = false
