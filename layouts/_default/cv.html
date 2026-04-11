@@ -215,6 +215,14 @@
     }
     .chip:hover { border-color: var(--accent); color: var(--accent); }
 
+    /* ── Certifications ── */
+    .cert-list { display: flex; flex-direction: column; gap: 1rem; }
+    .cert-item { display: grid; grid-template-columns: 1fr auto; align-items: start; gap: .4rem .8rem; }
+    .cert-name { font-size: .92rem; font-weight: 600; color: var(--text); }
+    .cert-score { font-family: 'JetBrains Mono', monospace; font-size: .84rem; color: var(--gold); font-weight: 500; text-align: right; padding-top: .15rem; }
+    .cert-sub { font-size: .78rem; color: var(--sub); grid-column: 1; }
+    .cert-divider { height: 1px; background: var(--border); margin: .2rem 0; }
+
     /* ── Footer ── */
     footer {
       text-align: center; padding: 2rem;
@@ -262,6 +270,7 @@
     <li><a href="#teaching">Teaching</a></li>
     <li><a href="#publications">Publications</a></li>
     <li><a href="#skills">Skills</a></li>
+    <li><a href="#certifications">Certs</a></li>
     <li><a href="/calendar/">Calendar</a></li>
     <li><a href="/">Blog →</a></li>
   </ul>
@@ -336,6 +345,24 @@
             <span class="chip">PyTorch</span>
             <span class="chip">HuggingFace</span>
           </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Certifications & Scores -->
+    <div class="card wide" id="certifications">
+      <div class="card-label">Certifications &amp; Language</div>
+      <div class="cert-list">
+        <div class="cert-item">
+          <div class="cert-name">ADSP <span style="font-size:.74rem;color:var(--muted);font-weight:400">데이터분석 준전문가</span></div>
+          <div class="cert-score">자격증</div>
+          <div class="cert-sub">한국데이터산업진흥원</div>
+        </div>
+        <div class="cert-divider"></div>
+        <div class="cert-item">
+          <div class="cert-name">TOEIC</div>
+          <div class="cert-score">930</div>
+          <div class="cert-sub">ETS</div>
         </div>
       </div>
     </div>
