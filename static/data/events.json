@@ -21,6 +21,13 @@
       "date": "2026-04-20",
       "type": "deadline",
       "status": "confirmed"
+    },
+    {
+      "id": "4",
+      "title": "랩미팅 발표",
+      "date": "2026-05-01",
+      "type": "class",
+      "status": "confirmed"
     }
   ],
   "blocked": []
