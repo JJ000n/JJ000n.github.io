@@ -1,4 +1,13 @@
 {
-  "events": [],
+  "events": [
+    {
+      "id": "1",
+      "title": "허은우 박사님 결혼식",
+      "date": "2026-04-25",
+      "type": "meeting",
+      "description": "해운대 팔레드시즈",
+      "status": "confirmed"
+    }
+  ],
   "blocked": []
 }
