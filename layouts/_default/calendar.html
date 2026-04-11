@@ -237,7 +237,9 @@ textarea.form-input { resize: vertical; min-height: 85px; }
 <div class="modal-backdrop" id="modal">
   <div class="modal-box">
     <div class="modal-title">Meeting Request</div>
-    <form id="req-form">
+    <form id="req-form" action="https://formspree.io/f/{{ .Site.Params.formspreeId }}" method="POST">
+      <input type="hidden" name="_subject" value="[Calendar] 미팅 요청">
+      <input type="hidden" name="_next" value="{{ .Site.BaseURL }}calendar/">
       <div class="form-group">
         <label class="form-label">이름 (Name) *</label>
         <input class="form-input" name="name" required placeholder="홍길동">
@@ -262,14 +264,9 @@ textarea.form-input { resize: vertical; min-height: 85px; }
       </div>
       <div class="form-btns">
         <button type="button" class="form-cancel" id="close-modal">취소</button>
-        <button type="submit" class="form-submit" id="form-submit-btn">요청 보내기</button>
+        <button type="submit" class="form-submit">요청 보내기</button>
       </div>
     </form>
-    <div class="form-success" id="form-success">
-      <span class="form-success-icon">✓</span>
-      요청이 전송되었습니다!<br>
-      <span style="color:var(--muted);font-size:.84rem">검토 후 회신드리겠습니다.</span>
-    </div>
   </div>
 </div>
 
@@ -467,55 +464,23 @@ textarea.form-input { resize: vertical; min-height: 85px; }
   document.getElementById('close-modal').addEventListener('click', () => modal.classList.remove('open'));
   modal.addEventListener('click', e => { if (e.target === modal) modal.classList.remove('open'); });
 
-  /* ── Form submit ── */
-  document.getElementById('req-form').addEventListener('submit', async function (e) {
-    e.preventDefault();
-    const btn = document.getElementById('form-submit-btn');
-    btn.textContent = '전송 중...'; btn.disabled = true;
-
-    const fd = new FormData(this);
-    const name     = fd.get('name');
-    const dateVal  = fd.get('date');
-    const timeVal  = fd.get('time');
-    const message  = fd.get('message');
-
-    // Add to localStorage as pending
+  /* ── Form submit: save to localStorage, then let Formspree POST naturally ── */
+  document.getElementById('req-form').addEventListener('submit', function () {
     const pendingEvent = {
       id: 'pending_' + Date.now(),
-      title: name + ' · 미팅 요청',
-      date: dateVal,
-      startTime: timeVal,
+      title: (this.querySelector('[name=name]').value || '?') + ' · 미팅 요청',
+      date: this.querySelector('[name=date]').value,
+      startTime: this.querySelector('[name=time]').value,
       type: 'meeting',
       status: 'pending',
-      description: message
+      description: this.querySelector('[name=message]').value
     };
     try {
       const existing = JSON.parse(localStorage.getItem(PENDING_KEY) || '[]');
       existing.push(pendingEvent);
       localStorage.setItem(PENDING_KEY, JSON.stringify(existing));
-      allEvents.push(pendingEvent);
     } catch (err) {}
-
-    // Send to Formspree if configured
-    if (FORMSPREE_ID && FORMSPREE_ID !== '') {
-      try {
-        await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
-          method: 'POST', body: fd,
-          headers: { 'Accept': 'application/json' }
-        });
-      } catch (err) {}
-    }
-
-    this.style.display = 'none';
-    document.getElementById('form-success').style.display = 'block';
-    render();
-
-    setTimeout(() => {
-      modal.classList.remove('open');
-      this.reset(); this.style.display = 'block';
-      document.getElementById('form-success').style.display = 'none';
-      btn.textContent = '요청 보내기'; btn.disabled = false;
-    }, 2800);
+    // Form submits normally to Formspree → redirects back via _next
   });
 
   init();
