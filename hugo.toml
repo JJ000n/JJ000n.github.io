@@ -24,7 +24,9 @@ buildExpired = false
   ShowToc = true
   TocOpen = false
   comments = false
-  formspreeId = "xkopdoez"
+  supabaseUrl    = "https://njtkodossqjsfxcsbnpx.supabase.co"
+  supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5qdGtvZG9zc3Fqc2Z4Y3NibnB4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU4Nzc1MzQsImV4cCI6MjA5MTQ1MzUzNH0.S0R_Kz4MunFb-hgmfrXpahqQN63exq1E8WGFp9Fhiz8"
+  web3formsKey   = "4480fa5c-82b0-46a2-98db-c8c742969bb0"
 
   [params.profileMode]
     enabled = true

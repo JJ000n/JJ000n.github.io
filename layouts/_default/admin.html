@@ -1,0 +1,188 @@
+{{ define "title" }}Admin — {{ .Site.Title }}{{ end }}
+
+{{ define "styles" }}
+.admin-wrap { max-width: 860px; margin: 0 auto; padding: 3rem 2rem 5rem; }
+
+.admin-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 2.5rem; flex-wrap: wrap; gap: 1rem; }
+.admin-title { font-family: 'Playfair Display', serif; font-size: 1.6rem; color: var(--text); }
+.admin-badge {
+  font-family: 'JetBrains Mono', monospace; font-size: .68rem;
+  padding: 4px 12px; border-radius: 20px;
+  background: rgba(251,146,60,.15); color: #fb923c; border: 1px solid rgba(251,146,60,.3);
+}
+.refresh-btn {
+  padding: 7px 16px; border: 1px solid var(--border2); border-radius: 9px;
+  color: var(--muted); background: var(--bg2); cursor: pointer;
+  font-size: .82rem; font-family: 'Inter', sans-serif; transition: all .18s;
+}
+.refresh-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+.section-label {
+  font-family: 'JetBrains Mono', monospace; font-size: .7rem;
+  letter-spacing: .12em; color: var(--accent); margin-bottom: 1.2rem;
+  text-transform: uppercase; display: flex; align-items: center; gap: .8rem;
+}
+.section-label::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, var(--border2), transparent); }
+
+/* Request cards */
+.req-list { display: flex; flex-direction: column; gap: .9rem; }
+.req-card {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 14px; padding: 1.4rem 1.6rem;
+  display: grid; grid-template-columns: 1fr auto;
+  gap: 1.2rem; align-items: start;
+  transition: border-color .2s;
+}
+.req-card:hover { border-color: var(--border2); }
+.req-card.confirmed { border-color: rgba(139,124,248,.25); opacity: .6; }
+.req-card.rejected  { border-color: rgba(248,113,113,.2);  opacity: .5; }
+
+.req-name { font-size: 1rem; font-weight: 600; color: var(--text); margin-bottom: .25rem; }
+.req-meta { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: .6rem; }
+.req-meta-item {
+  font-family: 'JetBrains Mono', monospace; font-size: .74rem; color: var(--muted);
+  display: flex; align-items: center; gap: .3rem;
+}
+.req-email { font-size: .82rem; color: var(--accent); margin-bottom: .5rem; }
+.req-msg { font-size: .85rem; color: var(--sub); line-height: 1.7; }
+.req-status-tag {
+  display: inline-block; font-size: .7rem; padding: 2px 10px; border-radius: 5px;
+  margin-bottom: .6rem; font-family: 'JetBrains Mono', monospace;
+}
+.tag-pending   { background: rgba(251,146,60,.2);  color: #fb923c; }
+.tag-confirmed { background: rgba(139,124,248,.2); color: var(--accent); }
+.tag-rejected  { background: rgba(248,113,113,.15); color: #f87171; }
+
+.req-actions { display: flex; flex-direction: column; gap: .5rem; flex-shrink: 0; }
+.approve-btn, .reject-btn {
+  padding: 7px 16px; border-radius: 9px; border: none;
+  font-size: .82rem; font-family: 'Inter', sans-serif; cursor: pointer; transition: opacity .18s;
+  white-space: nowrap;
+}
+.approve-btn { background: linear-gradient(135deg, var(--accent), var(--accent2)); color: #fff; }
+.approve-btn:hover { opacity: .85; }
+.reject-btn  { background: rgba(248,113,113,.15); color: #f87171; border: 1px solid rgba(248,113,113,.25); }
+.reject-btn:hover  { background: rgba(248,113,113,.25); }
+.approve-btn:disabled, .reject-btn:disabled { opacity: .4; cursor: not-allowed; }
+
+.empty-state {
+  text-align: center; padding: 4rem 2rem;
+  font-family: 'JetBrains Mono', monospace; font-size: .88rem; color: var(--muted);
+}
+
+/* Toast */
+.toast {
+  position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%);
+  background: var(--bg2); border: 1px solid var(--border2); border-radius: 10px;
+  padding: .7rem 1.4rem; font-size: .84rem; color: var(--text);
+  box-shadow: 0 4px 24px rgba(0,0,0,.4); z-index: 600;
+  opacity: 0; transition: opacity .3s; pointer-events: none;
+}
+.toast.show { opacity: 1; }
+{{ end }}
+
+{{ define "main" }}
+<div class="admin-wrap">
+  <div class="admin-top">
+    <div style="display:flex;align-items:center;gap:.9rem;flex-wrap:wrap">
+      <h1 class="admin-title">Meeting Requests</h1>
+      <span class="admin-badge" id="pending-count">...</span>
+    </div>
+    <button class="refresh-btn" onclick="load()">↺ 새로고침</button>
+  </div>
+
+  <div class="section-label" id="section-pending-label">Pending</div>
+  <div class="req-list" id="pending-list"><div class="empty-state">불러오는 중...</div></div>
+
+  <div class="section-label" style="margin-top:2.5rem" id="section-done-label">Confirmed / Rejected</div>
+  <div class="req-list" id="done-list"><div class="empty-state">불러오는 중...</div></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+(function () {
+  const SB_URL = '{{ .Site.Params.supabaseUrl }}';
+  const SB_KEY = '{{ .Site.Params.supabaseAnonKey }}';
+  const headers = { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}`, 'Content-Type': 'application/json' };
+
+  async function load() {
+    try {
+      const r = await fetch(`${SB_URL}/rest/v1/meeting_requests?select=*&order=created_at.desc`, { headers });
+      const rows = await r.json();
+      if (!Array.isArray(rows)) { showToast('데이터 로드 실패'); return; }
+
+      const pending  = rows.filter(r => r.status === 'pending');
+      const done     = rows.filter(r => r.status !== 'pending');
+
+      document.getElementById('pending-count').textContent = `${pending.length} pending`;
+
+      renderList('pending-list',  pending,  true);
+      renderList('done-list',     done,     false);
+    } catch (e) { showToast('연결 실패'); }
+  }
+
+  function renderList(containerId, rows, showActions) {
+    const el = document.getElementById(containerId);
+    if (!rows.length) { el.innerHTML = '<div class="empty-state">없음</div>'; return; }
+    el.innerHTML = rows.map(r => cardHTML(r, showActions)).join('');
+  }
+
+  function cardHTML(r, showActions) {
+    const statusTag = { pending: 'tag-pending', confirmed: 'tag-confirmed', rejected: 'tag-rejected' }[r.status] || '';
+    const statusLabel = { pending: '대기 중', confirmed: '수락됨', rejected: '거절됨' }[r.status] || r.status;
+    return `
+    <div class="req-card ${r.status !== 'pending' ? r.status : ''}" id="card-${r.id}">
+      <div>
+        <span class="req-status-tag ${statusTag}">${statusLabel}</span>
+        <div class="req-name">${esc(r.name)}</div>
+        <div class="req-email">${esc(r.email)}</div>
+        <div class="req-meta">
+          <span class="req-meta-item">📅 ${r.date}</span>
+          <span class="req-meta-item">🕐 ${(r.time||'').slice(0,5)}</span>
+          <span class="req-meta-item" style="color:var(--muted);font-size:.68rem">${new Date(r.created_at).toLocaleDateString('ko-KR')}</span>
+        </div>
+        ${r.message ? `<div class="req-msg">${esc(r.message)}</div>` : ''}
+      </div>
+      ${showActions ? `
+      <div class="req-actions">
+        <button class="approve-btn" id="a-${r.id}" onclick="updateStatus('${r.id}','confirmed')">✓ 수락</button>
+        <button class="reject-btn"  id="j-${r.id}" onclick="updateStatus('${r.id}','rejected')">✕ 거절</button>
+      </div>` : ''}
+    </div>`;
+  }
+
+  window.updateStatus = async function (id, status) {
+    const ab = document.getElementById('a-'+id);
+    const jb = document.getElementById('j-'+id);
+    if (ab) ab.disabled = true;
+    if (jb) jb.disabled = true;
+
+    try {
+      const r = await fetch(`${SB_URL}/rest/v1/meeting_requests?id=eq.${id}`, {
+        method: 'PATCH',
+        headers: { ...headers, 'Prefer': 'return=minimal' },
+        body: JSON.stringify({ status })
+      });
+      if (r.ok) {
+        showToast(status === 'confirmed' ? '✓ 수락되었습니다' : '✕ 거절되었습니다');
+        setTimeout(load, 600);
+      } else { showToast('업데이트 실패'); }
+    } catch (e) { showToast('연결 실패'); }
+  };
+
+  function esc(s) {
+    return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg; t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3000);
+  }
+
+  window.load = load;
+  load();
+})();
+</script>
+{{ end }}

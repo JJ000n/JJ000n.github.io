@@ -3,7 +3,6 @@
 {{ define "styles" }}
 .cal-page { max-width: 1140px; margin: 0 auto; padding: 2.5rem 2rem 5rem; }
 
-/* ── Top bar ── */
 .cal-top {
   display: flex; align-items: center; justify-content: space-between;
   gap: 1rem; flex-wrap: wrap; margin-bottom: 2rem;
@@ -13,14 +12,12 @@
 .cal-nav-btn {
   width: 34px; height: 34px; display: flex; align-items: center; justify-content: center;
   border: 1px solid var(--border2); border-radius: 8px; background: var(--bg2);
-  color: var(--sub); cursor: pointer; font-size: 1.1rem;
-  transition: all .18s; font-family: inherit;
+  color: var(--sub); cursor: pointer; font-size: 1.1rem; transition: all .18s; font-family: inherit;
 }
 .cal-nav-btn:hover { border-color: var(--accent); color: var(--accent); }
 .cal-month-label {
   font-size: .97rem; font-weight: 600; color: var(--text);
-  min-width: 160px; text-align: center;
-  font-family: 'JetBrains Mono', monospace;
+  min-width: 160px; text-align: center; font-family: 'JetBrains Mono', monospace;
 }
 .req-btn {
   display: inline-flex; align-items: center; gap: 6px; padding: 8px 18px;
@@ -30,22 +27,14 @@
 }
 .req-btn:hover { opacity: .88; }
 
-/* ── Layout ── */
 .cal-body { display: grid; grid-template-columns: 1fr 290px; gap: 1.5rem; align-items: start; }
 
-/* ── Calendar grid ── */
-.cal-grid-wrap {
-  background: var(--bg2); border: 1px solid var(--border);
-  border-radius: 16px; overflow: hidden;
-}
-.cal-grid {
-  display: grid; grid-template-columns: repeat(7, 1fr);
-}
+.cal-grid-wrap { background: var(--bg2); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
+.cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); }
 .day-header {
   padding: .65rem .4rem; text-align: center;
   font-family: 'JetBrains Mono', monospace; font-size: .68rem;
-  color: var(--muted); letter-spacing: .04em;
-  border-bottom: 1px solid var(--border);
+  color: var(--muted); letter-spacing: .04em; border-bottom: 1px solid var(--border);
 }
 .day-header:first-child { color: #f87171; }
 .day-header:last-child { color: var(--accent2); }
@@ -61,7 +50,6 @@
 .day-cell.other-month { opacity: .35; cursor: default; }
 .day-cell.other-month:hover { background: none; }
 .day-cell.blocked { background: rgba(255,255,255,.01); cursor: not-allowed; }
-.day-cell.blocked:hover { background: rgba(255,255,255,.01); }
 
 .day-num {
   display: inline-flex; align-items: center; justify-content: center;
@@ -85,38 +73,26 @@
 .status-pending { background: rgba(251,146,60,.22); color: #fb923c; }
 .event-more { font-size: .63rem; color: var(--muted); padding-left: 4px; }
 
-/* ── Side panel ── */
 .side-panel { display: flex; flex-direction: column; gap: 1rem; position: sticky; top: 80px; }
-.panel-card {
-  background: var(--bg2); border: 1px solid var(--border);
-  border-radius: 14px; padding: 1.3rem;
-}
+.panel-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 14px; padding: 1.3rem; }
 .panel-section-label {
   font-family: 'JetBrains Mono', monospace; font-size: .68rem;
   letter-spacing: .12em; color: var(--accent); margin-bottom: .9rem;
   text-transform: uppercase; display: flex; align-items: center; gap: .6rem;
 }
-.panel-section-label::after {
-  content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, var(--border2), transparent);
-}
-.panel-date-big {
-  font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--text); margin-bottom: .25rem;
-}
+.panel-section-label::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, var(--border2), transparent); }
+.panel-date-big { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--text); margin-bottom: .25rem; }
 .panel-date-sub { font-size: .78rem; color: var(--muted); margin-bottom: 1rem; }
 .panel-event { padding: .6rem 0; border-bottom: 1px solid var(--border); }
 .panel-event:last-child { border-bottom: none; padding-bottom: 0; }
 .panel-event-header { display: flex; align-items: flex-start; gap: .5rem; }
 .panel-event-dot { width: 7px; height: 7px; border-radius: 2px; margin-top: .35rem; flex-shrink: 0; }
 .panel-event-title { font-size: .88rem; font-weight: 600; color: var(--text); line-height: 1.35; }
-.panel-event-time {
-  font-family: 'JetBrains Mono', monospace; font-size: .74rem;
-  color: var(--muted); margin-top: .2rem;
-}
+.panel-event-time { font-family: 'JetBrains Mono', monospace; font-size: .74rem; color: var(--muted); margin-top: .2rem; }
 .panel-event-desc { font-size: .81rem; color: var(--sub); margin-top: .3rem; line-height: 1.6; }
 .panel-pending-tag {
   display: inline-block; font-size: .68rem; padding: 1px 8px;
-  border-radius: 4px; background: rgba(251,146,60,.2); color: #fb923c;
-  margin-top: .2rem;
+  border-radius: 4px; background: rgba(251,146,60,.2); color: #fb923c; margin-top: .2rem;
 }
 .panel-empty { font-size: .84rem; color: var(--muted); padding: .3rem 0; }
 
@@ -124,7 +100,7 @@
 .legend-item { display: flex; align-items: center; gap: .7rem; font-size: .78rem; color: var(--sub); }
 .legend-dot { width: 10px; height: 8px; border-radius: 3px; flex-shrink: 0; }
 
-/* ── Modal ── */
+/* Modal */
 .modal-backdrop {
   display: none; position: fixed; inset: 0; z-index: 500;
   background: rgba(6,8,15,.85); backdrop-filter: blur(6px);
@@ -143,8 +119,7 @@
   width: 100%; padding: 9px 13px;
   background: var(--bg3); border: 1px solid var(--border2);
   border-radius: 9px; color: var(--text); font-size: .87rem;
-  font-family: 'Inter', sans-serif; outline: none; transition: border-color .18s;
-  -webkit-appearance: none;
+  font-family: 'Inter', sans-serif; outline: none; transition: border-color .18s; -webkit-appearance: none;
 }
 .form-input:focus { border-color: var(--accent); }
 .form-input::placeholder { color: var(--muted); }
@@ -164,11 +139,19 @@ textarea.form-input { resize: vertical; min-height: 85px; }
   font-size: .84rem; cursor: pointer; font-family: 'Inter', sans-serif; transition: opacity .18s;
 }
 .form-submit:hover { opacity: .88; }
-.form-success {
-  text-align: center; padding: 2rem 1rem;
-  font-size: .92rem; color: var(--sub); line-height: 2; display: none;
-}
+.form-submit:disabled { opacity: .5; cursor: not-allowed; }
+.form-success { text-align: center; padding: 2rem 1rem; font-size: .92rem; color: var(--sub); line-height: 2; display: none; }
 .form-success-icon { font-size: 2rem; margin-bottom: .5rem; display: block; }
+
+/* Toast */
+.toast {
+  position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%);
+  background: var(--bg2); border: 1px solid var(--border2); border-radius: 10px;
+  padding: .7rem 1.4rem; font-size: .84rem; color: var(--text);
+  box-shadow: 0 4px 24px rgba(0,0,0,.4); z-index: 600;
+  opacity: 0; transition: opacity .3s; pointer-events: none;
+}
+.toast.show { opacity: 1; }
 
 @media (max-width: 860px) {
   .cal-body { grid-template-columns: 1fr; }
@@ -183,8 +166,6 @@ textarea.form-input { resize: vertical; min-height: 85px; }
 
 {{ define "main" }}
 <div class="cal-page">
-
-  <!-- Top bar -->
   <div class="cal-top">
     <h1 class="cal-title">Calendar</h1>
     <div class="cal-nav">
@@ -195,16 +176,11 @@ textarea.form-input { resize: vertical; min-height: 85px; }
     <button class="req-btn" id="open-modal">+ Meeting Request</button>
   </div>
 
-  <!-- Body -->
   <div class="cal-body">
-    <!-- Calendar grid -->
     <div class="cal-grid-wrap">
-      <div class="cal-grid" id="cal-grid">
-        <!-- rendered by JS -->
-      </div>
+      <div class="cal-grid" id="cal-grid"></div>
     </div>
 
-    <!-- Side panel -->
     <aside class="side-panel">
       <div class="panel-card" id="day-panel">
         <div class="panel-section-label">Selected</div>
@@ -215,18 +191,10 @@ textarea.form-input { resize: vertical; min-height: 85px; }
       <div class="panel-card">
         <div class="panel-section-label">Legend</div>
         <div class="legend">
-          <div class="legend-item">
-            <div class="legend-dot" style="background:rgba(139,124,248,.6)"></div>Meeting
-          </div>
-          <div class="legend-item">
-            <div class="legend-dot" style="background:rgba(232,184,75,.6)"></div>Deadline
-          </div>
-          <div class="legend-item">
-            <div class="legend-dot" style="background:rgba(80,250,123,.5)"></div>Class / Lecture
-          </div>
-          <div class="legend-item">
-            <div class="legend-dot" style="background:rgba(251,146,60,.6)"></div>Pending Request
-          </div>
+          <div class="legend-item"><div class="legend-dot" style="background:rgba(139,124,248,.6)"></div>Meeting</div>
+          <div class="legend-item"><div class="legend-dot" style="background:rgba(232,184,75,.6)"></div>Deadline</div>
+          <div class="legend-item"><div class="legend-dot" style="background:rgba(80,250,123,.5)"></div>Class</div>
+          <div class="legend-item"><div class="legend-dot" style="background:rgba(251,146,60,.6)"></div>Pending</div>
         </div>
       </div>
     </aside>
@@ -237,84 +205,98 @@ textarea.form-input { resize: vertical; min-height: 85px; }
 <div class="modal-backdrop" id="modal">
   <div class="modal-box">
     <div class="modal-title">Meeting Request</div>
-    <form id="req-form" action="https://formspree.io/f/{{ .Site.Params.formspreeId }}" method="POST">
-      <input type="hidden" name="_subject" value="[Calendar] 미팅 요청">
-      <input type="hidden" name="_next" value="{{ .Site.BaseURL }}calendar/">
+    <form id="req-form">
       <div class="form-group">
         <label class="form-label">이름 (Name) *</label>
-        <input class="form-input" name="name" required placeholder="홍길동">
+        <input class="form-input" id="f-name" required placeholder="홍길동">
       </div>
       <div class="form-group">
         <label class="form-label">이메일 (Email) *</label>
-        <input class="form-input" name="email" type="email" required placeholder="your@email.com">
+        <input class="form-input" id="f-email" type="email" required placeholder="your@email.com">
       </div>
       <div class="form-row">
         <div class="form-group">
           <label class="form-label">날짜 (Date) *</label>
-          <input class="form-input" name="date" type="date" id="req-date" required>
+          <input class="form-input" id="f-date" type="date" required>
         </div>
         <div class="form-group">
           <label class="form-label">시간 (Time) *</label>
-          <input class="form-input" name="time" type="time" id="req-time" required>
+          <input class="form-input" id="f-time" type="time" required>
         </div>
       </div>
       <div class="form-group">
         <label class="form-label">내용 (Purpose) *</label>
-        <textarea class="form-input" name="message" required placeholder="미팅 목적 또는 논의하고 싶은 내용을 적어주세요"></textarea>
+        <textarea class="form-input" id="f-msg" required placeholder="미팅 목적 또는 논의하고 싶은 내용을 적어주세요"></textarea>
       </div>
       <div class="form-btns">
         <button type="button" class="form-cancel" id="close-modal">취소</button>
-        <button type="submit" class="form-submit">요청 보내기</button>
+        <button type="submit" class="form-submit" id="submit-btn">요청 보내기</button>
       </div>
     </form>
+    <div class="form-success" id="form-success">
+      <span class="form-success-icon">✓</span>
+      요청이 전송되었습니다!<br>
+      <span style="color:var(--muted);font-size:.84rem">검토 후 회신드리겠습니다.</span>
+    </div>
   </div>
 </div>
 
+<div class="toast" id="toast"></div>
+
 <script>
 (function () {
-  /* ── Config ── */
+  const SB_URL  = '{{ .Site.Params.supabaseUrl }}';
+  const SB_KEY  = '{{ .Site.Params.supabaseAnonKey }}';
+  const W3F_KEY = '{{ .Site.Params.web3formsKey }}';
   const EVENTS_URL = '/data/events.json';
-  const PENDING_KEY = 'sp_cal_pending';
-  const FORMSPREE_ID = '{{ .Site.Params.formspreeId }}'; // set in hugo.toml
 
-  const MONTHS = ['January','February','March','April','May','June',
-                  'July','August','September','October','November','December'];
+  const MONTHS   = ['January','February','March','April','May','June','July','August','September','October','November','December'];
   const WEEKDAYS = ['일','월','화','수','목','금','토'];
-  const TYPECOLORS = {
-    meeting:  'rgba(139,124,248,.6)',
-    deadline: 'rgba(232,184,75,.6)',
-    class:    'rgba(80,250,123,.5)',
-    blocked:  'rgba(255,255,255,.12)',
-    pending:  'rgba(251,146,60,.6)'
-  };
+  const COLORS   = { meeting:'rgba(139,124,248,.6)', deadline:'rgba(232,184,75,.6)', class:'rgba(80,250,123,.5)', blocked:'rgba(255,255,255,.12)', pending:'rgba(251,146,60,.6)' };
 
   let allEvents = [];
   let blockedDates = [];
   let currentYear, currentMonth;
   let selectedDateStr = null;
 
-  /* ── Load ── */
+  const sbHeaders = { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}`, 'Content-Type': 'application/json' };
+
+  /* ── Init ── */
   async function init() {
     const now = new Date();
     currentYear = now.getFullYear();
     currentMonth = now.getMonth();
 
+    // Load static events (deadlines, classes, etc.)
     try {
-      const res = await fetch(EVENTS_URL + '?t=' + Date.now());
-      const data = await res.json();
-      allEvents = data.events || [];
-      blockedDates = data.blocked || [];
+      const r = await fetch(EVENTS_URL + '?t=' + Date.now());
+      const d = await r.json();
+      allEvents = d.events || [];
+      blockedDates = d.blocked || [];
     } catch (e) { allEvents = []; blockedDates = []; }
 
-    // Merge localStorage pending events
-    try {
-      const pending = JSON.parse(localStorage.getItem(PENDING_KEY) || '[]');
-      // Deduplicate by id against confirmed
-      const confirmedIds = new Set(allEvents.map(e => e.id));
-      pending.filter(p => !confirmedIds.has(p.id)).forEach(p => allEvents.push(p));
-    } catch (e) {}
-
+    // Load from Supabase (confirmed + pending meeting requests)
+    await loadSupabaseEvents();
     render();
+  }
+
+  async function loadSupabaseEvents() {
+    try {
+      const r = await fetch(`${SB_URL}/rest/v1/meeting_requests?status=in.(pending,confirmed)&select=*&order=date.asc`, { headers: sbHeaders });
+      const rows = await r.json();
+      if (!Array.isArray(rows)) return;
+      rows.forEach(row => {
+        allEvents.push({
+          id: row.id,
+          title: row.name + ' · 미팅',
+          date: row.date,
+          startTime: (row.time || '').slice(0, 5),
+          type: 'meeting',
+          status: row.status,
+          description: row.message
+        });
+      });
+    } catch (e) {}
   }
 
   function getEventsForDate(dateStr) {
@@ -324,11 +306,9 @@ textarea.form-input { resize: vertical; min-height: 85px; }
   /* ── Render ── */
   function render() {
     document.getElementById('month-label').textContent = `${MONTHS[currentMonth]} ${currentYear}`;
-
     const grid = document.getElementById('cal-grid');
     grid.innerHTML = '';
 
-    // Day headers
     ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].forEach(d => {
       const h = document.createElement('div');
       h.className = 'day-header'; h.textContent = d;
@@ -340,148 +320,155 @@ textarea.form-input { resize: vertical; min-height: 85px; }
     const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
     const prevMonthDays = new Date(currentYear, currentMonth, 0).getDate();
 
-    // Prev month filler
-    for (let i = firstDay - 1; i >= 0; i--) {
+    for (let i = firstDay - 1; i >= 0; i--)
       grid.appendChild(makeCell(new Date(currentYear, currentMonth - 1, prevMonthDays - i), today, true));
-    }
-    // This month
-    for (let d = 1; d <= daysInMonth; d++) {
+    for (let d = 1; d <= daysInMonth; d++)
       grid.appendChild(makeCell(new Date(currentYear, currentMonth, d), today, false));
-    }
-    // Next month filler
-    const total = firstDay + daysInMonth;
-    const fill = total % 7 === 0 ? 0 : 7 - (total % 7);
-    for (let d = 1; d <= fill; d++) {
+    const fill = (firstDay + daysInMonth) % 7;
+    if (fill !== 0) for (let d = 1; d <= 7 - fill; d++)
       grid.appendChild(makeCell(new Date(currentYear, currentMonth + 1, d), today, true));
-    }
   }
 
-  function toDateStr(date) {
-    return `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}-${String(date.getDate()).padStart(2,'0')}`;
+  function toDateStr(d) {
+    return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
   }
 
   function makeCell(date, today, otherMonth) {
     const dateStr = toDateStr(date);
     const dow = date.getDay();
     const dayEvents = otherMonth ? [] : getEventsForDate(dateStr);
-    const isToday = !otherMonth &&
-      date.getFullYear() === today.getFullYear() &&
-      date.getMonth() === today.getMonth() &&
-      date.getDate() === today.getDate();
-    const isSelected = selectedDateStr === dateStr;
+    const isToday = !otherMonth && date.toDateString() === today.toDateString();
     const isBlocked = blockedDates.includes(dateStr);
 
     const cell = document.createElement('div');
-    cell.className = [
-      'day-cell',
-      otherMonth ? 'other-month' : '',
-      isToday    ? 'today'       : '',
-      isSelected ? 'selected'    : '',
-      isBlocked  ? 'blocked'     : '',
-      dow === 0  ? 'sun'         : '',
-      dow === 6  ? 'sat'         : ''
-    ].filter(Boolean).join(' ');
+    cell.className = ['day-cell', otherMonth?'other-month':'', isToday?'today':'', selectedDateStr===dateStr?'selected':'', isBlocked?'blocked':'', dow===0?'sun':'', dow===6?'sat':''].filter(Boolean).join(' ');
 
     const num = document.createElement('span');
-    num.className = 'day-num';
-    num.textContent = date.getDate();
+    num.className = 'day-num'; num.textContent = date.getDate();
     cell.appendChild(num);
 
     if (!otherMonth && !isBlocked) {
       dayEvents.slice(0, 2).forEach(ev => {
-        const badge = document.createElement('div');
-        const isPending = ev.status === 'pending';
-        badge.className = `event-badge ${isPending ? 'status-pending' : 'type-' + (ev.type || 'meeting')}`;
-        badge.textContent = ev.title;
-        cell.appendChild(badge);
+        const b = document.createElement('div');
+        b.className = `event-badge ${ev.status==='pending' ? 'status-pending' : 'type-'+(ev.type||'meeting')}`;
+        b.textContent = ev.title;
+        cell.appendChild(b);
       });
       if (dayEvents.length > 2) {
-        const more = document.createElement('div');
-        more.className = 'event-more';
-        more.textContent = `+${dayEvents.length - 2}`;
-        cell.appendChild(more);
+        const m = document.createElement('div');
+        m.className = 'event-more'; m.textContent = `+${dayEvents.length - 2}`;
+        cell.appendChild(m);
       }
     }
 
-    if (!otherMonth) {
-      cell.addEventListener('click', () => {
-        if (isBlocked) return;
-        selectedDateStr = dateStr;
-        render();
-        showPanel(date, dayEvents);
-      });
-    }
-
+    if (!otherMonth) cell.addEventListener('click', () => {
+      if (isBlocked) return;
+      selectedDateStr = dateStr; render(); showPanel(date, dayEvents);
+    });
     return cell;
   }
 
   function showPanel(date, evs) {
-    const dayNum = date.getDate();
-    const weekday = WEEKDAYS[date.getDay()];
-    document.getElementById('panel-date-big').textContent =
-      `${MONTHS[date.getMonth()]} ${dayNum}`;
-    document.getElementById('panel-date-sub').textContent =
-      `${date.getFullYear()}년 ${date.getMonth()+1}월 ${dayNum}일 (${weekday})`;
-
-    const container = document.getElementById('panel-events');
-    if (evs.length === 0) {
-      container.innerHTML = '<div class="panel-empty">등록된 일정이 없습니다</div>';
-      return;
-    }
-    container.innerHTML = evs.map(ev => {
+    document.getElementById('panel-date-big').textContent = `${MONTHS[date.getMonth()]} ${date.getDate()}`;
+    document.getElementById('panel-date-sub').textContent = `${date.getFullYear()}년 ${date.getMonth()+1}월 ${date.getDate()}일 (${WEEKDAYS[date.getDay()]})`;
+    const c = document.getElementById('panel-events');
+    if (!evs.length) { c.innerHTML = '<div class="panel-empty">등록된 일정이 없습니다</div>'; return; }
+    c.innerHTML = evs.map(ev => {
       const isPending = ev.status === 'pending';
-      const type = isPending ? 'pending' : (ev.type || 'meeting');
-      const dotColor = TYPECOLORS[type] || TYPECOLORS.meeting;
-      return `
-        <div class="panel-event">
-          <div class="panel-event-header">
-            <div class="panel-event-dot" style="background:${dotColor}"></div>
-            <div class="panel-event-title">${ev.title}</div>
-          </div>
-          ${ev.startTime ? `<div class="panel-event-time">${ev.startTime}${ev.endTime ? ' – '+ev.endTime : ''}</div>` : ''}
-          ${isPending ? '<span class="panel-pending-tag">대기 중 · Pending</span>' : ''}
-          ${ev.description ? `<div class="panel-event-desc">${ev.description}</div>` : ''}
-        </div>`;
+      const color = COLORS[isPending ? 'pending' : (ev.type||'meeting')] || COLORS.meeting;
+      return `<div class="panel-event">
+        <div class="panel-event-header">
+          <div class="panel-event-dot" style="background:${color}"></div>
+          <div class="panel-event-title">${ev.title}</div>
+        </div>
+        ${ev.startTime ? `<div class="panel-event-time">${ev.startTime}${ev.endTime?' – '+ev.endTime:''}</div>` : ''}
+        ${isPending ? '<span class="panel-pending-tag">대기 중 · Pending</span>' : ''}
+        ${ev.description ? `<div class="panel-event-desc">${ev.description}</div>` : ''}
+      </div>`;
     }).join('');
   }
 
   /* ── Navigation ── */
   document.getElementById('prev-month').addEventListener('click', () => {
-    if (--currentMonth < 0) { currentMonth = 11; currentYear--; }
-    render();
+    if (--currentMonth < 0) { currentMonth = 11; currentYear--; } render();
   });
   document.getElementById('next-month').addEventListener('click', () => {
-    if (++currentMonth > 11) { currentMonth = 0; currentYear++; }
-    render();
+    if (++currentMonth > 11) { currentMonth = 0; currentYear++; } render();
   });
 
   /* ── Modal ── */
   const modal = document.getElementById('modal');
   document.getElementById('open-modal').addEventListener('click', () => {
     modal.classList.add('open');
-    if (selectedDateStr) document.getElementById('req-date').value = selectedDateStr;
+    if (selectedDateStr) document.getElementById('f-date').value = selectedDateStr;
   });
   document.getElementById('close-modal').addEventListener('click', () => modal.classList.remove('open'));
   modal.addEventListener('click', e => { if (e.target === modal) modal.classList.remove('open'); });
 
-  /* ── Form submit: save to localStorage, then let Formspree POST naturally ── */
-  document.getElementById('req-form').addEventListener('submit', function () {
-    const pendingEvent = {
-      id: 'pending_' + Date.now(),
-      title: (this.querySelector('[name=name]').value || '?') + ' · 미팅 요청',
-      date: this.querySelector('[name=date]').value,
-      startTime: this.querySelector('[name=time]').value,
-      type: 'meeting',
-      status: 'pending',
-      description: this.querySelector('[name=message]').value
-    };
+  /* ── Form submit → Supabase + Web3Forms ── */
+  document.getElementById('req-form').addEventListener('submit', async function (e) {
+    e.preventDefault();
+    const btn = document.getElementById('submit-btn');
+    btn.textContent = '전송 중...'; btn.disabled = true;
+
+    const name  = document.getElementById('f-name').value.trim();
+    const email = document.getElementById('f-email').value.trim();
+    const date  = document.getElementById('f-date').value;
+    const time  = document.getElementById('f-time').value;
+    const msg   = document.getElementById('f-msg').value.trim();
+
+    let ok = false;
     try {
-      const existing = JSON.parse(localStorage.getItem(PENDING_KEY) || '[]');
-      existing.push(pendingEvent);
-      localStorage.setItem(PENDING_KEY, JSON.stringify(existing));
-    } catch (err) {}
-    // Form submits normally to Formspree → redirects back via _next
+      // 1. Insert to Supabase
+      const r = await fetch(`${SB_URL}/rest/v1/meeting_requests`, {
+        method: 'POST',
+        headers: { ...sbHeaders, 'Prefer': 'return=representation' },
+        body: JSON.stringify({ name, email, date, time, message: msg, status: 'pending' })
+      });
+      const inserted = await r.json();
+
+      // Add to local display
+      if (Array.isArray(inserted) && inserted[0]) {
+        allEvents.push({ id: inserted[0].id, title: name + ' · 미팅', date, startTime: time, type: 'meeting', status: 'pending', description: msg });
+      }
+
+      // 2. Send email via Web3Forms
+      await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          access_key: W3F_KEY,
+          subject: `[Calendar] 미팅 요청 — ${name}`,
+          from_name: name,
+          email,
+          message: `이름: ${name}\n이메일: ${email}\n날짜: ${date}\n시간: ${time}\n\n내용:\n${msg}\n\n수락/거절: https://JJ000n.github.io/admin/`
+        })
+      });
+
+      ok = true;
+    } catch (err) { console.error(err); }
+
+    if (ok) {
+      this.style.display = 'none';
+      document.getElementById('form-success').style.display = 'block';
+      render();
+      setTimeout(() => {
+        modal.classList.remove('open');
+        this.reset(); this.style.display = 'block';
+        document.getElementById('form-success').style.display = 'none';
+        btn.textContent = '요청 보내기'; btn.disabled = false;
+      }, 2800);
+    } else {
+      showToast('전송 실패. 다시 시도해주세요.');
+      btn.textContent = '요청 보내기'; btn.disabled = false;
+    }
   });
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg; t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3000);
+  }
 
   init();
 })();
