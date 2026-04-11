@@ -168,6 +168,13 @@
 
     /* ── Publications ── */
     .pub-list { display: flex; flex-direction: column; gap: .9rem; }
+    .pub-section-label {
+      font-family: 'JetBrains Mono', monospace; font-size: .65rem;
+      letter-spacing: .12em; text-transform: uppercase; color: var(--muted);
+      margin: .6rem 0 .5rem; padding-left: .2rem;
+      display: flex; align-items: center; gap: .6rem;
+    }
+    .pub-section-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
     .pub-card {
       padding: 1.15rem 1.3rem;
       background: var(--bg3); border: 1px solid var(--border);
@@ -185,7 +192,9 @@
       background: rgba(139,124,248,.14); color: var(--accent);
     }
     .pub-badge.gold { background: rgba(232,184,75,.14); color: var(--gold); }
+    .pub-badge.domestic { background: rgba(95,138,255,.14); color: var(--accent2); }
     .pub-title { font-size: .90rem; font-weight: 600; color: var(--text); margin-bottom: .28rem; line-height: 1.5; }
+    .pub-title-ko { font-size: .78rem; color: var(--sub); margin-bottom: .2rem; line-height: 1.4; }
     .pub-authors { font-size: .78rem; color: var(--muted); margin-bottom: .45rem; }
     .pub-authors strong { color: var(--sub); }
     .pub-links { display: flex; gap: .4rem; }
@@ -336,6 +345,8 @@
       <div class="card-label">Publications</div>
       <div class="pub-list">
 
+        <div class="pub-section-label">International</div>
+
         <div class="pub-card highlight">
           <span class="pub-badge gold">CVPRW NTIRE 2026</span>
           <div class="pub-title">C2-STVSR: Correlation-guided Continuous Spatial-Temporal Video Super-Resolution</div>
@@ -351,6 +362,35 @@
           <div class="pub-authors">Dongbock Kim†, Sat Byul Seo†, <strong>Seong Joon Park</strong>, Hyun-kyung Cho <span style="font-size:.72rem;color:var(--muted)">(†equal contribution)</span></div>
           <div class="pub-links">
             <a class="pub-btn" href="https://doi.org/10.1038/s41598-023-43104-y" target="_blank">DOI</a>
+          </div>
+        </div>
+
+        <div class="pub-section-label">Domestic</div>
+
+        <div class="pub-card">
+          <span class="pub-badge domestic">IPIU 2026</span>
+          <div class="pub-title-ko">상관성 기반 연속 시공간 비디오 초해상도 복원</div>
+          <div class="pub-authors"><strong>Seongjun Park</strong>, Jaejun Yoo</div>
+        </div>
+
+        <div class="pub-card">
+          <span class="pub-badge domestic">IPIU 2026</span>
+          <div class="pub-title-ko">다국가 벤치마크를 통한 자연어 기반 차량 검색 모델의 일반화 성능 분석</div>
+          <div class="pub-authors">Beomhun Park, <strong>Seongjun Park</strong>, Jaejun Yoo <span style="font-size:.72rem;color:var(--muted)">(2nd author)</span></div>
+        </div>
+
+        <div class="pub-card">
+          <span class="pub-badge domestic">IPIU 2025</span>
+          <div class="pub-title-ko">자연어 기반 영상 내 차량 검색 모델의 일반화 성능 검증을 위한 외부 검증 데이터셋 구축</div>
+          <div class="pub-authors">Dongyoung Kim, <strong>Seongjun Park</strong>, Beomhun Park, Lee Kyoungoh, Kwang-Ju Kim, Jaejun Yoo <span style="font-size:.72rem;color:var(--muted)">(2nd author)</span></div>
+        </div>
+
+        <div class="pub-card">
+          <span class="pub-badge domestic">Korea AI Conference 2022</span>
+          <div class="pub-title">A Study on the Recent Trends of Machine Learning for Smart Factory in South Korea</div>
+          <div class="pub-authors">S.J. Park, H.Y. Park, S.H. Hoon</div>
+          <div class="pub-links">
+            <!-- <a class="pub-btn" href="#">Paper</a> -->
           </div>
         </div>
 
