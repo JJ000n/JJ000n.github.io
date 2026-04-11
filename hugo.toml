@@ -24,7 +24,7 @@ buildExpired = false
   ShowToc = true
   TocOpen = false
   comments = false
-  formspreeId = ""  # formspree.io 가입 후 form ID를 여기에 입력 (예: "xpwzgwkl")
+  formspreeId = "xkopdoez"
 
   [params.profileMode]
     enabled = true
