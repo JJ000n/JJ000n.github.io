@@ -7,6 +7,20 @@
       "type": "meeting",
       "description": "해운대 팔레드시즈",
       "status": "confirmed"
+    },
+    {
+      "id": "2",
+      "title": "현대 글로비스 인턴",
+      "date": "2026-04-18",
+      "type": "deadline",
+      "status": "confirmed"
+    },
+    {
+      "id": "3",
+      "title": "KIA 채용 연계 인턴",
+      "date": "2026-04-20",
+      "type": "deadline",
+      "status": "confirmed"
     }
   ],
   "blocked": []
