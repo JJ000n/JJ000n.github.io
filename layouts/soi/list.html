@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>자기소개서 — Seongjun Park</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #06080f; --bg2: #0c0e1a; --bg3: #111428;
+      --text: #e8ecf4; --muted: #5e6e8a; --sub: #8a9ab8;
+      --accent: #8b7cf8; --accent2: #5f8aff; --gold: #e8b84b;
+      --border: #181e30; --border2: #222840;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg); color: var(--text);
+      font-family: 'Inter', system-ui, sans-serif;
+      line-height: 1.7; -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+    }
+    a { color: var(--accent); text-decoration: none; }
+
+    /* ── Password overlay ── */
+    #pw-overlay {
+      position: fixed; inset: 0; z-index: 9999;
+      background: var(--bg);
+      display: flex; align-items: center; justify-content: center;
+    }
+    #pw-box {
+      display: flex; flex-direction: column; align-items: center;
+      gap: 14px; padding: 44px 36px;
+      background: var(--bg2); border: 1px solid var(--border2);
+      border-radius: 18px; min-width: 280px;
+    }
+    #pw-logo { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--text); }
+    #pw-sub { font-size: .8rem; color: var(--muted); }
+    #pw-input {
+      width: 100%; padding: 10px 14px;
+      background: var(--bg3); border: 1px solid var(--border2);
+      border-radius: 9px; color: var(--text);
+      font-size: 1rem; text-align: center; letter-spacing: 4px;
+      font-family: 'JetBrains Mono', monospace; outline: none;
+    }
+    #pw-input:focus { border-color: var(--accent); }
+    #pw-btn {
+      width: 100%; padding: 10px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff; border: none; border-radius: 9px;
+      font-size: .88rem; cursor: pointer;
+    }
+    #pw-btn:hover { opacity: .88; }
+    #pw-error { color: #f87171; font-size: .8rem; display: none; }
+
+    /* ── Nav ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      height: 58px; display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2.5rem;
+      background: rgba(6,8,15,.8); backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo { font-family: 'Playfair Display', serif; font-size: 1.05rem; color: var(--text); }
+    .nav-back {
+      font-size: .78rem; font-weight: 500; letter-spacing: .06em; text-transform: uppercase;
+      color: var(--muted); transition: color .2s;
+    }
+    .nav-back:hover { color: var(--text); }
+
+    /* ── Main ── */
+    .page-wrap {
+      max-width: 860px; margin: 0 auto;
+      padding: 100px 2rem 4rem;
+    }
+
+    .page-header {
+      margin-bottom: 2.4rem;
+    }
+    .page-title {
+      font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700;
+      background: linear-gradient(135deg, #fff 30%, var(--accent) 80%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      margin-bottom: .4rem;
+    }
+    .page-sub {
+      font-family: 'JetBrains Mono', monospace; font-size: .72rem;
+      color: var(--muted); letter-spacing: .08em;
+    }
+
+    /* ── Entry cards ── */
+    .soi-grid {
+      display: flex; flex-direction: column; gap: 1rem;
+    }
+    .soi-card {
+      display: block;
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 14px; padding: 1.4rem 1.6rem;
+      transition: border-color .22s, box-shadow .22s;
+      color: var(--text);
+    }
+    .soi-card:hover {
+      border-color: rgba(139,124,248,.4);
+      box-shadow: 0 0 28px rgba(139,124,248,.08);
+      color: var(--text);
+    }
+    .soi-card-top {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      gap: 1rem;
+    }
+    .soi-card-title {
+      font-size: 1rem; font-weight: 600; color: var(--text); line-height: 1.3;
+    }
+    .soi-card-date {
+      font-family: 'JetBrains Mono', monospace; font-size: .68rem;
+      color: var(--muted); white-space: nowrap; padding-top: .2rem;
+    }
+    .soi-card-company {
+      font-size: .80rem; color: var(--accent); margin-top: .3rem; font-weight: 500;
+    }
+    .soi-card-desc {
+      font-size: .80rem; color: var(--sub); margin-top: .55rem; line-height: 1.6;
+    }
+    .soi-arrow {
+      font-size: .78rem; color: var(--muted); margin-top: .6rem;
+      display: flex; align-items: center; gap: .3rem;
+    }
+
+    /* ── Empty state ── */
+    .empty-state {
+      text-align: center; padding: 5rem 2rem;
+      color: var(--muted); font-size: .9rem;
+    }
+    .empty-state .empty-icon { font-size: 2.5rem; margin-bottom: 1rem; opacity: .4; }
+    .empty-hint {
+      margin-top: .8rem;
+      font-family: 'JetBrains Mono', monospace; font-size: .72rem;
+      color: var(--border2); line-height: 1.8;
+    }
+
+    /* ── Cursor glow ── */
+    #cursor-glow {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background: radial-gradient(600px circle at -999px -999px, rgba(139,124,248,.10) 0%, transparent 70%);
+    }
+  </style>
+</head>
+<body>
+
+<div id="pw-overlay">
+  <div id="pw-box">
+    <div id="pw-logo">자기소개서</div>
+    <div id="pw-sub">비밀번호를 입력하세요</div>
+    <input id="pw-input" type="password" placeholder="••••••" autofocus />
+    <button id="pw-btn">확인</button>
+    <span id="pw-error">비밀번호가 틀렸습니다</span>
+  </div>
+</div>
+
+<div id="cursor-glow"></div>
+
+<nav>
+  <span class="nav-logo">자기소개서</span>
+  <a class="nav-back" href="/cv/">← CV</a>
+</nav>
+
+<div class="page-wrap">
+  <div class="page-header">
+    <div class="page-title">자기소개서</div>
+    <div class="page-sub">STATEMENT OF INTEREST · COVER LETTER</div>
+  </div>
+
+  <div class="soi-grid">
+    {{ range .Pages.ByDate.Reverse }}
+    <a class="soi-card" href="{{ .Permalink }}">
+      <div class="soi-card-top">
+        <div class="soi-card-title">{{ .Title }}</div>
+        <div class="soi-card-date">{{ .Date.Format "2006. 01. 02" }}</div>
+      </div>
+      {{ with .Params.company }}
+      <div class="soi-card-company">{{ . }}</div>
+      {{ end }}
+      {{ with .Params.description }}
+      <div class="soi-card-desc">{{ . }}</div>
+      {{ end }}
+      <div class="soi-arrow">열람 →</div>
+    </a>
+    {{ else }}
+    <div class="empty-state">
+      <div class="empty-icon">📄</div>
+      <div>아직 작성된 자기소개서가 없습니다</div>
+      <div class="empty-hint">
+        content/soi/ 폴더에 .md 파일을 추가하세요<br>
+        front matter: title, company, date, description
+      </div>
+    </div>
+    {{ end }}
+  </div>
+</div>
+
+<script>
+(function () {
+  const KEY = "sp_soi_auth";
+  const PW  = "Qqaa@&1803";
+  const overlay = document.getElementById("pw-overlay");
+  if (sessionStorage.getItem(KEY) === "1") { overlay.remove(); return; }
+  function attempt() {
+    if (document.getElementById("pw-input").value === PW) {
+      sessionStorage.setItem(KEY, "1"); overlay.remove();
+    } else {
+      document.getElementById("pw-error").style.display = "block";
+      document.getElementById("pw-input").value = "";
+      document.getElementById("pw-input").focus();
+    }
+  }
+  document.getElementById("pw-btn").addEventListener("click", attempt);
+  document.getElementById("pw-input").addEventListener("keydown", e => { if (e.key === "Enter") attempt(); });
+})();
+
+(function () {
+  const glow = document.getElementById("cursor-glow");
+  document.addEventListener("mousemove", e => {
+    glow.style.background = `radial-gradient(600px circle at ${e.clientX}px ${e.clientY}px, rgba(139,124,248,.10) 0%, transparent 70%)`;
+  });
+})();
+</script>
+</body>
+</html>
