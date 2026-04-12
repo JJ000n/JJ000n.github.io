@@ -23,6 +23,13 @@
       "status": "confirmed"
     },
     {
+      "id": "5",
+      "title": "토익스피킹 시험",
+      "date": "2026-04-13",
+      "type": "deadline",
+      "status": "confirmed"
+    },
+    {
       "id": "4",
       "title": "랩미팅 발표",
       "date": "2026-05-01",
