@@ -5,6 +5,7 @@
     { "id": "2", "text": "NCS Study" },
     { "id": "3", "text": "CVPR 학회 등록" },
     { "id": "4", "text": "Thesis Figure 수정" },
-    { "id": "5", "text": "Thesis Future works and limitation 수정" }
+    { "id": "5", "text": "Thesis Future works and limitation 수정" },
+    { "id": "6", "text": "Thesis Method 부분 Reliance map 내용 추가" }
   ]
 }
