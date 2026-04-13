@@ -191,6 +191,11 @@ textarea.form-input { resize: vertical; min-height: 85px; }
 .todo-item.done .todo-check { background: var(--accent); border-color: var(--accent); }
 .todo-text { font-size: .88rem; color: var(--text); transition: color .2s; }
 .todo-item.done .todo-text { text-decoration: line-through; color: var(--muted); }
+.todo-deadline {
+  margin-left: auto; padding-left: .8rem; white-space: nowrap;
+  font-family: 'JetBrains Mono', monospace; font-size: .68rem; color: var(--muted);
+}
+.todo-item.done .todo-deadline { opacity: .5; }
 .todo-empty-msg { font-size: .84rem; color: var(--muted); padding: .4rem 0; }
 .todo-progress {
   display: flex; align-items: center; gap: .8rem;
@@ -557,6 +562,7 @@ textarea.form-input { resize: vertical; min-height: 85px; }
       return `<div class="todo-item${done?' done':''}" data-id="${item.id}">
         <div class="todo-check">${done ? CHECK_SVG : ''}</div>
         <div class="todo-text">${item.text}</div>
+        ${item.deadline ? `<div class="todo-deadline">deadline : ${item.deadline}</div>` : ''}
       </div>`;
     }).join('');
     updateProgress();
