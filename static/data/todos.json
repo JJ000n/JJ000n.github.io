@@ -11,7 +11,7 @@
     { "id": "8", "text": "CVPR Poster 준비", "deadline": "May 17th" },
     { "id": "9", "text": "Background : INR for Image SR" },
     { "id": "10", "text": "Thesis Qualitative Results Sampling[S6T6 S6T10]" },
-    { "id": "11", "text": "Github 정리[2stage C-STVSR 추가]" },
+    { "id": "11", "text": "Github 정리[2stage C-STVSR 추가]", "deadline": "April 30th" },
     { "id": "12", "text": "Remind mail to Prof.Sim" }
   ]
 }
