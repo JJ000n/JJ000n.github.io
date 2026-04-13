@@ -95,6 +95,15 @@
   border-radius: 4px; background: rgba(251,146,60,.2); color: #fb923c; margin-top: .2rem;
 }
 .panel-empty { font-size: .84rem; color: var(--muted); padding: .3rem 0; }
+.panel-event-memo {
+  font-size: .79rem; color: var(--sub); margin-top: .45rem; line-height: 1.6;
+  padding: .45rem .7rem; background: var(--bg3);
+  border-radius: 7px; border-left: 2px solid var(--border2);
+}
+.memo-label {
+  font-family: 'JetBrains Mono', monospace; font-size: .63rem;
+  color: var(--accent); letter-spacing: .08em; margin-right: .4rem;
+}
 
 .legend { display: flex; flex-direction: column; gap: .5rem; }
 .legend-item { display: flex; align-items: center; gap: .7rem; font-size: .78rem; color: var(--sub); }
@@ -442,6 +451,7 @@ textarea.form-input { resize: vertical; min-height: 85px; }
         ${ev.startTime ? `<div class="panel-event-time">${ev.startTime}${ev.endTime?' – '+ev.endTime:''}</div>` : ''}
         ${isPending ? '<span class="panel-pending-tag">대기 중 · Pending</span>' : ''}
         ${ev.description ? `<div class="panel-event-desc">${ev.description}</div>` : ''}
+        ${ev.memo ? `<div class="panel-event-memo"><span class="memo-label">MEMO</span>${ev.memo}</div>` : ''}
       </div>`;
     }).join('');
   }
