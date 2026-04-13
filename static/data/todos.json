@@ -4,6 +4,7 @@
     { "id": "1", "text": "토스 시험" },
     { "id": "2", "text": "NCS Study" },
     { "id": "3", "text": "CVPR 학회 등록" },
-    { "id": "4", "text": "Thesis Figure 수정" }
+    { "id": "4", "text": "Thesis Figure 수정" },
+    { "id": "5", "text": "Thesis Future works and limitation 수정" }
   ]
 }
