@@ -1,4 +1,9 @@
 {
   "date": "2026-04-13",
-  "items": []
+  "items": [
+    { "id": "1", "text": "토스 시험" },
+    { "id": "2", "text": "NCS Study" },
+    { "id": "3", "text": "CVPR 학회 등록" },
+    { "id": "4", "text": "Thesis Figure 수정" }
+  ]
 }
