@@ -23,7 +23,16 @@
       "type": "deadline",
       "status": "confirmed"
     },
-{
+    {
+      "id": "5",
+      "title": "토익스피킹 시험",
+      "date": "2026-05-03",
+      "type": "deadline",
+      "startTime": "11:30",
+      "description": "KPC자격울산지역센터",
+      "status": "confirmed"
+    },
+    {
       "id": "4",
       "title": "랩미팅 발표",
       "date": "2026-05-01",
