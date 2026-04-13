@@ -524,14 +524,21 @@ textarea.form-input { resize: vertical; min-height: 85px; }
   }
 
   /* ── To-Do ── */
-  let todoDate = '';
+  let todoItems = [];
+  let checkedIds = new Set();
+  const CHECK_SVG = '<svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
   async function loadTodos() {
     try {
-      const r = await fetch('/data/todos.json?t=' + Date.now());
-      const d = await r.json();
-      todoDate = d.date || '';
-      renderTodos(d);
+      const [todosRes, checksRes] = await Promise.all([
+        fetch('/data/todos.json?t=' + Date.now()),
+        fetch(`${SB_URL}/rest/v1/todo_checks?select=item_id`, { headers: sbHeaders })
+      ]);
+      const data = await todosRes.json();
+      const checks = await checksRes.json();
+      todoItems = data.items || [];
+      checkedIds = new Set(Array.isArray(checks) ? checks.map(c => String(c.item_id)) : []);
+      renderTodos(data);
     } catch (e) {
       document.getElementById('todo-items').innerHTML = '<div class="todo-empty-msg">할 일이 없습니다</div>';
     }
@@ -539,60 +546,62 @@ textarea.form-input { resize: vertical; min-height: 85px; }
 
   function renderTodos(data) {
     const el = document.getElementById('todo-items');
-    const tag = document.getElementById('todo-date-tag');
-    const progress = document.getElementById('todo-progress');
-
-    // Date label
-    const today = new Date(); today.setHours(0,0,0,0);
-    const todayStr = toDateStr(today);
-    const tmrw = new Date(today); tmrw.setDate(today.getDate() + 1);
-    const tmrwStr = toDateStr(tmrw);
-    if (data.date === todayStr) tag.textContent = '· 오늘 ' + data.date;
-    else if (data.date === tmrwStr) tag.textContent = '· 내일 ' + data.date;
-    else if (data.date) tag.textContent = '· ' + data.date;
-
     const items = data.items || [];
     if (!items.length) {
       el.innerHTML = '<div class="todo-empty-msg">등록된 할 일이 없습니다</div>';
-      progress.style.display = 'none';
+      document.getElementById('todo-progress').style.display = 'none';
       return;
     }
-
-    const key = 'todo_done_' + data.date;
-    const doneSet = new Set(JSON.parse(localStorage.getItem(key) || '[]'));
-
     el.innerHTML = items.map(item => {
-      const done = doneSet.has(String(item.id));
+      const done = checkedIds.has(String(item.id));
       return `<div class="todo-item${done?' done':''}" data-id="${item.id}">
-        <div class="todo-check">${done?'<svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>':''}</div>
+        <div class="todo-check">${done ? CHECK_SVG : ''}</div>
         <div class="todo-text">${item.text}</div>
       </div>`;
     }).join('');
-
-    updateProgress(items, doneSet, data.date);
-
-    el.addEventListener('click', function(e) {
-      const item = e.target.closest('.todo-item');
-      if (!item) return;
-      const id = String(item.dataset.id);
-      const k = 'todo_done_' + todoDate;
-      const ds = new Set(JSON.parse(localStorage.getItem(k) || '[]'));
-      if (ds.has(id)) { ds.delete(id); item.classList.remove('done'); item.querySelector('.todo-check').innerHTML = ''; }
-      else { ds.add(id); item.classList.add('done'); item.querySelector('.todo-check').innerHTML = '<svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>'; }
-      localStorage.setItem(k, JSON.stringify([...ds]));
-      updateProgress(items, ds, todoDate);
-    }, { once: false });
+    updateProgress();
   }
 
-  function updateProgress(items, doneSet, date) {
+  document.getElementById('todo-items').addEventListener('click', async function(e) {
+    const item = e.target.closest('.todo-item');
+    if (!item) return;
+    const id = String(item.dataset.id);
+    const isDone = item.classList.contains('done');
+
+    // Optimistic UI update
+    if (isDone) {
+      item.classList.remove('done');
+      item.querySelector('.todo-check').innerHTML = '';
+      checkedIds.delete(id);
+    } else {
+      item.classList.add('done');
+      item.querySelector('.todo-check').innerHTML = CHECK_SVG;
+      checkedIds.add(id);
+    }
+    updateProgress();
+
+    // Sync to Supabase
+    try {
+      if (isDone) {
+        await fetch(`${SB_URL}/rest/v1/todo_checks?item_id=eq.${encodeURIComponent(id)}`,
+          { method: 'DELETE', headers: sbHeaders });
+      } else {
+        await fetch(`${SB_URL}/rest/v1/todo_checks`, {
+          method: 'POST',
+          headers: { ...sbHeaders, 'Prefer': 'return=minimal' },
+          body: JSON.stringify({ item_id: id })
+        });
+      }
+    } catch(err) { console.error('Todo sync failed', err); }
+  });
+
+  function updateProgress() {
+    const total = todoItems.length;
+    const done = todoItems.filter(i => checkedIds.has(String(i.id))).length;
     const progress = document.getElementById('todo-progress');
-    const fill = document.getElementById('todo-bar-fill');
-    const text = document.getElementById('todo-progress-text');
-    const total = items.length;
-    const done = [...doneSet].filter(id => items.some(i => String(i.id) === id)).length;
-    progress.style.display = 'flex';
-    fill.style.width = total ? (done / total * 100) + '%' : '0%';
-    text.textContent = done + ' / ' + total;
+    progress.style.display = total ? 'flex' : 'none';
+    document.getElementById('todo-bar-fill').style.width = total ? (done / total * 100) + '%' : '0%';
+    document.getElementById('todo-progress-text').textContent = done + ' / ' + total;
   }
 
   init();

@@ -1,0 +1,74 @@
+name: Daily Todo Cleanup
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # midnight UTC = 9am KST
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Cleanup completed todos
+        run: |
+          python3 - << 'PYEOF'
+          import json, urllib.request, sys
+
+          SB_URL = "https://njtkodossqjsfxcsbnpx.supabase.co"
+          SB_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5qdGtvZG9zc3Fqc2Z4Y3NibnB4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU4Nzc1MzQsImV4cCI6MjA5MTQ1MzUzNH0.S0R_Kz4MunFb-hgmfrXpahqQN63exq1E8WGFp9Fhiz8"
+          HEADERS = {"apikey": SB_KEY, "Authorization": f"Bearer {SB_KEY}"}
+
+          # Fetch checked items from Supabase
+          req = urllib.request.Request(
+              f"{SB_URL}/rest/v1/todo_checks?select=item_id",
+              headers=HEADERS
+          )
+          with urllib.request.urlopen(req) as r:
+              checks = json.loads(r.read())
+
+          checked_ids = {str(c['item_id']) for c in checks}
+          print(f"Checked IDs to remove: {checked_ids}")
+
+          if not checked_ids:
+              print("Nothing to clean up.")
+              sys.exit(0)
+
+          # Update todos.json
+          with open('static/data/todos.json', 'r', encoding='utf-8') as f:
+              todos = json.load(f)
+
+          before = len(todos['items'])
+          todos['items'] = [
+              item for item in todos['items']
+              if str(item['id']) not in checked_ids
+          ]
+          print(f"Removed {before - len(todos['items'])} items, {len(todos['items'])} remaining")
+
+          with open('static/data/todos.json', 'w', encoding='utf-8') as f:
+              json.dump(todos, f, ensure_ascii=False, indent=2)
+
+          # Delete checked items from Supabase
+          ids = ','.join(checked_ids)
+          del_req = urllib.request.Request(
+              f"{SB_URL}/rest/v1/todo_checks?item_id=in.({ids})",
+              headers=HEADERS,
+              method='DELETE'
+          )
+          urllib.request.urlopen(del_req)
+          print("Cleared checked items from Supabase.")
+          PYEOF
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add static/data/todos.json
+          git diff --staged --quiet && echo "No changes to commit" || \
+            (git commit -m "todo: morning cleanup $(TZ=Asia/Seoul date +'%Y-%m-%d')" && git push)
