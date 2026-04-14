@@ -1,17 +1,44 @@
 {
   "date": "2026-04-13",
   "items": [
-    { "id": "1", "text": "토스 시험", "deadline": "May 3rd" },
-    { "id": "2", "text": "NCS Study" },
-    { "id": "3", "text": "CVPR 학회 등록" },
-    { "id": "4", "text": "Thesis Figure 수정" },
-    { "id": "5", "text": "Thesis Future works and limitation 수정" },
-    { "id": "6", "text": "Thesis Method 부분 Reliance map 내용 추가" },
-    { "id": "7", "text": "디펜스 자료 준비" },
-    { "id": "8", "text": "CVPR Poster 준비", "deadline": "May 17th" },
-    { "id": "9", "text": "Background : INR for Image SR" },
-    { "id": "10", "text": "Thesis Qualitative Results Sampling[S6T6 S6T10]" },
-    { "id": "11", "text": "Github 정리[2stage C-STVSR 추가]", "deadline": "April 30th" },
-    { "id": "12", "text": "Remind mail to Prof.Sim" }
+    {
+      "id": "1",
+      "text": "토스 시험",
+      "deadline": "May 3rd"
+    },
+    {
+      "id": "2",
+      "text": "NCS Study"
+    },
+    {
+      "id": "5",
+      "text": "Thesis Future works and limitation 수정"
+    },
+    {
+      "id": "6",
+      "text": "Thesis Method 부분 Reliance map 내용 추가"
+    },
+    {
+      "id": "7",
+      "text": "디펜스 자료 준비"
+    },
+    {
+      "id": "8",
+      "text": "CVPR Poster 준비",
+      "deadline": "May 17th"
+    },
+    {
+      "id": "9",
+      "text": "Background : INR for Image SR"
+    },
+    {
+      "id": "11",
+      "text": "Github 정리[2stage C-STVSR 추가]",
+      "deadline": "April 30th"
+    },
+    {
+      "id": "12",
+      "text": "Remind mail to Prof.Sim"
+    }
   ]
 }
