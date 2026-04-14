@@ -34,6 +34,13 @@
       "status": "confirmed"
     },
     {
+      "id": "6",
+      "title": "한국교육학술정보원",
+      "date": "2026-04-27",
+      "type": "deadline",
+      "status": "confirmed"
+    },
+    {
       "id": "4",
       "title": "랩미팅 발표",
       "date": "2026-05-01",
