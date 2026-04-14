@@ -116,6 +116,10 @@
     .soi-card-company { font-size: .80rem; color: var(--accent); margin-top: .3rem; font-weight: 500; }
     .soi-card-desc { font-size: .80rem; color: var(--sub); margin-top: .55rem; line-height: 1.6; }
     .soi-arrow { font-size: .78rem; color: var(--muted); margin-top: .6rem; display: flex; align-items: center; gap: .3rem; }
+    .soi-card.ref-card { border-color: var(--border); opacity: .8; }
+    .soi-card.ref-card:hover { border-color: rgba(232,184,75,.35); box-shadow: 0 0 28px rgba(232,184,75,.05); }
+    .ref-badge { font-family: 'JetBrains Mono', monospace; font-size: .6rem; color: var(--gold); border: 1px solid rgba(232,184,75,.3); padding: 1px 7px; border-radius: 4px; letter-spacing: .06em; white-space: nowrap; }
+    .soi-card-author { font-size: .75rem; color: var(--muted); margin-top: .15rem; }
 
     /* ── Empty state ── */
     .empty-state { text-align: center; padding: 5rem 2rem; color: var(--muted); font-size: .9rem; }
@@ -168,10 +172,17 @@
 
   <div class="soi-grid">
     {{ range .Pages.ByDate.Reverse }}
-    <a class="soi-card" href="{{ .Permalink }}">
+    {{ $isRef := eq .Params.type "ref" }}
+    <a class="soi-card{{ if $isRef }} ref-card{{ end }}" href="{{ .Permalink }}">
       <div class="soi-card-top">
-        <div class="soi-card-title">{{ .Title }}</div>
-        <div class="soi-card-date">{{ .Date.Format "2006. 01. 02" }}</div>
+        <div>
+          <div class="soi-card-title">{{ .Title }}</div>
+          {{ if $isRef }}{{ with .Params.author }}<div class="soi-card-author">{{ . }}</div>{{ end }}{{ end }}
+        </div>
+        <div style="display:flex;align-items:center;gap:.6rem;flex-shrink:0">
+          {{ if $isRef }}<span class="ref-badge">참고</span>{{ end }}
+          <div class="soi-card-date">{{ .Date.Format "2006. 01. 02" }}</div>
+        </div>
       </div>
       {{ with .Params.company }}
       <div class="soi-card-company">{{ . }}</div>
