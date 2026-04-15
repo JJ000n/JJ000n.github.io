@@ -39,6 +39,14 @@
       "date": "2026-05-01",
       "type": "class",
       "status": "confirmed"
+    },
+    {
+      "id": "7",
+      "title": "도쿄일렉트론코리아 채용연계 인턴",
+      "date": "2026-04-26",
+      "type": "deadline",
+      "status": "confirmed",
+      "memo": "https://tel.recruiter.co.kr/career/jobs/106631"
     }
   ],
   "blocked": []
