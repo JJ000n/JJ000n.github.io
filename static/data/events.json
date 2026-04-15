@@ -47,6 +47,14 @@
       "type": "deadline",
       "status": "confirmed",
       "memo": "https://tel.recruiter.co.kr/career/jobs/106631"
+    },
+    {
+      "id": "8",
+      "title": "부산은행 채용",
+      "date": "2026-04-27",
+      "type": "deadline",
+      "startTime": "17:00",
+      "status": "confirmed"
     }
   ],
   "blocked": []
