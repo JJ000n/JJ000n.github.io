@@ -55,6 +55,16 @@
       "type": "deadline",
       "startTime": "17:00",
       "status": "confirmed"
+    },
+    {
+      "id": "9",
+      "title": "면접 전략 특강",
+      "date": "2026-05-04",
+      "type": "class",
+      "startTime": "18:00",
+      "endTime": "21:00",
+      "description": "104동 E207호",
+      "status": "confirmed"
     }
   ],
   "blocked": []
