@@ -174,6 +174,7 @@
   function grantAccess() {
     overlay.remove();
     navLogout.style.display = "block";
+    navLogout.onclick = async () => { await sb.auth.signOut(); location.reload(); };
   }
 
   function denyAccess() {
@@ -214,10 +215,6 @@
     });
   });
 
-  navLogout.addEventListener("click", async () => {
-    await sb.auth.signOut();
-    location.reload();
-  });
 })();
 
 (function () {
