@@ -1,97 +1,80 @@
-{{- define "main" }}
-<style>
-.hub-wrap { max-width: 800px; margin: 0 auto; padding: 0 1rem 3rem; }
+{{ define "title" }}{{ .Title }} — {{ .Site.Title }}{{ end }}
+
+{{ define "styles" }}
+.hub-wrap { max-width: 800px; margin: 0 auto; padding: 4rem 2rem 5rem; }
+
+.hub-header { margin-bottom: 2.2rem; }
+.hub-title {
+  font-family: 'Playfair Display', serif; font-size: 1.9rem;
+  color: var(--text); margin-bottom: .4rem;
+}
+.hub-desc { font-size: .85rem; color: var(--muted); }
 
 .hub-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 1rem;
-  margin: 1.5rem 0 2.5rem;
+  margin-bottom: 3rem;
 }
-
 .hub-card {
-  display: flex;
-  flex-direction: column;
-  background: var(--entry);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 1.5rem 1.4rem;
-  text-decoration: none !important;
-  color: var(--primary) !important;
-  transition: border-color .15s, transform .12s, box-shadow .15s;
+  display: flex; flex-direction: column;
+  background: var(--bg2); border: 1px solid var(--border2);
+  border-radius: 14px; padding: 1.5rem 1.4rem;
+  color: var(--text);
+  transition: border-color .2s, transform .15s, box-shadow .2s;
   position: relative;
-  overflow: hidden;
 }
 .hub-card:hover {
-  border-color: var(--primary);
+  border-color: var(--accent);
   transform: translateY(-3px);
-  box-shadow: 0 6px 20px rgba(0,0,0,.1);
+  box-shadow: 0 6px 24px rgba(139,124,248,.14);
 }
 .hub-card.daily { border-top: 3px solid #60a5fa; }
-.hub-card.odam  { border-top: 3px solid #a78bfa; }
+.hub-card.odam  { border-top: 3px solid var(--accent); }
 
 .hc-icon  { font-size: 2rem; margin-bottom: .7rem; line-height: 1; }
-.hc-title { font-size: 1.1rem; font-weight: 800; margin-bottom: .4rem; }
-.hc-desc  { font-size: .84rem; color: var(--secondary); flex: 1; margin-bottom: 1rem; line-height: 1.5; }
+.hc-title { font-size: 1.1rem; font-weight: 700; margin-bottom: .4rem; color: var(--text); }
+.hc-desc  { font-size: .83rem; color: var(--muted); flex: 1; margin-bottom: 1rem; line-height: 1.55; }
 .hc-foot  { display: flex; align-items: center; gap: .5rem; font-size: .77rem; }
 .hc-count {
-  background: rgba(99,102,241,.12);
-  color: #6366f1;
-  padding: .2rem .6rem;
-  border-radius: 20px;
-  font-weight: 600;
+  background: rgba(139,124,248,.12); color: var(--accent);
+  padding: .2rem .6rem; border-radius: 20px; font-weight: 600;
 }
-.hc-arrow { color: var(--secondary); margin-left: auto; font-size: 1rem; }
+.hc-arrow { color: var(--muted); margin-left: auto; }
 
-/* Recent entries */
 .hub-recent-title {
-  font-size: .78rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: .06em;
-  color: var(--secondary);
-  margin-bottom: 1rem;
+  font-size: .72rem; font-weight: 600; text-transform: uppercase;
+  letter-spacing: .08em; color: var(--muted); margin-bottom: 1rem;
 }
 .hub-entry {
-  display: flex;
-  align-items: center;
-  gap: .7rem;
-  padding: .65rem .8rem;
-  background: var(--entry);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  margin-bottom: .45rem;
-  text-decoration: none !important;
-  color: var(--primary) !important;
-  transition: border-color .15s;
+  display: flex; align-items: center; gap: .75rem;
+  padding: .65rem .9rem;
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 9px; margin-bottom: .45rem;
+  color: var(--text);
+  transition: border-color .2s;
 }
-.hub-entry:hover { border-color: var(--primary); }
+.hub-entry:hover { border-color: var(--border2); }
 .he-type {
-  font-size: .68rem;
-  font-weight: 700;
-  padding: .18rem .5rem;
-  border-radius: 4px;
-  white-space: nowrap;
-  flex-shrink: 0;
+  font-size: .67rem; font-weight: 700;
+  padding: .18rem .5rem; border-radius: 4px; white-space: nowrap; flex-shrink: 0;
 }
-.he-daily { background: rgba(96,165,250,.18); color: #2563eb; }
-.he-odam  { background: rgba(167,139,250,.18); color: #7c3aed; }
-.he-title { font-size: .88rem; font-weight: 500; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.he-date  { font-size: .72rem; color: var(--secondary); flex-shrink: 0; }
-</style>
+.he-daily { background: rgba(96,165,250,.18); color: #60a5fa; }
+.he-odam  { background: rgba(139,124,248,.18); color: var(--accent); }
+.he-title { font-size: .88rem; font-weight: 400; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.he-date  { font-size: .72rem; color: var(--muted); flex-shrink: 0; }
+{{ end }}
 
+{{ define "main" }}
 <div class="hub-wrap">
-  <header class="page-header">
-    {{- partial "breadcrumbs.html" . }}
-    <h1>{{ .Title }}</h1>
-    {{- if .Description }}
-    <div class="post-description">{{ .Description }}</div>
-    {{- end }}
-  </header>
+  <div class="hub-header">
+    <h1 class="hub-title">{{ .Title }}</h1>
+    {{ if .Description }}<p class="hub-desc">{{ .Description }}</p>{{ end }}
+  </div>
 
   <div class="hub-grid">
     {{- range .Sections }}
-    {{- $isDaily := or (eq .Title "공부 기록") (eq .Title "공부기록") (eq .Title "daily") }}
+    {{- $isDaily := or (eq .Title "공부 기록") (eq .Title "공부기록") }}
     <a class="hub-card {{ if $isDaily }}daily{{ else }}odam{{ end }}" href="{{ .Permalink }}">
       <div class="hc-icon">{{ if $isDaily }}📅{{ else }}✏️{{ end }}</div>
       <div class="hc-title">{{ .Title }}</div>
@@ -108,8 +91,7 @@
   {{- if $recent }}
   <div class="hub-recent-title">최근 기록</div>
   {{- range $recent }}
-  {{- $section := .Parent.Title }}
-  {{- $isDaily := or (eq $section "공부 기록") (eq $section "공부기록") }}
+  {{- $isDaily := or (eq .Parent.Title "공부 기록") (eq .Parent.Title "공부기록") }}
   <a class="hub-entry" href="{{ .Permalink }}">
     <span class="he-type {{ if $isDaily }}he-daily{{ else }}he-odam{{ end }}">
       {{ if $isDaily }}공부기록{{ else }}오답노트{{ end }}
@@ -120,4 +102,4 @@
   {{- end }}
   {{- end }}
 </div>
-{{- end }}
+{{ end }}

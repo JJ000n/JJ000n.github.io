@@ -3,13 +3,45 @@
 {{ define "styles" }}
 .list-wrap { max-width: 760px; margin: 0 auto; padding: 4rem 2rem 5rem; }
 
-.list-header { margin-bottom: 2.8rem; }
+.list-header { margin-bottom: 2.2rem; }
 .list-title {
   font-family: 'Playfair Display', serif; font-size: 1.9rem;
   color: var(--text); margin-bottom: .4rem;
 }
 .list-meta { font-size: .82rem; color: var(--muted); }
 
+/* ── Section cards ── */
+.section-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: .8rem;
+  margin-bottom: 2.4rem;
+}
+.section-card {
+  display: flex; flex-direction: column;
+  background: var(--bg2); border: 1px solid var(--border2);
+  border-radius: 14px; padding: 1.3rem 1.2rem;
+  color: var(--text); transition: border-color .2s, transform .15s, box-shadow .2s;
+}
+.section-card:hover {
+  border-color: var(--accent); transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(139,124,248,.12);
+}
+.sc-icon  { font-size: 1.7rem; margin-bottom: .55rem; line-height: 1; }
+.sc-title { font-size: 1rem; font-weight: 700; margin-bottom: .3rem; color: var(--text); }
+.sc-desc  { font-size: .8rem; color: var(--muted); flex: 1; margin-bottom: .8rem; line-height: 1.5; }
+.sc-count {
+  font-size: .72rem; color: var(--accent);
+  background: rgba(139,124,248,.1);
+  padding: .18rem .55rem; border-radius: 20px; align-self: flex-start;
+}
+
+.section-divider {
+  font-size: .72rem; font-weight: 600; text-transform: uppercase;
+  letter-spacing: .08em; color: var(--muted); margin-bottom: 1rem;
+}
+
+/* ── Post list ── */
 .post-list { display: flex; flex-direction: column; gap: .65rem; }
 .post-item {
   display: grid; grid-template-columns: 90px 1fr auto;
@@ -53,6 +85,7 @@
 @media (max-width: 600px) {
   .post-item { grid-template-columns: 1fr; gap: .4rem; }
   .post-item-tags { justify-content: flex-start; }
+  .section-cards { grid-template-columns: 1fr; }
 }
 {{ end }}
 
@@ -74,10 +107,32 @@
   <div class="list-wrap">
     <div class="list-header">
       <h1 class="list-title">{{ .Title }}</h1>
-      <div class="list-meta">{{ len .Pages }} posts</div>
+      <div class="list-meta">{{ len .RegularPagesRecursive }} posts</div>
     </div>
+
+    {{- if .Sections }}
+    <div class="section-cards">
+      {{- range .Sections }}
+      <a class="section-card" href="{{ .Permalink }}">
+        <div class="sc-icon">
+          {{- if or (eq .Title "코딩테스트") (eq .Title "코테") }}📚
+          {{- else if in (lower .Title) "project" }}🛠️
+          {{- else if in (lower .Title) "review" }}📝
+          {{- else }}📁{{ end }}
+        </div>
+        <div class="sc-title">{{ .Title }}</div>
+        <div class="sc-desc">{{ .Description | default "글 모음" }}</div>
+        <span class="sc-count">{{ len .RegularPagesRecursive }}개의 글</span>
+      </a>
+      {{- end }}
+    </div>
+    {{- if .RegularPages }}
+    <div class="section-divider">최근 포스트</div>
+    {{- end }}
+    {{- end }}
+
     <div class="post-list">
-      {{ range .Pages }}
+      {{ range .RegularPages }}
       <a href="{{ .Permalink }}" class="post-item">
         <span class="post-item-date">{{ .Date.Format "2006.01.02" }}</span>
         <span class="post-item-title">{{ .Title }}</span>
