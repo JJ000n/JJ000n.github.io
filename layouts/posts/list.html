@@ -56,8 +56,8 @@
   <a class="section-card" href="{{ .Permalink }}">
     <div class="sc-icon">
       {{- if or (eq .Title "코딩테스트") (eq .Title "코테") }}📚
-      {{- else if contains (lower .Title) "project" }}🛠️
-      {{- else if contains (lower .Title) "review" }}📝
+      {{- else if in (lower .Title) "project" }}🛠️
+      {{- else if in (lower .Title) "review" }}📝
       {{- else }}📁{{ end }}
     </div>
     <div class="sc-title">{{ .Title }}</div>

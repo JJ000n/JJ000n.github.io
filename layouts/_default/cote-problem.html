@@ -73,16 +73,16 @@
   {{- else if hasPrefix $dl "easy"     }}{{- $dc = "ci-easy"     }}
   {{- else if hasPrefix $dl "medium"   }}{{- $dc = "ci-medium"   }}
   {{- else if hasPrefix $dl "hard"     }}{{- $dc = "ci-hard"     }}
-  {{- else if contains $dl "level1"    }}{{- $dc = "ci-level1"   }}
-  {{- else if contains $dl "level2"    }}{{- $dc = "ci-level2"   }}
-  {{- else if contains $dl "level3"    }}{{- $dc = "ci-level3"   }}
-  {{- else if contains $dl "level4"    }}{{- $dc = "ci-level4"   }}
-  {{- else if contains $dl "level5"    }}{{- $dc = "ci-level5"   }}
-  {{- else if contains $dl "1레벨"     }}{{- $dc = "ci-level1"   }}
-  {{- else if contains $dl "2레벨"     }}{{- $dc = "ci-level2"   }}
-  {{- else if contains $dl "3레벨"     }}{{- $dc = "ci-level3"   }}
-  {{- else if contains $dl "4레벨"     }}{{- $dc = "ci-level4"   }}
-  {{- else if contains $dl "5레벨"     }}{{- $dc = "ci-level5"   }}
+  {{- else if in $dl "level1"    }}{{- $dc = "ci-level1"   }}
+  {{- else if in $dl "level2"    }}{{- $dc = "ci-level2"   }}
+  {{- else if in $dl "level3"    }}{{- $dc = "ci-level3"   }}
+  {{- else if in $dl "level4"    }}{{- $dc = "ci-level4"   }}
+  {{- else if in $dl "level5"    }}{{- $dc = "ci-level5"   }}
+  {{- else if in $dl "1레벨"     }}{{- $dc = "ci-level1"   }}
+  {{- else if in $dl "2레벨"     }}{{- $dc = "ci-level2"   }}
+  {{- else if in $dl "3레벨"     }}{{- $dc = "ci-level3"   }}
+  {{- else if in $dl "4레벨"     }}{{- $dc = "ci-level4"   }}
+  {{- else if in $dl "5레벨"     }}{{- $dc = "ci-level5"   }}
   {{- end }}
 
   <div class="ci-box">

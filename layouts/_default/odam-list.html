@@ -168,11 +168,11 @@
     {{- else if hasPrefix $dl "easy"     }}{{- $dc = "odiff-easy"     }}
     {{- else if hasPrefix $dl "medium"   }}{{- $dc = "odiff-medium"   }}
     {{- else if hasPrefix $dl "hard"     }}{{- $dc = "odiff-hard"     }}
-    {{- else if contains $dl "level1"    }}{{- $dc = "odiff-level1"   }}
-    {{- else if contains $dl "level2"    }}{{- $dc = "odiff-level2"   }}
-    {{- else if contains $dl "level3"    }}{{- $dc = "odiff-level3"   }}
-    {{- else if contains $dl "level4"    }}{{- $dc = "odiff-level4"   }}
-    {{- else if contains $dl "level5"    }}{{- $dc = "odiff-level5"   }}
+    {{- else if in $dl "level1"    }}{{- $dc = "odiff-level1"   }}
+    {{- else if in $dl "level2"    }}{{- $dc = "odiff-level2"   }}
+    {{- else if in $dl "level3"    }}{{- $dc = "odiff-level3"   }}
+    {{- else if in $dl "level4"    }}{{- $dc = "odiff-level4"   }}
+    {{- else if in $dl "level5"    }}{{- $dc = "odiff-level5"   }}
     {{- end }}
 
     <a class="ocard" href="{{ .Permalink }}"
