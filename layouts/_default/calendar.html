@@ -674,57 +674,62 @@ textarea.form-input { resize: vertical; min-height: 85px; }
     document.getElementById('todo-progress-text').textContent = done + ' / ' + total;
   }
 
-  /* ── Daily Routine ── */
-  const ROUTINE_KEY = 'daily_routines';
+  /* ── Daily Routine (Supabase) ── */
+  async function fetchRoutines() {
+    try {
+      const r = await fetch(`${SB_URL}/rest/v1/daily_routines?select=*&order=id.asc`, { headers: sbHeaders });
+      const rows = await r.json();
+      return Array.isArray(rows) ? rows : [];
+    } catch { return []; }
+  }
 
-  function loadRoutines() {
-    try { return JSON.parse(localStorage.getItem(ROUTINE_KEY)) || []; }
-    catch { return []; }
-  }
-  function saveRoutines(list) {
-    localStorage.setItem(ROUTINE_KEY, JSON.stringify(list));
-  }
-  function renderRoutines() {
-    const list = loadRoutines();
+  async function renderRoutines() {
+    const rows = await fetchRoutines();
     const el = document.getElementById('routine-list');
-    if (!list.length) {
+    if (!rows.length) {
       el.innerHTML = '<div class="routine-empty">아직 없습니다</div>';
       return;
     }
-    el.innerHTML = list.map((text, i) => `
-      <div class="routine-item" data-idx="${i}">
-        <input class="routine-text" value="${text.replace(/"/g,'&quot;')}" data-idx="${i}">
-        <button class="routine-del" data-idx="${i}" title="삭제">×</button>
+    el.innerHTML = rows.map(row => `
+      <div class="routine-item" data-id="${row.id}">
+        <input class="routine-text" value="${row.text.replace(/"/g,'&quot;')}" data-id="${row.id}">
+        <button class="routine-del" data-id="${row.id}" title="삭제">×</button>
       </div>`).join('');
 
-    // 인라인 수정
     el.querySelectorAll('.routine-text').forEach(inp => {
-      inp.addEventListener('change', () => {
-        const idx = +inp.dataset.idx;
-        const list2 = loadRoutines();
+      inp.addEventListener('change', async () => {
         const val = inp.value.trim();
-        if (val) { list2[idx] = val; saveRoutines(list2); }
-        else { list2.splice(idx, 1); saveRoutines(list2); renderRoutines(); }
+        if (val) {
+          await fetch(`${SB_URL}/rest/v1/daily_routines?id=eq.${inp.dataset.id}`, {
+            method: 'PATCH',
+            headers: { ...sbHeaders, 'Prefer': 'return=minimal' },
+            body: JSON.stringify({ text: val })
+          });
+        } else {
+          await deleteRoutine(inp.dataset.id);
+        }
       });
     });
 
-    // 삭제
     el.querySelectorAll('.routine-del').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const idx = +btn.dataset.idx;
-        const list2 = loadRoutines();
-        list2.splice(idx, 1);
-        saveRoutines(list2);
-        renderRoutines();
-      });
+      btn.addEventListener('click', () => deleteRoutine(btn.dataset.id));
     });
   }
 
-  function addRoutine(text) {
+  async function deleteRoutine(id) {
+    await fetch(`${SB_URL}/rest/v1/daily_routines?id=eq.${id}`, {
+      method: 'DELETE', headers: sbHeaders
+    });
+    renderRoutines();
+  }
+
+  async function addRoutine(text) {
     if (!text.trim()) return;
-    const list = loadRoutines();
-    list.push(text.trim());
-    saveRoutines(list);
+    await fetch(`${SB_URL}/rest/v1/daily_routines`, {
+      method: 'POST',
+      headers: { ...sbHeaders, 'Prefer': 'return=minimal' },
+      body: JSON.stringify({ text: text.trim() })
+    });
     renderRoutines();
   }
 
