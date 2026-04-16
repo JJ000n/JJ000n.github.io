@@ -8,152 +8,242 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #06080f; --bg2: #0c0e1a; --bg3: #111428;
+      --bg: #06080f; --bg2: #0c0e1a; --bg3: #111428; --bg4: #0a0c18;
       --text: #e8ecf4; --muted: #5e6e8a; --sub: #8a9ab8;
       --accent: #8b7cf8; --accent2: #5f8aff; --gold: #e8b84b;
       --border: #181e30; --border2: #222840;
-      --green: #4ade80; --red: #f87171; --orange: #fb923c;
+      /* 희귀도 — DNF 공식 색상 */
+      --epic:      #c084fc;
+      --legendary: #fbbf24;
+      --unique:    #f97316;
+      --rare:      #60a5fa;
+      --uncommon:  #4ade80;
+      /* 엑셀 배경색 */
+      --score-hi-bg:  rgba(147,196,125,.15);
+      --score-hi:     #93c47d;
+      --score-mid-bg: rgba(255,242,204,.10);
+      --score-mid:    #e8b84b;
+      --score-lo-bg:  rgba(244,204,204,.10);
+      --score-lo:     #f87171;
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body {
       background: var(--bg); color: var(--text);
       font-family: 'Inter', system-ui, sans-serif;
-      line-height: 1.6; -webkit-font-smoothing: antialiased;
-      min-height: 100vh;
+      line-height: 1.5; -webkit-font-smoothing: antialiased; min-height: 100vh;
     }
     a { color: var(--accent); text-decoration: none; }
 
+    /* ── Nav ── */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 200;
-      height: 58px; display: flex; align-items: center; justify-content: space-between;
-      padding: 0 2.5rem;
-      background: rgba(6,8,15,.85); backdrop-filter: blur(16px);
+      height: 54px; display: flex; align-items: center; justify-content: space-between;
+      padding: 0 2rem;
+      background: rgba(6,8,15,.9); backdrop-filter: blur(16px);
       border-bottom: 1px solid var(--border);
     }
-    .nav-logo { font-family: 'Playfair Display', serif; font-size: 1.05rem; }
-    .nav-back { font-size: .78rem; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); transition: color .2s; }
+    .nav-logo { font-family: 'Playfair Display', serif; font-size: 1rem; }
+    .nav-back { font-size: .75rem; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); transition: color .2s; }
     .nav-back:hover { color: var(--text); }
 
-    .wrap { max-width: 1100px; margin: 0 auto; padding: 80px 1.5rem 5rem; position: relative; z-index: 1; }
+    /* ── Wrap ── */
+    .wrap { max-width: 960px; margin: 0 auto; padding: 70px 1.2rem 5rem; position: relative; z-index: 1; }
 
+    /* ── Page header ── */
+    .page-header { margin-bottom: 1.8rem; }
     .page-title {
-      font-family: 'Playfair Display', serif; font-size: 1.9rem; font-weight: 700;
+      font-family: 'Playfair Display', serif; font-size: 1.7rem; font-weight: 700;
       background: linear-gradient(135deg, #fff 30%, var(--accent) 80%);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-      margin-bottom: .3rem;
     }
-    .page-sub { font-family: 'JetBrains Mono', monospace; font-size: .7rem; color: var(--muted); letter-spacing: .08em; }
+    .page-sub { font-family: 'JetBrains Mono', monospace; font-size: .65rem; color: var(--muted); letter-spacing: .1em; margin-top: .2rem; }
 
-    /* ── Search ── */
+    /* ── Search card ── */
     .search-card {
-      margin-top: 2rem; padding: 1.6rem 1.8rem;
-      background: var(--bg2); border: 1px solid var(--border2); border-radius: 16px;
+      background: var(--bg2); border: 1px solid var(--border2); border-radius: 14px;
+      padding: 1.2rem 1.4rem; margin-bottom: 1.6rem;
     }
-    .form-row { display: flex; gap: 1rem; flex-wrap: wrap; align-items: flex-end; }
-    .form-group { display: flex; flex-direction: column; gap: .4rem; }
-    .form-group label { font-size: .72rem; color: var(--muted); letter-spacing: .06em; font-family: 'JetBrains Mono', monospace; }
-    .form-group input, .form-group select {
+    .form-row { display: flex; gap: .8rem; flex-wrap: wrap; align-items: flex-end; }
+    .form-group { display: flex; flex-direction: column; gap: .3rem; }
+    .form-group label { font-size: .65rem; color: var(--muted); letter-spacing: .08em; font-family: 'JetBrains Mono', monospace; text-transform: uppercase; }
+    select, input[type=text] {
       background: var(--bg3); border: 1px solid var(--border2); color: var(--text);
-      border-radius: 8px; padding: .55rem .8rem; font-size: .9rem;
+      border-radius: 7px; padding: .48rem .7rem; font-size: .88rem;
       font-family: 'Inter', sans-serif; outline: none; transition: border-color .2s;
     }
-    .form-group input:focus, .form-group select:focus { border-color: var(--accent); }
-    .form-group input { min-width: 180px; }
-    .form-group select { min-width: 130px; }
-    .form-group.wide input { min-width: 260px; }
+    select:focus, input:focus { border-color: var(--accent); }
+    select { min-width: 120px; }
+    input[type=text] { min-width: 200px; }
     .btn-search {
-      padding: .58rem 1.4rem; background: var(--accent); color: #fff;
-      border: none; border-radius: 8px; font-size: .9rem; font-weight: 600;
-      cursor: pointer; transition: opacity .2s; white-space: nowrap;
-      font-family: 'Inter', sans-serif;
+      padding: .5rem 1.2rem; background: var(--accent); color: #fff;
+      border: none; border-radius: 7px; font-size: .88rem; font-weight: 600;
+      cursor: pointer; transition: opacity .2s; font-family: 'Inter', sans-serif;
     }
     .btn-search:hover { opacity: .85; }
     .btn-search:disabled { opacity: .4; cursor: not-allowed; }
-    .api-hint { margin-top: .8rem; font-size: .72rem; color: var(--muted); }
-    .api-hint a { color: var(--accent2); }
 
     /* ── State ── */
-    #loading { display: none; text-align: center; padding: 3rem; color: var(--muted); font-size: .9rem; }
-    .spinner { display: inline-block; width: 28px; height: 28px; margin-bottom: .8rem;
+    #loading { display: none; text-align: center; padding: 2.5rem; color: var(--muted); }
+    .spinner { display: inline-block; width: 24px; height: 24px; margin-bottom: .6rem;
       border: 3px solid var(--border2); border-top-color: var(--accent);
       border-radius: 50%; animation: spin .8s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
-    #error-msg { display: none; margin-top: 1.5rem; padding: 1rem 1.2rem;
+    #error-msg { display: none; padding: .9rem 1.1rem;
       background: rgba(248,113,113,.07); border: 1px solid rgba(248,113,113,.25);
-      border-radius: 10px; color: var(--red); font-size: .88rem; }
+      border-radius: 9px; color: #f87171; font-size: .85rem; margin-bottom: 1rem; }
+    #result { display: none; }
 
-    /* ── Result ── */
-    #result { display: none; margin-top: 2rem; }
-    .section { margin-bottom: 2rem; }
-    .section-title {
-      font-family: 'JetBrains Mono', monospace; font-size: .68rem;
-      color: var(--muted); letter-spacing: .12em; text-transform: uppercase;
-      margin-bottom: .8rem; padding-bottom: .5rem; border-bottom: 1px solid var(--border);
+    /* ── Section ── */
+    .section { margin-bottom: 1.4rem; }
+    .sec-head {
+      font-family: 'JetBrains Mono', monospace; font-size: .62rem; letter-spacing: .14em;
+      text-transform: uppercase; color: var(--muted);
+      padding: .35rem .8rem; margin-bottom: .6rem;
+      background: var(--bg3); border-left: 3px solid var(--accent);
+      border-radius: 0 6px 6px 0;
     }
 
-    /* ── Char summary ── */
-    .char-summary {
-      display: flex; align-items: center; gap: 1.8rem; flex-wrap: wrap;
-      padding: 1.2rem 1.5rem; background: var(--bg2); border: 1px solid var(--border); border-radius: 12px;
+    /* ── Character banner ── */
+    .char-banner {
+      background: linear-gradient(135deg, var(--bg2) 0%, var(--bg3) 100%);
+      border: 1px solid var(--border2); border-radius: 14px;
+      padding: 1.2rem 1.5rem;
+      display: flex; align-items: center; gap: 2rem; flex-wrap: wrap;
     }
-    .char-name { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--text); }
-    .char-meta { font-size: .82rem; color: var(--sub); }
-    .char-meta span { color: var(--accent); font-weight: 600; }
-    .score-badge { margin-left: auto; background: var(--bg3); border: 1px solid var(--border2); border-radius: 10px; padding: .5rem 1rem; text-align: right; }
-    .score-badge .score-label { font-size: .65rem; color: var(--muted); letter-spacing: .08em; }
-    .score-badge .score-value { font-family: 'JetBrains Mono', monospace; font-size: 1.4rem; color: var(--gold); }
+    .char-name { font-family: 'Playfair Display', serif; font-size: 1.6rem; color: var(--text); }
+    .char-tags { display: flex; gap: .5rem; flex-wrap: wrap; margin-top: .4rem; }
+    .char-tag {
+      font-family: 'JetBrains Mono', monospace; font-size: .62rem; letter-spacing: .06em;
+      padding: 2px 8px; border-radius: 4px; border: 1px solid var(--border2); color: var(--sub);
+    }
+    .char-tag.lv { border-color: rgba(139,124,248,.4); color: var(--accent); }
+    .char-tag.server { border-color: var(--border2); }
 
-    /* ── Table ── */
-    .table-wrap { overflow-x: auto; }
-    table { width: 100%; border-collapse: collapse; font-size: .83rem; }
-    th { padding: .5rem .8rem; text-align: left; font-family: 'JetBrains Mono', monospace;
-      font-size: .62rem; color: var(--muted); letter-spacing: .08em; text-transform: uppercase;
-      border-bottom: 1px solid var(--border); white-space: nowrap; }
-    td { padding: .55rem .8rem; border-bottom: 1px solid var(--border); vertical-align: top; }
-    tr:last-child td { border-bottom: none; }
-    tr:hover td { background: rgba(139,124,248,.04); }
-    .slot-name { color: var(--muted); font-family: 'JetBrains Mono', monospace; font-size: .72rem; white-space: nowrap; }
-    .item-name { color: var(--text); font-weight: 500; }
-    .rarity-에픽 { color: #c084fc; }
-    .rarity-레전더리 { color: var(--gold); }
-    .rarity-유니크 { color: #f97316; }
-    .rarity-레어 { color: #60a5fa; }
-    .rarity-언커먼 { color: var(--green); }
-    .enchant-text { color: var(--sub); font-size: .78rem; line-height: 1.5; }
-    .enchant-score { font-family: 'JetBrains Mono', monospace; text-align: right; }
-    .score-hi { color: var(--green); }
-    .score-mid { color: var(--gold); }
-    .score-lo { color: var(--red); }
-    .score-zero { color: var(--border2); }
-    .reinforce-val { color: var(--accent2); font-family: 'JetBrains Mono', monospace; }
-    .amp-val { color: var(--orange); font-size: .75rem; }
+    /* 총 점수 */
+    .total-score {
+      margin-left: auto;
+      background: var(--bg4); border: 1px solid rgba(147,196,125,.3);
+      border-radius: 12px; padding: .7rem 1.2rem; text-align: center; min-width: 110px;
+    }
+    .total-score .ts-label { font-family: 'JetBrains Mono', monospace; font-size: .58rem; color: var(--muted); letter-spacing: .1em; }
+    .total-score .ts-value { font-family: 'JetBrains Mono', monospace; font-size: 1.6rem; font-weight: 500; color: var(--score-hi); line-height: 1.1; }
+    .total-score .ts-sub { font-size: .62rem; color: var(--muted); margin-top: .1rem; }
 
-    /* ── Status grid ── */
-    .status-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: .6rem; }
-    .stat-item { background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: .5rem .8rem; display: flex; justify-content: space-between; align-items: center; }
-    .stat-name { font-size: .78rem; color: var(--sub); }
-    .stat-value { font-family: 'JetBrains Mono', monospace; font-size: .85rem; color: var(--text); }
+    /* ── Equipment grid ── */
+    .equip-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: .5rem;
+    }
+    @media (max-width: 600px) { .equip-grid { grid-template-columns: 1fr; } }
 
-    /* ── Emblems ── */
-    .emblem-list { display: flex; flex-wrap: wrap; gap: .3rem; margin-top: .2rem; }
-    .emblem-tag { font-size: .65rem; padding: 1px 6px; border-radius: 4px; border: 1px solid var(--border2); color: var(--muted); }
-    .emblem-tag.platinum { border-color: rgba(139,124,248,.4); color: var(--accent); }
-    .emblem-tag.gold-em { border-color: rgba(232,184,75,.4); color: var(--gold); }
+    .equip-row {
+      display: flex; align-items: flex-start; gap: .7rem;
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 10px; padding: .55rem .75rem;
+      transition: border-color .2s;
+    }
+    .equip-row:hover { border-color: var(--border2); }
+    .equip-row.has-enchant { border-left: 2px solid var(--border2); }
 
-    /* ── Set / creature ── */
-    .set-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: .8rem 1rem; margin-bottom: .6rem; }
-    .set-name { font-weight: 600; color: var(--text); margin-bottom: .2rem; }
-    .set-level { font-size: .75rem; font-family: 'JetBrains Mono', monospace; }
-    .set-level .active { color: var(--green); }
-    .set-items-list { font-size: .78rem; color: var(--sub); margin-top: .3rem; }
+    .slot-icon {
+      width: 36px; height: 36px; flex-shrink: 0;
+      image-rendering: pixelated; border-radius: 6px;
+      background: var(--bg3); padding: 2px;
+      border: 1px solid var(--border2);
+    }
+    .slot-icon.empty { opacity: .25; filter: grayscale(1); }
 
+    .equip-info { flex: 1; min-width: 0; }
+    .equip-top { display: flex; align-items: center; justify-content: space-between; gap: .4rem; }
+    .equip-slot { font-family: 'JetBrains Mono', monospace; font-size: .6rem; color: var(--muted); white-space: nowrap; }
+    .reinf-amp { display: flex; gap: .3rem; align-items: center; flex-shrink: 0; }
+    .reinf { font-family: 'JetBrains Mono', monospace; font-size: .7rem; color: var(--accent2); }
+    .amp { font-size: .65rem; color: #fb923c; border: 1px solid rgba(251,146,60,.3); padding: 0 4px; border-radius: 3px; }
+
+    .equip-name {
+      font-size: .83rem; font-weight: 600;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      margin-top: .1rem;
+    }
+    .equip-name.rarity-에픽      { color: var(--epic); }
+    .equip-name.rarity-레전더리  { color: var(--legendary); }
+    .equip-name.rarity-유니크    { color: var(--unique); }
+    .equip-name.rarity-레어      { color: var(--rare); }
+    .equip-name.rarity-언커먼    { color: var(--uncommon); }
+    .equip-name.rarity-empty     { color: var(--border2); font-weight: 400; font-style: italic; }
+
+    .enchant-row { display: flex; align-items: flex-start; justify-content: space-between; gap: .4rem; margin-top: .25rem; }
+    .enchant-txt { font-size: .72rem; color: var(--sub); line-height: 1.4; flex: 1; min-width: 0; }
+
+    /* 점수 뱃지 */
+    .score-badge {
+      flex-shrink: 0; font-family: 'JetBrains Mono', monospace;
+      font-size: .68rem; font-weight: 600;
+      padding: 1px 6px; border-radius: 4px; line-height: 1.6;
+    }
+    .score-badge.hi  { background: var(--score-hi-bg);  color: var(--score-hi);  border: 1px solid rgba(147,196,125,.3); }
+    .score-badge.mid { background: var(--score-mid-bg); color: var(--score-mid); border: 1px solid rgba(232,184,75,.3); }
+    .score-badge.lo  { background: var(--score-lo-bg);  color: var(--score-lo);  border: 1px solid rgba(248,113,113,.3); }
+    .score-badge.zero { color: var(--border2); }
+
+    /* ── Stats ── */
+    .stat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: .4rem; }
+    .stat-item {
+      background: var(--bg2); border: 1px solid var(--border); border-radius: 8px;
+      padding: .4rem .7rem; display: flex; justify-content: space-between; align-items: center;
+    }
+    .stat-name { font-size: .75rem; color: var(--sub); }
+    .stat-val  { font-family: 'JetBrains Mono', monospace; font-size: .8rem; color: var(--text); }
+
+    /* ── Avatar ── */
+    .avatar-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: .5rem; }
+    .avatar-card {
+      background: var(--bg2); border: 1px solid var(--border); border-radius: 10px;
+      padding: .6rem .8rem;
+    }
+    .av-top { display: flex; justify-content: space-between; align-items: flex-start; gap: .4rem; }
+    .av-slot { font-family: 'JetBrains Mono', monospace; font-size: .6rem; color: var(--muted); }
+    .av-name { font-size: .82rem; font-weight: 500; margin-top: .1rem; }
+    .av-option { font-size: .73rem; color: var(--accent); margin-top: .15rem; }
+    .emblem-list { display: flex; flex-wrap: wrap; gap: .25rem; margin-top: .3rem; }
+    .emblem {
+      font-size: .62rem; padding: 1px 6px; border-radius: 3px;
+      border: 1px solid var(--border2); color: var(--muted);
+    }
+    .emblem.platinum { border-color: rgba(139,124,248,.4); color: var(--accent); }
+    .emblem.gold     { border-color: rgba(232,184,75,.35); color: var(--gold); }
+
+    /* ── Set items ── */
+    .set-list { display: flex; flex-direction: column; gap: .5rem; }
+    .set-card {
+      background: var(--bg2); border: 1px solid var(--border); border-radius: 10px;
+      padding: .7rem .9rem;
+    }
+    .set-top { display: flex; align-items: center; gap: .6rem; flex-wrap: wrap; }
+    .set-name { font-weight: 600; font-size: .88rem; }
+    .set-level { font-family: 'JetBrains Mono', monospace; font-size: .72rem; }
+    .set-level .active { color: var(--score-hi); }
+    .set-level .max { color: var(--muted); }
+    .set-items { font-size: .75rem; color: var(--sub); margin-top: .3rem; }
+
+    /* ── Creature ── */
+    .creature-card {
+      background: var(--bg2); border: 1px solid var(--border); border-radius: 10px;
+      padding: .8rem 1rem; display: flex; gap: .8rem; align-items: flex-start; flex-wrap: wrap;
+    }
+    .creature-name { font-weight: 600; font-size: .9rem; }
+    .creature-rarity { font-size: .72rem; color: var(--muted); margin-top: .1rem; }
+    .creature-arts { display: flex; gap: .4rem; flex-wrap: wrap; margin-top: .4rem; }
+    .art-tag { font-size: .7rem; padding: 2px 7px; border-radius: 4px; background: var(--bg3); border: 1px solid var(--border2); color: var(--sub); }
+
+    /* ── Cursor glow ── */
     #cursor-glow { position: fixed; inset: 0; z-index: 0; pointer-events: none;
-      background: radial-gradient(600px circle at -999px -999px, rgba(139,124,248,.08) 0%, transparent 70%); }
+      background: radial-gradient(600px circle at -999px -999px, rgba(139,124,248,.07) 0%, transparent 70%); }
   </style>
 </head>
 <body>
-
 <div id="cursor-glow"></div>
 
 <nav>
@@ -162,11 +252,12 @@
 </nav>
 
 <div class="wrap">
-  <div style="margin-bottom:1.8rem">
+  <div class="page-header">
     <div class="page-title">DNF 캐릭터 시트</div>
     <div class="page-sub">DUNGEON &amp; FIGHTER · CHARACTER SHEET</div>
   </div>
 
+  <!-- 검색 -->
   <div class="search-card">
     <div class="form-row">
       <div class="form-group">
@@ -188,73 +279,85 @@
   <div id="loading"><div class="spinner"></div><br>캐릭터 정보를 불러오는 중...</div>
 
   <div id="result">
+
+    <!-- 캐릭터 배너 -->
     <div class="section">
-      <div class="section-title">캐릭터 정보</div>
-      <div class="char-summary">
+      <div class="char-banner">
         <div>
           <div class="char-name" id="r-name"></div>
-          <div class="char-meta" id="r-meta"></div>
+          <div class="char-tags">
+            <span class="char-tag lv" id="r-lv"></span>
+            <span class="char-tag server" id="r-server"></span>
+            <span class="char-tag" id="r-job"></span>
+          </div>
         </div>
-        <div class="score-badge">
-          <div class="score-label">ENCHANT SCORE</div>
-          <div class="score-value" id="r-score">0</div>
+        <div class="total-score">
+          <div class="ts-label">ENCHANT</div>
+          <div class="ts-value" id="r-score">—</div>
+          <div class="ts-sub">TOTAL SCORE</div>
         </div>
       </div>
     </div>
 
+    <!-- 장비 -->
     <div class="section">
-      <div class="section-title">장비 &amp; 마법부여</div>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>슬롯</th><th>아이템</th><th>강화/증폭</th><th>마법부여</th><th style="text-align:right">점수</th></tr></thead>
-          <tbody id="equip-tbody"></tbody>
-        </table>
-      </div>
+      <div class="sec-head">장비 &amp; 마법부여</div>
+      <div class="equip-grid" id="equip-grid"></div>
     </div>
 
+    <!-- 스탯 -->
     <div class="section">
-      <div class="section-title">주요 스탯</div>
-      <div class="status-grid" id="status-grid"></div>
+      <div class="sec-head">주요 스탯</div>
+      <div class="stat-grid" id="stat-grid"></div>
     </div>
 
-    <div class="section">
-      <div class="section-title">아바타</div>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>슬롯</th><th>아바타</th><th>옵션</th><th>엠블렘</th></tr></thead>
-          <tbody id="avatar-tbody"></tbody>
-        </table>
-      </div>
+    <!-- 아바타 -->
+    <div class="section" id="avatar-section">
+      <div class="sec-head">아바타</div>
+      <div class="avatar-grid" id="avatar-grid"></div>
     </div>
 
+    <!-- 세트 -->
     <div class="section" id="set-section" style="display:none">
-      <div class="section-title">세트 아이템</div>
-      <div id="set-list"></div>
+      <div class="sec-head">세트 아이템</div>
+      <div class="set-list" id="set-list"></div>
     </div>
 
+    <!-- 크리처 -->
     <div class="section" id="creature-section" style="display:none">
-      <div class="section-title">크리처</div>
-      <div id="creature-info" class="char-summary" style="gap:1rem"></div>
+      <div class="sec-head">크리처</div>
+      <div class="creature-card" id="creature-card"></div>
     </div>
-  </div>
+
+  </div><!-- #result -->
 </div>
 
 <script>
-// ── 백엔드 URL ────────────────────────────────────────────────────────────────
 const API_BASE = "https://dnf-api-exml.onrender.com";
 
-const SLOT_ORDER = [
-  "머리 갑옷","상체 갑옷","하체 갑옷","어깨 갑옷","손 갑옷",
-  "목걸이","팔찌","반지","보조 장비","마법석","귀걸이","무기"
-];
+// 슬롯 순서 (엑셀 drawing 행 순서 기준)
+const SLOT_ORDER = ["무기","머리 갑옷","상체 갑옷","하체 갑옷","어깨 갑옷","손 갑옷",
+                    "목걸이","팔찌","반지","보조 장비","마법석","귀걸이"];
 
-const STAT_DISPLAY = [
-  "HP","MP","힘","지능","체력","정신력",
-  "물리 공격력","마법 공격력","물리 방어력","마법 방어력",
-  "화속성 강화","수속성 강화","명속성 강화","암속성 강화",
-  "화속성 저항","수속성 저항","명속성 저항","암속성 저항",
-  "크리티컬 히트","공격 속도","캐스팅 속도"
-];
+// 슬롯별 아이콘 (엑셀 drawing2 행 순서 그대로 매핑)
+const SLOT_ICON = {
+  "무기":      "/dnf/image1.png",
+  "머리 갑옷": "/dnf/image2.png",
+  "상체 갑옷": "/dnf/image4.png",
+  "하체 갑옷": "/dnf/image3.png",
+  "어깨 갑옷": "/dnf/image8.png",
+  "손 갑옷":   "/dnf/image6.png",
+  "목걸이":    "/dnf/image11.png",
+  "팔찌":      "/dnf/image12.png",
+  "반지":      "/dnf/image5.png",
+  "보조 장비": "/dnf/image7.png",
+  "마법석":    "/dnf/image9.png",
+  "귀걸이":    "/dnf/image10.png",
+};
+
+const STAT_DISPLAY = ["HP","MP","힘","지능","체력","정신력","물리 공격력","마법 공격력",
+  "물리 방어력","마법 방어력","화속성 강화","수속성 강화","명속성 강화","암속성 강화",
+  "화속성 저항","수속성 저항","명속성 저항","암속성 저항","크리티컬 히트","공격 속도","캐스팅 속도"];
 
 // ── 검색 ──────────────────────────────────────────────────────────────────────
 async function searchCharacter() {
@@ -269,13 +372,12 @@ async function searchCharacter() {
   document.getElementById("error-msg").style.display = "none";
 
   try {
-    const params = new URLSearchParams({ server, name });
-    const resp = await fetch(`${API_BASE}/character?${params}`);
+    const resp = await fetch(`${API_BASE}/character?${new URLSearchParams({server, name})}`);
     const data = await resp.json();
     if (!resp.ok) throw new Error(data.detail || `오류 ${resp.status}`);
     renderResult(data);
     document.getElementById("result").style.display = "block";
-  } catch (e) {
+  } catch(e) {
     showError(e.message || "서버 연결 실패. 잠시 후 다시 시도해주세요.");
   } finally {
     btn.disabled = false;
@@ -289,118 +391,137 @@ function showError(msg) {
   el.style.display = "block";
 }
 
-// ── 결과 렌더 ─────────────────────────────────────────────────────────────────
+// ── 렌더 ──────────────────────────────────────────────────────────────────────
 function renderResult(d) {
-  // 캐릭터 요약
-  document.getElementById("r-name").textContent = d.characterName;
-  document.getElementById("r-meta").innerHTML =
-    `<span>${d.server}</span> · Lv.${d.level} · ${d.jobName} (${d.jobGrowName})`;
-  document.getElementById("r-score").textContent = d.enchantTotal;
+  // 캐릭터 배너
+  document.getElementById("r-name").textContent   = d.characterName;
+  document.getElementById("r-lv").textContent     = `Lv.${d.level}`;
+  document.getElementById("r-server").textContent = d.server;
+  document.getElementById("r-job").textContent    = `${d.jobName} · ${d.jobGrowName}`;
+  document.getElementById("r-score").textContent  = d.enchantTotal || 0;
 
   // 장비
-  const tbody = document.getElementById("equip-tbody");
-  tbody.innerHTML = "";
-  const sorted = [...(d.equipment || [])].sort((a, b) => {
-    const ai = SLOT_ORDER.indexOf(a.slot), bi = SLOT_ORDER.indexOf(b.slot);
-    return (ai < 0 ? 99 : ai) - (bi < 0 ? 99 : bi);
-  });
-  for (const eq of sorted) {
-    const sc = eq.enchantScore || 0;
-    const scCls = sc >= 15 ? "score-hi" : sc >= 8 ? "score-mid" : sc > 0 ? "score-lo" : "score-zero";
-    const reinforce = eq.reinforce ? `<span class="reinforce-val">+${eq.reinforce}</span>` : "";
-    const amp = eq.amplification ? `<br><span class="amp-val">${eq.amplification}</span>` : "";
-    tbody.insertAdjacentHTML("beforeend", `
-      <tr>
-        <td class="slot-name">${eq.slot}</td>
-        <td><span class="item-name rarity-${eq.rarity}">${eq.itemName || "—"}</span></td>
-        <td>${reinforce}${amp}</td>
-        <td class="enchant-text">${eq.enchantText || '<span style="color:var(--border2)">—</span>'}</td>
-        <td class="enchant-score"><span class="${scCls}">${sc > 0 ? sc : "—"}</span></td>
-      </tr>`);
+  const grid = document.getElementById("equip-grid");
+  grid.innerHTML = "";
+
+  // 슬롯별 장비 맵
+  const equipMap = {};
+  for (const eq of (d.equipment || [])) equipMap[eq.slot] = eq;
+
+  for (const slot of SLOT_ORDER) {
+    const eq   = equipMap[slot];
+    const icon = SLOT_ICON[slot] || "";
+    const sc   = eq?.enchantScore || 0;
+    const scCls = sc >= 15 ? "hi" : sc >= 8 ? "mid" : sc > 0 ? "lo" : "zero";
+    const scTxt = sc > 0 ? sc : "";
+    const rarity    = eq?.rarity || "";
+    const itemName  = eq?.itemName || "—";
+    const nameCls   = rarity ? `rarity-${rarity}` : "rarity-empty";
+    const reinforce = eq?.reinforce ? `<span class="reinf">+${eq.reinforce}</span>` : "";
+    const amp       = eq?.amplification ? `<span class="amp">${eq.amplification}</span>` : "";
+    const enchTxt   = eq?.enchantText ? `<span class="enchant-txt">${eq.enchantText}</span>` : "";
+
+    grid.insertAdjacentHTML("beforeend", `
+      <div class="equip-row${sc > 0 ? ' has-enchant' : ''}">
+        <img class="slot-icon${!eq ? ' empty' : ''}" src="${icon}" alt="${slot}">
+        <div class="equip-info">
+          <div class="equip-top">
+            <span class="equip-slot">${slot}</span>
+            <div class="reinf-amp">${reinforce}${amp}</div>
+          </div>
+          <div class="equip-name ${nameCls}">${itemName}</div>
+          ${enchTxt || sc > 0 ? `
+          <div class="enchant-row">
+            ${enchTxt}
+            <span class="score-badge ${scCls}">${scTxt}</span>
+          </div>` : ""}
+        </div>
+      </div>`);
   }
 
   // 스탯
-  const grid = document.getElementById("status-grid");
-  grid.innerHTML = "";
+  const statGrid = document.getElementById("stat-grid");
+  statGrid.innerHTML = "";
   const status = d.status || {};
   for (const key of STAT_DISPLAY) {
     if (status[key] !== undefined) {
-      grid.insertAdjacentHTML("beforeend", `
+      statGrid.insertAdjacentHTML("beforeend", `
         <div class="stat-item">
           <span class="stat-name">${key}</span>
-          <span class="stat-value">${Number(status[key]).toLocaleString()}</span>
+          <span class="stat-val">${Number(status[key]).toLocaleString()}</span>
         </div>`);
     }
   }
 
   // 아바타
-  const avTbody = document.getElementById("avatar-tbody");
-  avTbody.innerHTML = "";
+  const avGrid = document.getElementById("avatar-grid");
+  avGrid.innerHTML = "";
   for (const av of (d.avatar || [])) {
     const emblems = (av.emblems || []).map(e => {
       const name = e.name || "";
-      const cls  = name.includes("플래티넘") ? "platinum" : name.includes("골드") ? "gold-em" : "";
-      return `<span class="emblem-tag ${cls}">${name}</span>`;
+      const cls  = name.includes("플래티넘") ? "platinum" : name.includes("골드") ? "gold" : "";
+      return `<span class="emblem ${cls}">${name}</span>`;
     }).join("");
-    avTbody.insertAdjacentHTML("beforeend", `
-      <tr>
-        <td class="slot-name">${av.slot}</td>
-        <td class="item-name">${av.itemName || "—"}</td>
-        <td class="enchant-text">${av.optionAbility || "—"}</td>
-        <td><div class="emblem-list">${emblems || "—"}</div></td>
-      </tr>`);
+    avGrid.insertAdjacentHTML("beforeend", `
+      <div class="avatar-card">
+        <div class="av-top">
+          <span class="av-slot">${av.slot}</span>
+        </div>
+        <div class="av-name">${av.itemName || "—"}</div>
+        ${av.optionAbility ? `<div class="av-option">${av.optionAbility}</div>` : ""}
+        ${emblems ? `<div class="emblem-list">${emblems}</div>` : ""}
+      </div>`);
   }
 
   // 세트
+  const sets = d.oath || [];
   const setSection = document.getElementById("set-section");
   const setList    = document.getElementById("set-list");
   setList.innerHTML = "";
-  const sets = d.oath || [];
   if (sets.length) {
     setSection.style.display = "block";
     for (const s of sets) {
       setList.insertAdjacentHTML("beforeend", `
         <div class="set-card">
-          <div class="set-name">${s.setName}</div>
-          <div class="set-level"><span class="active">${s.active}세트</span> <span style="color:var(--muted)">/ ${s.maxLevel}세트</span></div>
-          <div class="set-items-list">${(s.items || []).join(" · ")}</div>
+          <div class="set-top">
+            <span class="set-name">${s.setName}</span>
+            <span class="set-level">
+              <span class="active">${s.active}</span>
+              <span class="max"> / ${s.maxLevel}세트</span>
+            </span>
+          </div>
+          <div class="set-items">${(s.items||[]).join(" · ")}</div>
         </div>`);
     }
-  } else {
-    setSection.style.display = "none";
-  }
+  } else { setSection.style.display = "none"; }
 
   // 크리처
-  const creatureSection = document.getElementById("creature-section");
-  const creatureInfo    = document.getElementById("creature-info");
-  creatureInfo.innerHTML = "";
   const cr = d.creature;
+  const creatureSection = document.getElementById("creature-section");
+  const creatureCard    = document.getElementById("creature-card");
+  creatureCard.innerHTML = "";
   if (cr?.itemName) {
     creatureSection.style.display = "block";
-    const arts = (cr.artifact || [])
-      .map(a => `<span style="color:var(--sub)">${a.slot}: ${a.name}</span>`)
-      .join(" / ");
-    creatureInfo.innerHTML = `
+    const arts = (cr.artifact || []).map(a =>
+      `<span class="art-tag">${a.slot}: ${a.name}</span>`).join("");
+    creatureCard.innerHTML = `
       <div>
-        <div class="char-name" style="font-size:1rem">${cr.itemName}</div>
-        <div class="char-meta">${cr.itemRarity || ""}</div>
-        ${arts ? `<div style="font-size:.8rem;margin-top:.4rem;color:var(--muted)">${arts}</div>` : ""}
+        <div class="creature-name">${cr.itemName}</div>
+        <div class="creature-rarity">${cr.itemRarity || ""}</div>
+        ${arts ? `<div class="creature-arts">${arts}</div>` : ""}
       </div>`;
-  } else {
-    creatureSection.style.display = "none";
-  }
+  } else { creatureSection.style.display = "none"; }
 }
 
 // ── Enter & cursor glow ───────────────────────────────────────────────────────
 document.getElementById("inp-name").addEventListener("keydown", e => {
   if (e.key === "Enter") searchCharacter();
 });
-
-(function () {
-  const glow = document.getElementById("cursor-glow");
+(function() {
+  const g = document.getElementById("cursor-glow");
   document.addEventListener("mousemove", e => {
-    glow.style.background =
-      `radial-gradient(600px circle at ${e.clientX}px ${e.clientY}px, rgba(139,124,248,.08) 0%, transparent 70%)`;
+    g.style.background =
+      `radial-gradient(600px circle at ${e.clientX}px ${e.clientY}px,rgba(139,124,248,.07) 0%,transparent 70%)`;
   });
 })();
 </script>
