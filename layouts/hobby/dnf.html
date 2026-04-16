@@ -24,7 +24,6 @@
     }
     a { color: var(--accent); text-decoration: none; }
 
-    /* ── Nav ── */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 200;
       height: 58px; display: flex; align-items: center; justify-content: space-between;
@@ -36,10 +35,8 @@
     .nav-back { font-size: .78rem; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); transition: color .2s; }
     .nav-back:hover { color: var(--text); }
 
-    /* ── Layout ── */
-    .wrap { max-width: 1100px; margin: 0 auto; padding: 80px 1.5rem 5rem; }
+    .wrap { max-width: 1100px; margin: 0 auto; padding: 80px 1.5rem 5rem; position: relative; z-index: 1; }
 
-    /* ── Header ── */
     .page-title {
       font-family: 'Playfair Display', serif; font-size: 1.9rem; font-weight: 700;
       background: linear-gradient(135deg, #fff 30%, var(--accent) 80%);
@@ -48,11 +45,10 @@
     }
     .page-sub { font-family: 'JetBrains Mono', monospace; font-size: .7rem; color: var(--muted); letter-spacing: .08em; }
 
-    /* ── Search form ── */
+    /* ── Search ── */
     .search-card {
       margin-top: 2rem; padding: 1.6rem 1.8rem;
-      background: var(--bg2); border: 1px solid var(--border2);
-      border-radius: 16px;
+      background: var(--bg2); border: 1px solid var(--border2); border-radius: 16px;
     }
     .form-row { display: flex; gap: 1rem; flex-wrap: wrap; align-items: flex-end; }
     .form-group { display: flex; flex-direction: column; gap: .4rem; }
@@ -60,13 +56,12 @@
     .form-group input, .form-group select {
       background: var(--bg3); border: 1px solid var(--border2); color: var(--text);
       border-radius: 8px; padding: .55rem .8rem; font-size: .9rem;
-      font-family: 'Inter', sans-serif; outline: none;
-      transition: border-color .2s;
+      font-family: 'Inter', sans-serif; outline: none; transition: border-color .2s;
     }
     .form-group input:focus, .form-group select:focus { border-color: var(--accent); }
     .form-group input { min-width: 180px; }
     .form-group select { min-width: 130px; }
-    .form-group.apikey input { min-width: 280px; }
+    .form-group.wide input { min-width: 260px; }
     .btn-search {
       padding: .58rem 1.4rem; background: var(--accent); color: #fff;
       border: none; border-radius: 8px; font-size: .9rem; font-weight: 600;
@@ -78,7 +73,7 @@
     .api-hint { margin-top: .8rem; font-size: .72rem; color: var(--muted); }
     .api-hint a { color: var(--accent2); }
 
-    /* ── Loading / Error ── */
+    /* ── State ── */
     #loading { display: none; text-align: center; padding: 3rem; color: var(--muted); font-size: .9rem; }
     .spinner { display: inline-block; width: 28px; height: 28px; margin-bottom: .8rem;
       border: 3px solid var(--border2); border-top-color: var(--accent);
@@ -88,42 +83,33 @@
       background: rgba(248,113,113,.07); border: 1px solid rgba(248,113,113,.25);
       border-radius: 10px; color: var(--red); font-size: .88rem; }
 
-    /* ── Result sections ── */
+    /* ── Result ── */
     #result { display: none; margin-top: 2rem; }
     .section { margin-bottom: 2rem; }
     .section-title {
       font-family: 'JetBrains Mono', monospace; font-size: .68rem;
       color: var(--muted); letter-spacing: .12em; text-transform: uppercase;
-      margin-bottom: .8rem; padding-bottom: .5rem;
-      border-bottom: 1px solid var(--border);
+      margin-bottom: .8rem; padding-bottom: .5rem; border-bottom: 1px solid var(--border);
     }
 
-    /* ── Character summary ── */
+    /* ── Char summary ── */
     .char-summary {
       display: flex; align-items: center; gap: 1.8rem; flex-wrap: wrap;
-      padding: 1.2rem 1.5rem; background: var(--bg2); border: 1px solid var(--border);
-      border-radius: 12px;
+      padding: 1.2rem 1.5rem; background: var(--bg2); border: 1px solid var(--border); border-radius: 12px;
     }
     .char-name { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--text); }
     .char-meta { font-size: .82rem; color: var(--sub); }
     .char-meta span { color: var(--accent); font-weight: 600; }
-    .score-badge {
-      margin-left: auto;
-      background: var(--bg3); border: 1px solid var(--border2);
-      border-radius: 10px; padding: .5rem 1rem; text-align: right;
-    }
+    .score-badge { margin-left: auto; background: var(--bg3); border: 1px solid var(--border2); border-radius: 10px; padding: .5rem 1rem; text-align: right; }
     .score-badge .score-label { font-size: .65rem; color: var(--muted); letter-spacing: .08em; }
     .score-badge .score-value { font-family: 'JetBrains Mono', monospace; font-size: 1.4rem; color: var(--gold); }
 
-    /* ── Equipment table ── */
+    /* ── Table ── */
     .table-wrap { overflow-x: auto; }
     table { width: 100%; border-collapse: collapse; font-size: .83rem; }
-    th {
-      padding: .5rem .8rem; text-align: left;
-      font-family: 'JetBrains Mono', monospace; font-size: .62rem;
-      color: var(--muted); letter-spacing: .08em; text-transform: uppercase;
-      border-bottom: 1px solid var(--border); white-space: nowrap;
-    }
+    th { padding: .5rem .8rem; text-align: left; font-family: 'JetBrains Mono', monospace;
+      font-size: .62rem; color: var(--muted); letter-spacing: .08em; text-transform: uppercase;
+      border-bottom: 1px solid var(--border); white-space: nowrap; }
     td { padding: .55rem .8rem; border-bottom: 1px solid var(--border); vertical-align: top; }
     tr:last-child td { border-bottom: none; }
     tr:hover td { background: rgba(139,124,248,.04); }
@@ -145,39 +131,25 @@
 
     /* ── Status grid ── */
     .status-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: .6rem; }
-    .stat-item {
-      background: var(--bg2); border: 1px solid var(--border);
-      border-radius: 8px; padding: .5rem .8rem;
-      display: flex; justify-content: space-between; align-items: center;
-    }
+    .stat-item { background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: .5rem .8rem; display: flex; justify-content: space-between; align-items: center; }
     .stat-name { font-size: .78rem; color: var(--sub); }
     .stat-value { font-family: 'JetBrains Mono', monospace; font-size: .85rem; color: var(--text); }
 
-    /* ── Avatar table ── */
+    /* ── Emblems ── */
     .emblem-list { display: flex; flex-wrap: wrap; gap: .3rem; margin-top: .2rem; }
-    .emblem-tag {
-      font-size: .65rem; padding: 1px 6px; border-radius: 4px;
-      border: 1px solid var(--border2); color: var(--muted);
-    }
+    .emblem-tag { font-size: .65rem; padding: 1px 6px; border-radius: 4px; border: 1px solid var(--border2); color: var(--muted); }
     .emblem-tag.platinum { border-color: rgba(139,124,248,.4); color: var(--accent); }
-    .emblem-tag.gold { border-color: rgba(232,184,75,.4); color: var(--gold); }
+    .emblem-tag.gold-em { border-color: rgba(232,184,75,.4); color: var(--gold); }
 
-    /* ── Set items ── */
-    .set-card {
-      background: var(--bg2); border: 1px solid var(--border);
-      border-radius: 10px; padding: .8rem 1rem; margin-bottom: .6rem;
-    }
+    /* ── Set / creature ── */
+    .set-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: .8rem 1rem; margin-bottom: .6rem; }
     .set-name { font-weight: 600; color: var(--text); margin-bottom: .2rem; }
     .set-level { font-size: .75rem; font-family: 'JetBrains Mono', monospace; }
     .set-level .active { color: var(--green); }
     .set-items-list { font-size: .78rem; color: var(--sub); margin-top: .3rem; }
 
-    /* ── Cursor glow ── */
-    #cursor-glow {
-      position: fixed; inset: 0; z-index: 0; pointer-events: none;
-      background: radial-gradient(600px circle at -999px -999px, rgba(139,124,248,.08) 0%, transparent 70%);
-    }
-    .wrap { position: relative; z-index: 1; }
+    #cursor-glow { position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background: radial-gradient(600px circle at -999px -999px, rgba(139,124,248,.08) 0%, transparent 70%); }
   </style>
 </head>
 <body>
@@ -190,53 +162,41 @@
 </nav>
 
 <div class="wrap">
-  <div style="margin-bottom: 1.8rem;">
+  <div style="margin-bottom:1.8rem">
     <div class="page-title">DNF 캐릭터 시트</div>
-    <div class="page-sub">DUNGEON & FIGHTER · CHARACTER SHEET</div>
+    <div class="page-sub">DUNGEON &amp; FIGHTER · CHARACTER SHEET</div>
   </div>
 
-  <!-- Search -->
   <div class="search-card">
     <div class="form-row">
       <div class="form-group">
         <label>서버</label>
         <select id="inp-server">
-          <option>카인</option>
-          <option>디레지에</option>
-          <option>시로코</option>
-          <option>바칼</option>
-          <option>하자드</option>
-          <option>안톤</option>
-          <option>카시야스</option>
+          <option>카인</option><option>디레지에</option><option>시로코</option>
+          <option>바칼</option><option>하자드</option><option>안톤</option><option>카시야스</option>
         </select>
       </div>
       <div class="form-group">
         <label>캐릭터명</label>
         <input id="inp-name" type="text" placeholder="캐릭터 이름 입력" autocomplete="off">
       </div>
-      <div class="form-group apikey">
-        <label>API Key (선택)</label>
-        <input id="inp-apikey" type="password" placeholder="Neople API Key (미입력 시 기본값 사용)">
+      <div class="form-group wide">
+        <label>API Key</label>
+        <input id="inp-apikey" type="password" placeholder="Neople API Key">
       </div>
       <button class="btn-search" id="btn-search" onclick="searchCharacter()">조회</button>
     </div>
     <div class="api-hint">
-      API Key는 <a href="https://developers.neople.co.kr/" target="_blank">Neople 개발자 센터</a>에서 발급받을 수 있습니다.
+      API Key →
+      <a href="https://developers.neople.co.kr/" target="_blank">Neople 개발자 센터</a>
+      에서 발급 (무료, 앱 등록 후 즉시 발급)
     </div>
   </div>
 
   <div id="error-msg"></div>
+  <div id="loading"><div class="spinner"></div><br>캐릭터 정보를 불러오는 중...</div>
 
-  <!-- Loading -->
-  <div id="loading">
-    <div class="spinner"></div><br>
-    캐릭터 정보를 불러오는 중...
-  </div>
-
-  <!-- Result -->
   <div id="result">
-
-    <!-- 캐릭터 요약 -->
     <div class="section">
       <div class="section-title">캐릭터 정보</div>
       <div class="char-summary">
@@ -251,101 +211,211 @@
       </div>
     </div>
 
-    <!-- 장비 -->
     <div class="section">
-      <div class="section-title">장비 & 마법부여</div>
+      <div class="section-title">장비 &amp; 마법부여</div>
       <div class="table-wrap">
         <table>
-          <thead>
-            <tr>
-              <th>슬롯</th>
-              <th>아이템</th>
-              <th>강화/증폭</th>
-              <th>마법부여</th>
-              <th style="text-align:right">점수</th>
-            </tr>
-          </thead>
+          <thead><tr><th>슬롯</th><th>아이템</th><th>강화/증폭</th><th>마법부여</th><th style="text-align:right">점수</th></tr></thead>
           <tbody id="equip-tbody"></tbody>
         </table>
       </div>
     </div>
 
-    <!-- 스탯 -->
     <div class="section">
       <div class="section-title">주요 스탯</div>
       <div class="status-grid" id="status-grid"></div>
     </div>
 
-    <!-- 아바타 -->
     <div class="section">
       <div class="section-title">아바타</div>
       <div class="table-wrap">
         <table>
-          <thead>
-            <tr>
-              <th>슬롯</th>
-              <th>아바타</th>
-              <th>옵션</th>
-              <th>엠블렘</th>
-            </tr>
-          </thead>
+          <thead><tr><th>슬롯</th><th>아바타</th><th>옵션</th><th>엠블렘</th></tr></thead>
           <tbody id="avatar-tbody"></tbody>
         </table>
       </div>
     </div>
 
-    <!-- 세트 -->
     <div class="section" id="set-section" style="display:none">
       <div class="section-title">세트 아이템</div>
       <div id="set-list"></div>
     </div>
 
-    <!-- 크리처 -->
     <div class="section" id="creature-section" style="display:none">
       <div class="section-title">크리처</div>
-      <div id="creature-info" class="char-summary" style="gap:1rem;"></div>
+      <div id="creature-info" class="char-summary" style="gap:1rem"></div>
     </div>
-
-  </div><!-- #result -->
-</div><!-- .wrap -->
+  </div>
+</div>
 
 <script>
-// ── Config ──────────────────────────────────────────────────────────────────
-// Render 배포 후 이 URL을 실제 배포 URL로 변경하세요
-const API_BASE = "https://dnf-api.onrender.com";
+// ── 설정 ──────────────────────────────────────────────────────────────────────
+const NEOPLE_BASE = "https://api.neople.co.kr/df";
 
-// ── Search ────────────────────────────────────────────────────────────────────
+const SERVER_MAP = {
+  "카인":"cain","디레지에":"diregie","시로코":"siroco",
+  "바칼":"bakal","하자드":"hilder","안톤":"anton","카시야스":"kasias"
+};
+
+// 마법부여 스탯 점수표 (Apps Script '마법부여 기준' 시트 대응)
+const ENCHANT_SCORE_TABLE = {
+  "물리 공격력":  { score: 5, per: 1 },
+  "마법 공격력":  { score: 5, per: 1 },
+  "힘":           { score: 3, per: 1 },
+  "지능":         { score: 3, per: 1 },
+  "체력":         { score: 2, per: 1 },
+  "정신력":       { score: 2, per: 1 },
+  "공격 속도":    { score: 4, per: 1 },
+  "캐스팅 속도":  { score: 4, per: 1 },
+  "이동 속도":    { score: 2, per: 1 },
+  "화속성 강화":  { score: 4, per: 1 },
+  "수속성 강화":  { score: 4, per: 1 },
+  "명속성 강화":  { score: 4, per: 1 },
+  "암속성 강화":  { score: 4, per: 1 },
+  "화속성 저항":  { score: 2, per: 1 },
+  "수속성 저항":  { score: 2, per: 1 },
+  "명속성 저항":  { score: 2, per: 1 },
+  "암속성 저항":  { score: 2, per: 1 },
+  "크리티컬 히트":{ score: 4, per: 1 },
+  "HP":           { score: 1, per: 100 },
+  "MP":           { score: 1, per: 100 },
+  "HP MAX":       { score: 1, per: 100 },
+  "MP MAX":       { score: 1, per: 100 },
+  "스킬 쿨타임 감소": { score: 6, per: 1 },
+};
+
+const SLOT_ORDER = [
+  "머리 갑옷","상체 갑옷","하체 갑옷","어깨 갑옷","손 갑옷",
+  "목걸이","팔찌","반지","보조 장비","마법석","귀걸이","무기"
+];
+
+const STAT_DISPLAY = [
+  "HP","MP","힘","지능","체력","정신력",
+  "물리 공격력","마법 공격력","물리 방어력","마법 방어력",
+  "화속성 강화","수속성 강화","명속성 강화","암속성 강화",
+  "화속성 저항","수속성 저항","명속성 저항","암속성 저항",
+  "크리티컬 히트","공격 속도","캐스팅 속도"
+];
+
+// ── Enchant helpers ───────────────────────────────────────────────────────────
+function enchantToText(enchant) {
+  if (!enchant) return "";
+  const parts = [];
+  for (const line of (enchant.explains || [])) {
+    const s = line.replace(/^[◇▶►·\s]+/, "").trim();
+    if (s) parts.push(s);
+  }
+  for (const stat of (enchant.status || [])) {
+    if (stat.name && stat.value !== undefined) parts.push(`${stat.name} +${stat.value}`);
+  }
+  return parts.join(" / ");
+}
+
+function calcEnchantScore(enchant) {
+  if (!enchant) return 0;
+  let total = 0;
+  for (const stat of (enchant.status || [])) {
+    const info = ENCHANT_SCORE_TABLE[stat.name];
+    if (info) total += Math.floor(parseFloat(stat.value || 0) / info.per) * info.score;
+  }
+  return total;
+}
+
+// ── API fetch ─────────────────────────────────────────────────────────────────
+async function neopleGet(path, params, apiKey) {
+  const url = new URL(`${NEOPLE_BASE}${path}`);
+  for (const [k, v] of Object.entries(params)) url.searchParams.set(k, v);
+  url.searchParams.set("apikey", apiKey);
+  const resp = await fetch(url);
+  if (!resp.ok) throw new Error(`API 오류 ${resp.status}: ${path}`);
+  return resp.json();
+}
+
 async function searchCharacter() {
   const server = document.getElementById("inp-server").value;
   const name   = document.getElementById("inp-name").value.trim();
-  const apikey = document.getElementById("inp-apikey").value.trim();
+  const apiKey = document.getElementById("inp-apikey").value.trim();
 
-  if (!name) {
-    showError("캐릭터명을 입력해주세요.");
-    return;
-  }
+  if (!name)   return showError("캐릭터명을 입력해주세요.");
+  if (!apiKey) return showError("Neople API Key를 입력해주세요.");
 
   const btn = document.getElementById("btn-search");
   btn.disabled = true;
-  document.getElementById("loading").style.display = "block";
-  document.getElementById("result").style.display  = "none";
+  document.getElementById("loading").style.display   = "block";
+  document.getElementById("result").style.display    = "none";
   document.getElementById("error-msg").style.display = "none";
 
   try {
-    const params = new URLSearchParams({ server, name });
-    if (apikey) params.append("apikey", apikey);
+    const serverCode = SERVER_MAP[server] || server.toLowerCase();
 
-    const resp = await fetch(`${API_BASE}/character?${params}`);
-    const data = await resp.json();
+    // 1. 캐릭터 검색
+    const searchData = await neopleGet(
+      `/servers/${serverCode}/characters`,
+      { characterName: name, wordType: "full", limit: 1 },
+      apiKey
+    );
+    const rows = searchData.rows || [];
+    if (!rows.length) throw new Error("캐릭터를 찾을 수 없습니다.");
+    const char = rows[0];
+    const cid  = char.characterId;
 
-    if (!resp.ok) {
-      throw new Error(data.detail || `오류 ${resp.status}`);
-    }
+    // 2. 병렬 조회
+    const [equipData, oathData, avatarData, creatureData, statusData] = await Promise.allSettled([
+      neopleGet(`/servers/${serverCode}/characters/${cid}/equip/equipment`, {}, apiKey),
+      neopleGet(`/servers/${serverCode}/characters/${cid}/equip/oath`,      {}, apiKey),
+      neopleGet(`/servers/${serverCode}/characters/${cid}/equip/avatar`,    {}, apiKey),
+      neopleGet(`/servers/${serverCode}/characters/${cid}/equip/creature`,  {}, apiKey),
+      neopleGet(`/servers/${serverCode}/characters/${cid}/status`,          {}, apiKey),
+    ]);
 
-    renderResult(data);
+    const safe = (r, key) => r.status === "fulfilled" ? (key ? r.value[key] : r.value) : (key ? [] : {});
+
+    const equipment = safe(equipData,   "equipment");
+    const oath      = safe(oathData);
+    const avatar    = safe(avatarData,  "avatar");
+    const creature  = safe(creatureData);
+    const status    = safe(statusData,  "status");
+
+    // 3. 장비 가공
+    const processedEquip = equipment.map(item => ({
+      slot:          item.slotName || "",
+      itemName:      item.itemName || "",
+      rarity:        item.itemRarity || "",
+      reinforce:     item.reinforce || 0,
+      amplification: item.amplificationName || "",
+      enchantText:   enchantToText(item.enchant),
+      enchantScore:  calcEnchantScore(item.enchant),
+    }));
+
+    // 4. 세트 가공
+    const sets = (oath.setItems || []).map(s => ({
+      setName:  s.setItemName || "",
+      active:   s.activeSetNo || 0,
+      maxLevel: s.maxSetNo || 0,
+      items:    (s.setItemList || []).map(i => i.itemName || ""),
+    }));
+
+    // 5. 스탯 맵
+    const statusMap = {};
+    for (const s of (status || [])) statusMap[s.name] = s.value;
+
+    renderResult({
+      characterName: char.characterName,
+      server,
+      level:    char.level,
+      jobName:  char.jobName || "",
+      jobGrow:  char.jobGrowName || "",
+      equipment: processedEquip,
+      avatar:   avatar || [],
+      sets,
+      creature: creature.creature || null,
+      status:   statusMap,
+      enchantTotal: processedEquip.reduce((s, e) => s + e.enchantScore, 0),
+    });
+
     document.getElementById("result").style.display = "block";
   } catch (e) {
-    showError(e.message || "서버 연결에 실패했습니다. API 서버가 배포되어 있는지 확인하세요.");
+    showError(e.message || "알 수 없는 오류가 발생했습니다.");
   } finally {
     btn.disabled = false;
     document.getElementById("loading").style.display = "none";
@@ -354,7 +424,7 @@ async function searchCharacter() {
 
 function showError(msg) {
   const el = document.getElementById("error-msg");
-  el.textContent = msg;
+  el.textContent = "⚠ " + msg;
   el.style.display = "block";
 }
 
@@ -363,87 +433,75 @@ function renderResult(d) {
   // 캐릭터 요약
   document.getElementById("r-name").textContent = d.characterName;
   document.getElementById("r-meta").innerHTML =
-    `<span>${d.server}</span> · Lv.${d.level} · ${d.jobName} (${d.jobGrowName})`;
+    `<span>${d.server}</span> · Lv.${d.level} · ${d.jobName} (${d.jobGrow})`;
   document.getElementById("r-score").textContent = d.enchantTotal;
 
   // 장비
   const tbody = document.getElementById("equip-tbody");
   tbody.innerHTML = "";
-  const SLOT_ORDER = ["머리 갑옷","상체 갑옷","하체 갑옷","어깨 갑옷","손 갑옷","목걸이","팔찌","반지","보조 장비","마법석","귀걸이","무기"];
-  const sortedEquip = [...d.equipment].sort((a, b) => {
+  const sorted = [...d.equipment].sort((a, b) => {
     const ai = SLOT_ORDER.indexOf(a.slot), bi = SLOT_ORDER.indexOf(b.slot);
-    return (ai === -1 ? 99 : ai) - (bi === -1 ? 99 : bi);
+    return (ai < 0 ? 99 : ai) - (bi < 0 ? 99 : bi);
   });
-  for (const eq of sortedEquip) {
-    const score = eq.enchantScore;
-    const scoreClass = score >= 15 ? "score-hi" : score >= 8 ? "score-mid" : score > 0 ? "score-lo" : "score-zero";
-    const rarityClass = `rarity-${eq.rarity}`;
+  for (const eq of sorted) {
+    const sc = eq.enchantScore;
+    const scCls = sc >= 15 ? "score-hi" : sc >= 8 ? "score-mid" : sc > 0 ? "score-lo" : "score-zero";
     const reinforce = eq.reinforce ? `<span class="reinforce-val">+${eq.reinforce}</span>` : "";
     const amp = eq.amplification ? `<br><span class="amp-val">${eq.amplification}</span>` : "";
     tbody.insertAdjacentHTML("beforeend", `
       <tr>
         <td class="slot-name">${eq.slot}</td>
-        <td><span class="item-name ${rarityClass}">${eq.itemName || "—"}</span></td>
+        <td><span class="item-name rarity-${eq.rarity}">${eq.itemName || "—"}</span></td>
         <td>${reinforce}${amp}</td>
         <td class="enchant-text">${eq.enchantText || '<span style="color:var(--border2)">—</span>'}</td>
-        <td class="enchant-score"><span class="${scoreClass}">${score > 0 ? score : "—"}</span></td>
-      </tr>
-    `);
+        <td class="enchant-score"><span class="${scCls}">${sc > 0 ? sc : "—"}</span></td>
+      </tr>`);
   }
 
   // 스탯
-  const STAT_KEYS = ["HP","MP","힘","지능","체력","정신력","물리 공격력","마법 공격력",
-    "물리 방어력","마법 방어력","화속성 강화","수속성 강화","명속성 강화","암속성 강화",
-    "화속성 저항","수속성 저항","명속성 저항","암속성 저항","크리티컬 히트","공격 속도","캐스팅 속도"];
   const grid = document.getElementById("status-grid");
   grid.innerHTML = "";
-  for (const key of STAT_KEYS) {
+  for (const key of STAT_DISPLAY) {
     if (d.status[key] !== undefined) {
       grid.insertAdjacentHTML("beforeend", `
         <div class="stat-item">
           <span class="stat-name">${key}</span>
           <span class="stat-value">${Number(d.status[key]).toLocaleString()}</span>
-        </div>
-      `);
+        </div>`);
     }
   }
 
   // 아바타
   const avTbody = document.getElementById("avatar-tbody");
   avTbody.innerHTML = "";
-  const EMBLEM_COLOR = { "플래티넘": "platinum", "골드": "gold" };
   for (const av of d.avatar) {
-    const emblems = av.emblems.map(e => {
-      const cls = Object.entries(EMBLEM_COLOR).find(([k]) => e.name.includes(k))?.[1] || "";
-      return `<span class="emblem-tag ${cls}">${e.name}</span>`;
+    const emblems = (av.emblems || []).map(e => {
+      const name = e.itemName || "";
+      const cls  = name.includes("플래티넘") ? "platinum" : name.includes("골드") ? "gold-em" : "";
+      return `<span class="emblem-tag ${cls}">${name}</span>`;
     }).join("");
     avTbody.insertAdjacentHTML("beforeend", `
       <tr>
-        <td class="slot-name">${av.slot}</td>
+        <td class="slot-name">${av.slotName || ""}</td>
         <td class="item-name">${av.itemName || "—"}</td>
         <td class="enchant-text">${av.optionAbility || "—"}</td>
         <td><div class="emblem-list">${emblems || "—"}</div></td>
-      </tr>
-    `);
+      </tr>`);
   }
 
   // 세트
   const setSection = document.getElementById("set-section");
   const setList = document.getElementById("set-list");
   setList.innerHTML = "";
-  if (d.oath && d.oath.length > 0) {
+  if (d.sets.length) {
     setSection.style.display = "block";
-    for (const s of d.oath) {
+    for (const s of d.sets) {
       setList.insertAdjacentHTML("beforeend", `
         <div class="set-card">
           <div class="set-name">${s.setName}</div>
-          <div class="set-level">
-            <span class="active">${s.active}세트</span>
-            <span style="color:var(--muted)"> / ${s.maxLevel}세트</span>
-          </div>
+          <div class="set-level"><span class="active">${s.active}세트</span> <span style="color:var(--muted)">/ ${s.maxLevel}세트</span></div>
           <div class="set-items-list">${s.items.join(" · ")}</div>
-        </div>
-      `);
+        </div>`);
     }
   } else {
     setSection.style.display = "none";
@@ -453,31 +511,32 @@ function renderResult(d) {
   const creatureSection = document.getElementById("creature-section");
   const creatureInfo = document.getElementById("creature-info");
   creatureInfo.innerHTML = "";
-  if (d.creature && d.creature.itemName) {
+  if (d.creature?.itemName) {
     creatureSection.style.display = "block";
-    const arts = d.creature.artifact?.map(a => `<span style="color:var(--sub)">${a.slot}: ${a.name}</span>`).join(" / ") || "";
+    const arts = (d.creature.artifact || [])
+      .map(a => `<span style="color:var(--sub)">${a.slotName}: ${a.itemName}</span>`)
+      .join(" / ");
     creatureInfo.innerHTML = `
       <div>
         <div class="char-name" style="font-size:1rem">${d.creature.itemName}</div>
         <div class="char-meta">${d.creature.itemRarity || ""}</div>
         ${arts ? `<div style="font-size:.8rem;margin-top:.4rem;color:var(--muted)">${arts}</div>` : ""}
-      </div>
-    `;
+      </div>`;
   } else {
     creatureSection.style.display = "none";
   }
 }
 
-// ── Enter key ─────────────────────────────────────────────────────────────────
+// ── Enter key & cursor glow ───────────────────────────────────────────────────
 document.getElementById("inp-name").addEventListener("keydown", e => {
   if (e.key === "Enter") searchCharacter();
 });
 
-// ── Cursor glow ───────────────────────────────────────────────────────────────
 (function () {
   const glow = document.getElementById("cursor-glow");
   document.addEventListener("mousemove", e => {
-    glow.style.background = `radial-gradient(600px circle at ${e.clientX}px ${e.clientY}px, rgba(139,124,248,.08) 0%, transparent 70%)`;
+    glow.style.background =
+      `radial-gradient(600px circle at ${e.clientX}px ${e.clientY}px, rgba(139,124,248,.08) 0%, transparent 70%)`;
   });
 })();
 </script>
