@@ -1,0 +1,127 @@
+{{- define "main" }}
+{{- $p := .Params }}
+{{- $platform := $p.platform    | default "" }}
+{{- $number   := $p.number      | default "" }}
+{{- $diff     := $p.difficulty  | default "" }}
+{{- $tags     := $p.tags        | default slice }}
+{{- $solved   := $p.solved      | default false }}
+{{- $wrong    := $p.wrong_count | default 0 }}
+{{- $time     := $p.time_taken  | default "" }}
+
+<style>
+.ci-box {
+  display: flex; flex-wrap: wrap; align-items: center; gap: .5rem;
+  background: var(--entry);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: .8rem 1.1rem;
+  margin-bottom: 1.6rem;
+  font-size: .82rem;
+}
+.ci-plat {
+  font-size: .71rem; font-weight: 700;
+  padding: .23rem .6rem; border-radius: 5px;
+}
+.ci-boj          { background:#3b82f6; color:#fff; }
+.ci-programmers  { background:#f97316; color:#fff; }
+.ci-leetcode     { background:#eab308; color:#111; }
+.ci-기타          { background:#6b7280; color:#fff; }
+.ci-num   { font-weight: 700; }
+.ci-div   { color: var(--border); }
+.ci-diff {
+  padding: .2rem .55rem; border-radius: 5px;
+  font-size: .71rem; font-weight: 700;
+}
+.ci-bronze   { background:rgba(205,127,50,.15);  color:#b45309; }
+.ci-silver   { background:rgba(160,160,160,.18); color:#6b7280; }
+.ci-gold     { background:rgba(234,179,8,.18);   color:#b45309; }
+.ci-platinum { background:rgba(20,184,166,.16);  color:#0d9488; }
+.ci-diamond  { background:rgba(96,165,250,.18);  color:#2563eb; }
+.ci-ruby     { background:rgba(239,68,68,.18);   color:#dc2626; }
+.ci-easy     { background:rgba(34,197,94,.16);   color:#15803d; }
+.ci-medium   { background:rgba(234,179,8,.18);   color:#b45309; }
+.ci-hard     { background:rgba(239,68,68,.18);   color:#dc2626; }
+.ci-level1   { background:rgba(34,197,94,.16);   color:#15803d; }
+.ci-level2   { background:rgba(96,165,250,.18);  color:#2563eb; }
+.ci-level3   { background:rgba(234,179,8,.18);   color:#b45309; }
+.ci-level4   { background:rgba(249,115,22,.18);  color:#ea580c; }
+.ci-level5   { background:rgba(239,68,68,.18);   color:#dc2626; }
+.ci-tag  { padding:.2rem .52rem; background:rgba(99,102,241,.11); color:#6366f1; border-radius:5px; font-size:.71rem; }
+.ci-ok   { font-weight:700; color:#22c55e; }
+.ci-no   { font-weight:700; color:#ef4444; }
+.ci-wrng { color:#f97316; }
+.ci-time { color:var(--secondary); }
+</style>
+
+<article class="post-single">
+  <header class="post-header">
+    {{ partial "breadcrumbs.html" . }}
+    <h1 class="post-title">{{ .Title }}</h1>
+    {{- if not (.Param "hideMeta") }}
+    <div class="post-meta">{{- partial "post_meta.html" . -}}</div>
+    {{- end }}
+  </header>
+
+  {{- $dl := lower $diff }}
+  {{- $dc := "" }}
+  {{- if hasPrefix $dl "bronze"   }}{{- $dc = "ci-bronze"   }}
+  {{- else if hasPrefix $dl "silver"   }}{{- $dc = "ci-silver"   }}
+  {{- else if hasPrefix $dl "gold"     }}{{- $dc = "ci-gold"     }}
+  {{- else if hasPrefix $dl "platinum" }}{{- $dc = "ci-platinum" }}
+  {{- else if hasPrefix $dl "diamond"  }}{{- $dc = "ci-diamond"  }}
+  {{- else if hasPrefix $dl "ruby"     }}{{- $dc = "ci-ruby"     }}
+  {{- else if hasPrefix $dl "easy"     }}{{- $dc = "ci-easy"     }}
+  {{- else if hasPrefix $dl "medium"   }}{{- $dc = "ci-medium"   }}
+  {{- else if hasPrefix $dl "hard"     }}{{- $dc = "ci-hard"     }}
+  {{- else if contains $dl "level1"    }}{{- $dc = "ci-level1"   }}
+  {{- else if contains $dl "level2"    }}{{- $dc = "ci-level2"   }}
+  {{- else if contains $dl "level3"    }}{{- $dc = "ci-level3"   }}
+  {{- else if contains $dl "level4"    }}{{- $dc = "ci-level4"   }}
+  {{- else if contains $dl "level5"    }}{{- $dc = "ci-level5"   }}
+  {{- else if contains $dl "1레벨"     }}{{- $dc = "ci-level1"   }}
+  {{- else if contains $dl "2레벨"     }}{{- $dc = "ci-level2"   }}
+  {{- else if contains $dl "3레벨"     }}{{- $dc = "ci-level3"   }}
+  {{- else if contains $dl "4레벨"     }}{{- $dc = "ci-level4"   }}
+  {{- else if contains $dl "5레벨"     }}{{- $dc = "ci-level5"   }}
+  {{- end }}
+
+  <div class="ci-box">
+    {{- if $platform }}
+    <span class="ci-plat ci-{{ lower $platform }}">{{ $platform }}</span>
+    {{- end }}
+    {{- if and $number (ne $number "") }}
+    <span class="ci-num">#{{ $number }}</span>
+    <span class="ci-div">|</span>
+    {{- end }}
+    {{- if and $diff (ne $diff "") }}
+    <span class="ci-diff {{ $dc }}">{{ $diff }}</span>
+    {{- end }}
+    {{- range $tags }}<span class="ci-tag">{{ . }}</span>{{ end }}
+    <span class="ci-div">|</span>
+    {{- if $solved }}<span class="ci-ok">✓ 해결</span>
+    {{- else }}<span class="ci-no">✗ 미해결</span>{{ end }}
+    {{- if gt $wrong 0 }}<span class="ci-wrng">오답 {{ $wrong }}회</span>{{ end }}
+    {{- if and $time (ne $time "") }}<span class="ci-time">⏱ {{ $time }}</span>{{ end }}
+  </div>
+
+  {{- if (.Param "ShowToc") }}{{ partial "toc.html" . }}{{ end }}
+
+  {{- if .Content }}
+  <div class="post-content">
+    {{- if not (.Param "disableAnchoredHeadings") }}
+    {{- partial "anchored_headings.html" .Content -}}
+    {{- else }}{{ .Content }}{{ end }}
+  </div>
+  {{- end }}
+
+  <footer class="post-footer">
+    {{- $taxtag := .Language.Params.Taxonomies.tag | default "tags" }}
+    <ul class="post-tags">
+      {{- range ($.GetTerms $taxtag) }}
+      <li><a href="{{ .Permalink }}">{{ .LinkTitle }}</a></li>
+      {{- end }}
+    </ul>
+    {{- if (.Param "ShowPostNavLinks") }}{{ partial "post_nav_links.html" . }}{{ end }}
+  </footer>
+</article>
+{{- end }}
