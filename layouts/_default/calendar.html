@@ -213,6 +213,52 @@ textarea.form-input { resize: vertical; min-height: 85px; }
 .todo-bar { flex: 1; height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; }
 .todo-bar-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent2)); border-radius: 2px; transition: width .35s; }
 .todo-progress-text { font-family: 'JetBrains Mono', monospace; font-size: .68rem; color: var(--muted); white-space: nowrap; }
+
+/* ── Daily Routine ── */
+.routine-list { display: flex; flex-direction: column; gap: .42rem; margin-bottom: .75rem; }
+.routine-item {
+  display: flex; align-items: center; gap: .5rem;
+  padding: .48rem .7rem; border-radius: 8px;
+  background: var(--bg3); border: 1px solid var(--border);
+}
+.routine-item:hover { border-color: var(--border2); }
+.routine-text {
+  flex: 1; font-size: .84rem; color: var(--text);
+  outline: none; background: transparent; border: none;
+  font-family: 'Inter', sans-serif; min-width: 0;
+  cursor: text;
+}
+.routine-text:focus { color: var(--text); }
+.routine-del {
+  flex-shrink: 0; width: 18px; height: 18px;
+  border: none; background: none; cursor: pointer;
+  color: var(--muted); font-size: .9rem; line-height: 1;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 4px; transition: color .15s, background .15s;
+  padding: 0;
+}
+.routine-del:hover { color: #f87171; background: rgba(248,113,113,.12); }
+.routine-add-row {
+  display: flex; gap: .5rem; align-items: center;
+}
+.routine-input {
+  flex: 1; padding: .42rem .75rem;
+  background: var(--bg3); border: 1px solid var(--border2);
+  border-radius: 8px; color: var(--text); font-size: .83rem;
+  font-family: 'Inter', sans-serif; outline: none; transition: border-color .15s;
+}
+.routine-input:focus { border-color: var(--accent); }
+.routine-input::placeholder { color: var(--muted); }
+.routine-add-btn {
+  flex-shrink: 0; width: 28px; height: 28px;
+  border: 1px solid var(--border2); border-radius: 7px;
+  background: rgba(139,124,248,.12); color: var(--accent);
+  font-size: 1.1rem; cursor: pointer; display: flex;
+  align-items: center; justify-content: center;
+  transition: all .15s;
+}
+.routine-add-btn:hover { background: rgba(139,124,248,.25); border-color: var(--accent); }
+.routine-empty { font-size: .8rem; color: var(--muted); padding: .15rem 0 .5rem; }
 {{ end }}
 
 {{ define "main" }}
@@ -246,6 +292,14 @@ textarea.form-input { resize: vertical; min-height: 85px; }
           <div class="legend-item"><div class="legend-dot" style="background:rgba(232,184,75,.6)"></div>Deadline</div>
           <div class="legend-item"><div class="legend-dot" style="background:rgba(80,250,123,.5)"></div>Class</div>
           <div class="legend-item"><div class="legend-dot" style="background:rgba(251,146,60,.6)"></div>Pending</div>
+        </div>
+      </div>
+      <div class="panel-card">
+        <div class="panel-section-label">Daily</div>
+        <div class="routine-list" id="routine-list"></div>
+        <div class="routine-add-row">
+          <input class="routine-input" id="routine-input" placeholder="매일 할 일 추가...">
+          <button class="routine-add-btn" id="routine-add-btn">+</button>
         </div>
       </div>
     </aside>
@@ -620,6 +674,74 @@ textarea.form-input { resize: vertical; min-height: 85px; }
     document.getElementById('todo-progress-text').textContent = done + ' / ' + total;
   }
 
+  /* ── Daily Routine ── */
+  const ROUTINE_KEY = 'daily_routines';
+
+  function loadRoutines() {
+    try { return JSON.parse(localStorage.getItem(ROUTINE_KEY)) || []; }
+    catch { return []; }
+  }
+  function saveRoutines(list) {
+    localStorage.setItem(ROUTINE_KEY, JSON.stringify(list));
+  }
+  function renderRoutines() {
+    const list = loadRoutines();
+    const el = document.getElementById('routine-list');
+    if (!list.length) {
+      el.innerHTML = '<div class="routine-empty">아직 없습니다</div>';
+      return;
+    }
+    el.innerHTML = list.map((text, i) => `
+      <div class="routine-item" data-idx="${i}">
+        <input class="routine-text" value="${text.replace(/"/g,'&quot;')}" data-idx="${i}">
+        <button class="routine-del" data-idx="${i}" title="삭제">×</button>
+      </div>`).join('');
+
+    // 인라인 수정
+    el.querySelectorAll('.routine-text').forEach(inp => {
+      inp.addEventListener('change', () => {
+        const idx = +inp.dataset.idx;
+        const list2 = loadRoutines();
+        const val = inp.value.trim();
+        if (val) { list2[idx] = val; saveRoutines(list2); }
+        else { list2.splice(idx, 1); saveRoutines(list2); renderRoutines(); }
+      });
+    });
+
+    // 삭제
+    el.querySelectorAll('.routine-del').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const idx = +btn.dataset.idx;
+        const list2 = loadRoutines();
+        list2.splice(idx, 1);
+        saveRoutines(list2);
+        renderRoutines();
+      });
+    });
+  }
+
+  function addRoutine(text) {
+    if (!text.trim()) return;
+    const list = loadRoutines();
+    list.push(text.trim());
+    saveRoutines(list);
+    renderRoutines();
+  }
+
+  document.getElementById('routine-add-btn').addEventListener('click', () => {
+    const inp = document.getElementById('routine-input');
+    addRoutine(inp.value);
+    inp.value = '';
+    inp.focus();
+  });
+  document.getElementById('routine-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') {
+      addRoutine(e.target.value);
+      e.target.value = '';
+    }
+  });
+
+  renderRoutines();
   init();
   loadTodos();
 })();
