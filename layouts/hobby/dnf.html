@@ -12,10 +12,6 @@
       --text:#e8ecf4; --muted:#5e6e8a; --sub:#8a9ab8;
       --accent:#8b7cf8; --accent2:#5f8aff; --gold:#e8b84b;
       --border:#181e30; --border2:#222840;
-      --epic:#c084fc; --legendary:#fbbf24; --unique:#f97316; --rare:#60a5fa; --uncommon:#4ade80;
-      --s-hi:#93c47d; --s-hi-bg:rgba(147,196,125,.12);
-      --s-mid:#e8b84b; --s-mid-bg:rgba(232,184,75,.10);
-      --s-lo:#f87171; --s-lo-bg:rgba(248,113,113,.10);
     }
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
     html{scroll-behavior:smooth;}
@@ -23,7 +19,6 @@
       line-height:1.5;-webkit-font-smoothing:antialiased;min-height:100vh;}
     a{color:var(--accent);text-decoration:none;}
 
-    /* Nav */
     nav{position:fixed;top:0;left:0;right:0;z-index:200;height:52px;
       display:flex;align-items:center;justify-content:space-between;padding:0 1.8rem;
       background:rgba(6,8,15,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);}
@@ -32,22 +27,18 @@
       color:var(--muted);transition:color .2s;}
     .nav-back:hover{color:var(--text);}
 
-    /* Layout */
     .wrap{max-width:1080px;margin:0 auto;padding:64px 1.2rem 5rem;position:relative;z-index:1;}
 
-    /* Page header */
     .page-title{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;
       background:linear-gradient(135deg,#fff 30%,var(--accent) 80%);
       -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
     .page-sub{font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--muted);
-      letter-spacing:.1em;margin-top:.15rem;}
+      letter-spacing:.1em;margin-top:.2rem;}
 
-    /* ── Search bar ── */
-    .search-bar{
-      display:flex;gap:.6rem;flex-wrap:wrap;align-items:flex-end;
+    /* Search */
+    .search-bar{display:flex;gap:.6rem;flex-wrap:wrap;align-items:flex-end;
       background:var(--bg2);border:1px solid var(--border2);border-radius:12px;
-      padding:.9rem 1.1rem;margin:1.2rem 0;
-    }
+      padding:.9rem 1.1rem;margin:1.2rem 0;}
     .fg{display:flex;flex-direction:column;gap:.25rem;}
     .fg label{font-size:.6rem;color:var(--muted);letter-spacing:.08em;
       font-family:'JetBrains Mono',monospace;text-transform:uppercase;}
@@ -62,8 +53,8 @@
     .btn-add:hover{opacity:.85;}
     .btn-add:disabled{opacity:.4;cursor:not-allowed;}
 
-    /* ── State ── */
-    #loading{display:none;text-align:center;padding:2rem;color:var(--muted);font-size:.85rem;}
+    /* State */
+    #loading{display:none;text-align:center;padding:2rem;color:var(--muted);}
     .spinner{display:inline-block;width:22px;height:22px;margin-bottom:.5rem;
       border:2px solid var(--border2);border-top-color:var(--accent);
       border-radius:50%;animation:spin .8s linear infinite;}
@@ -71,144 +62,149 @@
     #error-msg{display:none;padding:.8rem 1rem;
       background:rgba(248,113,113,.07);border:1px solid rgba(248,113,113,.25);
       border-radius:8px;color:#f87171;font-size:.83rem;margin-bottom:.8rem;}
+    #result{display:none;}
 
-    /* ── Roster tabs ── */
-    .roster-wrap{margin-bottom:1rem;}
-    .roster-tabs{display:flex;gap:.4rem;flex-wrap:wrap;align-items:center;}
-    .roster-tab{
-      display:flex;align-items:center;gap:.5rem;
+    /* Roster tabs */
+    .roster-tabs{display:flex;gap:.4rem;flex-wrap:wrap;align-items:center;margin-bottom:1rem;}
+    .roster-tab{display:flex;align-items:center;gap:.5rem;
       padding:.38rem .75rem;border-radius:8px;cursor:pointer;
       border:1px solid var(--border2);background:var(--bg2);
-      font-size:.82rem;transition:all .18s;color:var(--sub);
-    }
+      font-size:.82rem;transition:all .18s;color:var(--sub);}
     .roster-tab:hover{border-color:var(--accent);color:var(--text);}
     .roster-tab.active{background:rgba(139,124,248,.12);border-color:var(--accent);color:var(--text);}
-    .roster-tab .tab-lv{font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--muted);}
-    .roster-tab .tab-score{font-family:'JetBrains Mono',monospace;font-size:.68rem;
-      padding:1px 6px;border-radius:4px;
-      background:var(--s-hi-bg);color:var(--s-hi);border:1px solid rgba(147,196,125,.25);}
-    .roster-tab .tab-x{font-size:.75rem;color:var(--muted);margin-left:.1rem;
-      line-height:1;opacity:.6;cursor:pointer;}
-    .roster-tab .tab-x:hover{opacity:1;color:#f87171;}
+    .tab-lv{font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--muted);}
+    .tab-x{font-size:.75rem;color:var(--muted);margin-left:.2rem;opacity:.6;cursor:pointer;}
+    .tab-x:hover{opacity:1;color:#f87171;}
 
-    /* ── Compare table ── */
-    .compare-wrap{
-      overflow-x:auto;margin-bottom:1.2rem;
-      background:var(--bg2);border:1px solid var(--border2);border-radius:12px;
-    }
-    .compare-table{border-collapse:collapse;min-width:100%;font-size:.78rem;}
-    .compare-table th{
-      padding:.5rem .75rem;text-align:left;white-space:nowrap;
-      font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.08em;
-      text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--border);
-      background:var(--bg3);
-    }
-    .compare-table td{padding:.45rem .75rem;border-bottom:1px solid var(--border);vertical-align:middle;}
-    .compare-table tr:last-child td{border-bottom:none;}
-    .compare-table tr.active-row td{background:rgba(139,124,248,.05);}
-    .compare-table tr:hover td{background:rgba(139,124,248,.04);}
+    /* Compare table */
+    .cmp-wrap{overflow-x:auto;background:var(--bg2);border:1px solid var(--border2);
+      border-radius:10px;margin-bottom:1.2rem;}
+    .cmp-table{border-collapse:collapse;min-width:100%;font-size:.78rem;}
+    .cmp-table th{padding:.45rem .7rem;text-align:left;white-space:nowrap;
+      font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.08em;
+      text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--border);background:var(--bg3);}
+    .cmp-table td{padding:.42rem .7rem;border-bottom:1px solid var(--border);vertical-align:middle;}
+    .cmp-table tr:last-child td{border-bottom:none;}
+    .cmp-table tr.active-row td{background:rgba(139,124,248,.05);}
+    .cmp-table tr:hover td{background:rgba(139,124,248,.04);}
     .cmp-name{font-weight:600;cursor:pointer;}
     .cmp-name:hover{color:var(--accent);}
-    .cmp-job{font-size:.72rem;color:var(--muted);}
-    .cmp-sc{font-family:'JetBrains Mono',monospace;font-size:.82rem;}
     .bar-wrap{display:flex;align-items:center;gap:.5rem;}
-    .bar{height:6px;border-radius:3px;min-width:2px;transition:width .4s;}
 
-    /* ── Section ── */
+    /* Section */
     .section{margin-bottom:1.2rem;}
     .sec-head{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.14em;
       text-transform:uppercase;color:var(--muted);
       padding:.3rem .75rem;margin-bottom:.55rem;
       background:var(--bg3);border-left:3px solid var(--accent);border-radius:0 5px 5px 0;}
 
-    /* ── Char banner ── */
-    .char-banner{
-      background:linear-gradient(135deg,var(--bg2) 0%,var(--bg3) 100%);
+    /* Char banner */
+    .char-banner{background:linear-gradient(135deg,var(--bg2),var(--bg3));
       border:1px solid var(--border2);border-radius:12px;
-      padding:1.1rem 1.4rem;display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap;
-    }
+      padding:1.1rem 1.4rem;display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap;}
     .char-name{font-family:'Playfair Display',serif;font-size:1.5rem;}
     .char-tags{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.3rem;}
     .c-tag{font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.05em;
       padding:2px 7px;border-radius:4px;border:1px solid var(--border2);color:var(--sub);}
     .c-tag.lv{border-color:rgba(139,124,248,.4);color:var(--accent);}
-    .total-score{margin-left:auto;background:var(--bg4);
-      border:1px solid rgba(147,196,125,.3);border-radius:10px;
-      padding:.6rem 1.1rem;text-align:center;min-width:100px;}
-    .ts-label{font-family:'JetBrains Mono',monospace;font-size:.55rem;color:var(--muted);letter-spacing:.1em;}
-    .ts-value{font-family:'JetBrains Mono',monospace;font-size:1.5rem;color:var(--s-hi);line-height:1.1;}
-    .ts-sub{font-size:.58rem;color:var(--muted);margin-top:.05rem;}
 
-    /* ── Equipment grid ── */
+    /* Equipment grid */
     .equip-grid{display:grid;grid-template-columns:1fr 1fr;gap:.45rem;}
     @media(max-width:560px){.equip-grid{grid-template-columns:1fr;}}
     .equip-row{display:flex;align-items:flex-start;gap:.6rem;
       background:var(--bg2);border:1px solid var(--border);border-radius:9px;
       padding:.5rem .7rem;transition:border-color .18s;}
     .equip-row:hover{border-color:var(--border2);}
-    .equip-row.enchanted{border-left:2px solid var(--accent);}
-    .slot-icon{width:34px;height:34px;flex-shrink:0;image-rendering:pixelated;
+    .equip-row.has-enc{border-left-width:2px;}
+    .slot-icon{width:36px;height:36px;flex-shrink:0;image-rendering:pixelated;
       border-radius:5px;background:var(--bg3);padding:2px;border:1px solid var(--border2);}
     .slot-icon.empty{opacity:.2;filter:grayscale(1);}
     .equip-info{flex:1;min-width:0;}
     .equip-top{display:flex;align-items:center;justify-content:space-between;gap:.3rem;}
-    .equip-slot{font-family:'JetBrains Mono',monospace;font-size:.58rem;color:var(--muted);}
-    .ra{display:flex;gap:.25rem;align-items:center;flex-shrink:0;}
-    .reinf{font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--accent2);}
-    .amp-tag{font-size:.62rem;color:#fb923c;border:1px solid rgba(251,146,60,.3);padding:0 4px;border-radius:3px;}
-    .equip-name{font-size:.8rem;font-weight:600;margin-top:.08rem;
+    .equip-slot-name{font-family:'JetBrains Mono',monospace;font-size:.58rem;color:var(--muted);}
+    .reinf-row{display:flex;gap:.3rem;align-items:center;flex-shrink:0;}
+    .reinf{font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--accent2);}
+    .amp{font-size:.62rem;color:#fb923c;border:1px solid rgba(251,146,60,.3);padding:0 4px;border-radius:3px;}
+    .item-name{font-size:.82rem;font-weight:600;margin-top:.08rem;
       white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-    .equip-name.rarity-에픽{color:var(--epic);}
-    .equip-name.rarity-레전더리{color:var(--legendary);}
-    .equip-name.rarity-유니크{color:var(--unique);}
-    .equip-name.rarity-레어{color:var(--rare);}
-    .equip-name.rarity-언커먼{color:var(--uncommon);}
-    .equip-name.empty{color:var(--border2);font-weight:400;font-style:italic;}
-    .enc-row{display:flex;align-items:flex-start;justify-content:space-between;gap:.3rem;margin-top:.2rem;}
-    .enc-txt{font-size:.7rem;color:var(--sub);line-height:1.4;flex:1;min-width:0;}
-    .sc-badge{flex-shrink:0;font-family:'JetBrains Mono',monospace;font-size:.66rem;font-weight:600;
-      padding:1px 5px;border-radius:4px;line-height:1.6;}
-    .sc-badge.hi{background:var(--s-hi-bg);color:var(--s-hi);border:1px solid rgba(147,196,125,.3);}
-    .sc-badge.mid{background:var(--s-mid-bg);color:var(--s-mid);border:1px solid rgba(232,184,75,.3);}
-    .sc-badge.lo{background:var(--s-lo-bg);color:var(--s-lo);border:1px solid rgba(248,113,113,.3);}
-    .sc-badge.zero{color:var(--border2);}
+    .item-name.empty{color:var(--border2);font-weight:400;font-style:italic;}
+    /* 조율 */
+    .calib-row{display:flex;gap:.3rem;flex-wrap:wrap;margin-top:.18rem;}
+    .calib-tag{font-size:.62rem;font-family:'JetBrains Mono',monospace;
+      color:#a78bfa;border:1px solid rgba(167,139,250,.25);padding:0 5px;border-radius:3px;}
+    /* 마법부여 */
+    .enc-block{margin-top:.22rem;}
+    .enc-grade{font-family:'JetBrains Mono',monospace;font-size:.6rem;
+      font-weight:600;padding:1px 6px;border-radius:3px;margin-bottom:.15rem;display:inline-block;}
+    .enc-text{font-size:.7rem;line-height:1.5;color:var(--sub);}
 
-    /* ── Stats ── */
+    /* Stat grid */
     .stat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:.35rem;}
     .stat-item{background:var(--bg2);border:1px solid var(--border);border-radius:7px;
       padding:.38rem .65rem;display:flex;justify-content:space-between;align-items:center;}
     .stat-name{font-size:.73rem;color:var(--sub);}
     .stat-val{font-family:'JetBrains Mono',monospace;font-size:.78rem;color:var(--text);}
 
-    /* ── Avatar ── */
+    /* Avatar */
     .avatar-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:.4rem;}
     .avatar-card{background:var(--bg2);border:1px solid var(--border);border-radius:9px;padding:.55rem .75rem;}
+    .av-top{display:flex;align-items:center;gap:.5rem;}
+    .av-icon{width:28px;height:28px;image-rendering:pixelated;border-radius:4px;
+      background:var(--bg3);padding:1px;border:1px solid var(--border2);flex-shrink:0;}
     .av-slot{font-family:'JetBrains Mono',monospace;font-size:.58rem;color:var(--muted);}
     .av-name{font-size:.8rem;font-weight:500;margin-top:.08rem;}
-    .av-opt{font-size:.7rem;color:var(--accent);margin-top:.12rem;}
+    .av-opt{font-size:.7rem;color:var(--accent);margin-top:.1rem;}
     .emb-list{display:flex;flex-wrap:wrap;gap:.2rem;margin-top:.25rem;}
     .emb{font-size:.6rem;padding:1px 5px;border-radius:3px;border:1px solid var(--border2);color:var(--muted);}
     .emb.pl{border-color:rgba(139,124,248,.4);color:var(--accent);}
     .emb.gd{border-color:rgba(232,184,75,.35);color:var(--gold);}
+    /* 칭호/오라/무기아바타 강조 */
+    .avatar-card.special{border-color:rgba(232,184,75,.3);background:rgba(232,184,75,.03);}
+    .av-slot.special{color:var(--gold);}
 
-    /* ── Set / Creature ── */
+    /* Set sections */
+    .set-wrap{display:flex;flex-direction:column;gap:.45rem;}
     .set-card{background:var(--bg2);border:1px solid var(--border);border-radius:9px;
-      padding:.65rem .85rem;margin-bottom:.45rem;}
-    .set-top{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;}
+      padding:.65rem .85rem;}
+    .set-card.oath{border-color:rgba(139,124,248,.3);background:rgba(139,124,248,.04);}
+    .set-top{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;}
+    .set-badge{font-family:'JetBrains Mono',monospace;font-size:.58rem;padding:1px 6px;
+      border-radius:3px;border:1px solid;letter-spacing:.05em;}
+    .set-badge.oath-badge{color:var(--accent);border-color:rgba(139,124,248,.4);}
+    .set-badge.equip-badge{color:var(--gold);border-color:rgba(232,184,75,.3);}
     .set-name{font-weight:600;font-size:.85rem;}
-    .set-lv{font-family:'JetBrains Mono',monospace;font-size:.7rem;}
-    .set-lv .act{color:var(--s-hi);}
+    .set-lv{font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--muted);}
+    .set-lv .act{color:#4ade80;}
+    .set-point{font-family:'JetBrains Mono',monospace;font-size:.7rem;
+      color:var(--accent);margin-left:auto;}
     .set-items{font-size:.72rem;color:var(--sub);margin-top:.25rem;}
-    .creature-card{background:var(--bg2);border:1px solid var(--border);border-radius:9px;padding:.7rem .9rem;}
-    .cr-name{font-weight:600;font-size:.88rem;}
-    .cr-rarity{font-size:.7rem;color:var(--muted);margin-top:.08rem;}
-    .cr-arts{display:flex;gap:.3rem;flex-wrap:wrap;margin-top:.35rem;}
-    .art-tag{font-size:.68rem;padding:2px 6px;border-radius:4px;background:var(--bg3);border:1px solid var(--border2);color:var(--sub);}
 
-    /* Empty state */
+    /* Creature + Artifacts */
+    .creature-wrap{display:flex;gap:.8rem;flex-wrap:wrap;align-items:flex-start;}
+    .creature-main{background:var(--bg2);border:1px solid var(--border);border-radius:9px;
+      padding:.65rem .85rem;flex:1;min-width:200px;}
+    .cr-top{display:flex;align-items:center;gap:.6rem;}
+    .cr-icon{width:32px;height:32px;image-rendering:pixelated;border-radius:5px;
+      background:var(--bg3);padding:1px;border:1px solid var(--border2);}
+    .cr-name{font-weight:600;font-size:.88rem;}
+    .cr-rarity{font-size:.7rem;margin-top:.08rem;}
+    .artifact-grid{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.6rem;}
+    .artifact-card{background:var(--bg3);border:1px solid;border-radius:8px;
+      padding:.5rem .7rem;min-width:140px;flex:1;}
+    .artifact-card.RED  {border-color:rgba(248,113,113,.4);}
+    .artifact-card.BLUE {border-color:rgba(96,165,250,.4);}
+    .artifact-card.GREEN{border-color:rgba(74,222,128,.4);}
+    .art-slot{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.08em;}
+    .art-slot.RED  {color:#f87171;}
+    .art-slot.BLUE {color:#60a5fa;}
+    .art-slot.GREEN{color:#4ade80;}
+    .art-name{font-size:.78rem;font-weight:500;margin-top:.1rem;}
+    .art-rarity{font-size:.65rem;margin-top:.05rem;color:var(--muted);}
+
+    /* Empty */
     .empty-state{text-align:center;padding:3.5rem 1rem;color:var(--muted);}
-    .empty-icon{font-size:2.2rem;margin-bottom:.8rem;opacity:.3;}
-    .empty-hint{font-size:.8rem;margin-top:.4rem;}
+    .empty-icon{font-size:2rem;margin-bottom:.8rem;opacity:.3;}
+    .empty-hint{font-size:.78rem;margin-top:.4rem;color:var(--border2);}
 
     #cursor-glow{position:fixed;inset:0;z-index:0;pointer-events:none;
       background:radial-gradient(600px circle at -999px -999px,rgba(139,124,248,.07) 0%,transparent 70%);}
@@ -227,7 +223,6 @@
     <div class="page-sub">DUNGEON &amp; FIGHTER · MULTI CHARACTER SHEET</div>
   </div>
 
-  <!-- 검색 -->
   <div class="search-bar">
     <div class="fg">
       <label>서버</label>
@@ -246,42 +241,31 @@
   <div id="error-msg"></div>
   <div id="loading"><div class="spinner"></div><br>불러오는 중...</div>
 
-  <!-- 캐릭터가 없을 때 -->
   <div id="empty-state" class="empty-state">
     <div class="empty-icon">⚔</div>
     <div>캐릭터를 추가해주세요</div>
-    <div class="empty-hint" style="color:var(--border2)">서버와 캐릭터명을 입력 후 추가 버튼을 누르세요</div>
+    <div class="empty-hint">서버와 캐릭터명을 입력 후 추가 버튼을 누르세요</div>
   </div>
 
-  <!-- 캐릭터 있을 때 -->
   <div id="main-area" style="display:none">
+    <div class="roster-tabs" id="roster-tabs"></div>
 
-    <!-- 탭 -->
-    <div class="roster-wrap">
-      <div class="roster-tabs" id="roster-tabs"></div>
-    </div>
-
-    <!-- 비교 테이블 (2명 이상일 때) -->
-    <div id="compare-section" style="display:none;margin-bottom:1.2rem;">
+    <!-- 비교 테이블 -->
+    <div id="compare-section" style="display:none;margin-bottom:1.2rem">
       <div class="sec-head">캐릭터 비교</div>
-      <div class="compare-wrap">
-        <table class="compare-table">
-          <thead>
-            <tr>
-              <th>캐릭터</th>
-              <th>직업</th>
-              <th>Lv</th>
-              <th style="text-align:right">마법부여 합계</th>
-              <th style="min-width:160px">점수 분포</th>
-              <th>에픽</th><th>레전더리</th><th>유니크</th>
-            </tr>
-          </thead>
-          <tbody id="compare-tbody"></tbody>
+      <div class="cmp-wrap">
+        <table class="cmp-table">
+          <thead><tr>
+            <th>캐릭터</th><th>직업</th><th>Lv</th>
+            <th>에픽</th><th>레전더리</th><th>유니크</th>
+            <th>조율</th><th>마법부여</th>
+          </tr></thead>
+          <tbody id="cmp-tbody"></tbody>
         </table>
       </div>
     </div>
 
-    <!-- 캐릭터 상세 -->
+    <!-- 상세 -->
     <div id="char-detail">
       <div class="section">
         <div class="char-banner">
@@ -293,16 +277,11 @@
               <span class="c-tag" id="r-job"></span>
             </div>
           </div>
-          <div class="total-score">
-            <div class="ts-label">ENCHANT</div>
-            <div class="ts-value" id="r-score">—</div>
-            <div class="ts-sub">TOTAL SCORE</div>
-          </div>
         </div>
       </div>
 
       <div class="section">
-        <div class="sec-head">장비 &amp; 마법부여</div>
+        <div class="sec-head">장비 &amp; 마법부여 &amp; 조율</div>
         <div class="equip-grid" id="equip-grid"></div>
       </div>
 
@@ -311,73 +290,137 @@
         <div class="stat-grid" id="stat-grid"></div>
       </div>
 
+      <div class="section" id="set-section" style="display:none">
+        <div class="sec-head">세트 아이템</div>
+        <div class="set-wrap" id="set-wrap"></div>
+      </div>
+
+      <div class="section" id="creature-section" style="display:none">
+        <div class="sec-head">크리처 &amp; 아티팩트</div>
+        <div id="creature-wrap"></div>
+      </div>
+
       <div class="section" id="avatar-section">
         <div class="sec-head">아바타</div>
         <div class="avatar-grid" id="avatar-grid"></div>
       </div>
-
-      <div class="section" id="set-section" style="display:none">
-        <div class="sec-head">세트 아이템</div>
-        <div id="set-list"></div>
-      </div>
-
-      <div class="section" id="creature-section" style="display:none">
-        <div class="sec-head">크리처</div>
-        <div class="creature-card" id="creature-card"></div>
-      </div>
     </div>
   </div>
-</div><!-- .wrap -->
+</div>
 
 <script>
 const API_BASE = "https://dnf-api-exml.onrender.com";
 
+// ── 장비 슬롯 설정 ─────────────────────────────────────────────────────────────
+// API 슬롯명 → 표시명 (짧게)
+const SLOT_DISPLAY = {
+  "무기":      "무기",
+  "머리 갑옷": "머리",
+  "상체 갑옷": "상의",
+  "하체 갑옷": "하의",
+  "어깨 갑옷": "어깨",
+  "손 갑옷":   "손",
+  "목걸이":    "목걸이",
+  "팔찌":      "팔찌",
+  "반지":      "반지",
+  "보조 장비": "보조",
+  "마법석":    "마법석",
+  "귀걸이":    "귀걸이",
+};
+// API slotName 기준 순서
 const SLOT_ORDER = ["무기","머리 갑옷","상체 갑옷","하체 갑옷","어깨 갑옷","손 갑옷",
                     "목걸이","팔찌","반지","보조 장비","마법석","귀걸이"];
-const SLOT_ICON  = {
-  "무기":"/dnf/image1.png","머리 갑옷":"/dnf/image2.png",
-  "상체 갑옷":"/dnf/image4.png","하체 갑옷":"/dnf/image3.png",
-  "어깨 갑옷":"/dnf/image8.png","손 갑옷":"/dnf/image6.png",
-  "목걸이":"/dnf/image11.png","팔찌":"/dnf/image12.png",
-  "반지":"/dnf/image5.png","보조 장비":"/dnf/image7.png",
-  "마법석":"/dnf/image9.png","귀걸이":"/dnf/image10.png",
+
+// 엑셀 drawing2 행 순서 그대로 매핑
+const SLOT_ICON = {
+  "무기":      "/dnf/image1.png",
+  "머리 갑옷": "/dnf/image2.png",
+  "상체 갑옷": "/dnf/image4.png",
+  "하체 갑옷": "/dnf/image3.png",
+  "어깨 갑옷": "/dnf/image8.png",
+  "손 갑옷":   "/dnf/image6.png",
+  "목걸이":    "/dnf/image11.png",
+  "팔찌":      "/dnf/image12.png",
+  "반지":      "/dnf/image5.png",
+  "보조 장비": "/dnf/image7.png",
+  "마법석":    "/dnf/image9.png",
+  "귀걸이":    "/dnf/image10.png",
 };
+
+// 아바타 섹션 아이콘 (엑셀 drawing2 rows 59-65)
+const AVATAR_ICON = {
+  "칭호":  "/dnf/image14.png",
+  "오라":  "/dnf/image19.png",
+  "무기":  "/dnf/image13.png",  // 무기 아바타
+};
+
+// 희귀도 색상 (인라인 스타일로 적용 — CSS 한글 클래스 문제 방지)
+const RARITY_COLOR = {
+  "에픽":     "#c084fc",
+  "레전더리": "#fbbf24",
+  "유니크":   "#f97316",
+  "레어":     "#60a5fa",
+  "언커먼":   "#4ade80",
+  "커먼":     "#9ca3af",
+  "크로니클": "#f59e0b",
+  "신화":     "#ec4899",
+  "고대":     "#ef4444",
+};
+
+// 마법부여 등급 색상
+const ENCHANT_GRADE_COLOR = {
+  "환상급": { color: "#f472b6", bg: "rgba(244,114,182,.12)", border: "rgba(244,114,182,.3)" },
+  "최상급": { color: "#fbbf24", bg: "rgba(251,191,36,.12)",  border: "rgba(251,191,36,.3)"  },
+  "영상급": { color: "#f97316", bg: "rgba(249,115,22,.12)",  border: "rgba(249,115,22,.3)"  },
+  "상급":   { color: "#4ade80", bg: "rgba(74,222,128,.12)",  border: "rgba(74,222,128,.3)"  },
+  "중급":   { color: "#60a5fa", bg: "rgba(96,165,250,.12)",  border: "rgba(96,165,250,.3)"  },
+  "하급":   { color: "#9ca3af", bg: "rgba(156,163,175,.10)", border: "rgba(156,163,175,.2)" },
+  "특수":   { color: "#c084fc", bg: "rgba(192,132,252,.12)", border: "rgba(192,132,252,.3)" },
+};
+
+// 아티팩트 슬롯 키 (API가 RED/BLUE/GREEN 또는 레드/블루/그린 반환)
+const ART_KEY = (slot) => {
+  const s = (slot || "").toUpperCase();
+  if (s.includes("RED")  || slot.includes("레드"))  return "RED";
+  if (s.includes("BLUE") || slot.includes("블루")) return "BLUE";
+  if (s.includes("GREEN")|| slot.includes("그린")) return "GREEN";
+  return s;
+};
+
 const STAT_DISPLAY = ["HP","MP","힘","지능","체력","정신력","물리 공격력","마법 공격력",
   "물리 방어력","마법 방어력","화속성 강화","수속성 강화","명속성 강화","암속성 강화",
   "화속성 저항","수속성 저항","명속성 저항","암속성 저항","크리티컬 히트","공격 속도","캐스팅 속도"];
 
-// ── State ─────────────────────────────────────────────────────────────────────
-let roster   = [];  // 캐릭터 데이터 배열
-let activeIdx = 0;  // 현재 선택된 캐릭터 인덱스
+// 특수 아바타 슬롯
+const SPECIAL_AVATAR_SLOTS = new Set(["칭호","오라","무기"]);
 
-// ── 캐릭터 추가 ───────────────────────────────────────────────────────────────
+// ── State ──────────────────────────────────────────────────────────────────────
+let roster   = [];
+let activeIdx = 0;
+
+// ── Add character ──────────────────────────────────────────────────────────────
 async function addCharacter() {
   const server = document.getElementById("inp-server").value;
   const name   = document.getElementById("inp-name").value.trim();
   if (!name) return showError("캐릭터명을 입력해주세요.");
-
-  // 중복 체크
-  if (roster.find(c => c.server === server && c.characterName === name)) {
-    return showError(`이미 추가된 캐릭터입니다: [${server}] ${name}`);
-  }
+  if (roster.find(c => c.server === server && c.characterName === name))
+    return showError(`이미 추가된 캐릭터: [${server}] ${name}`);
 
   const btn = document.getElementById("btn-add");
   btn.disabled = true;
-  document.getElementById("loading").style.display = "block";
+  document.getElementById("loading").style.display   = "block";
   document.getElementById("error-msg").style.display = "none";
 
   try {
     const resp = await fetch(`${API_BASE}/character?${new URLSearchParams({server, name})}`);
     const data = await resp.json();
     if (!resp.ok) throw new Error(data.detail || `오류 ${resp.status}`);
-
     roster.push(data);
     activeIdx = roster.length - 1;
     document.getElementById("inp-name").value = "";
-
-    renderAll();
     document.getElementById("empty-state").style.display = "none";
     document.getElementById("main-area").style.display   = "block";
+    renderAll();
   } catch(e) {
     showError(e.message || "서버 연결 실패. 잠시 후 다시 시도하세요.");
   } finally {
@@ -389,7 +432,7 @@ async function addCharacter() {
 function removeCharacter(idx) {
   roster.splice(idx, 1);
   if (!roster.length) {
-    document.getElementById("main-area").style.display  = "none";
+    document.getElementById("main-area").style.display   = "none";
     document.getElementById("empty-state").style.display = "block";
     return;
   }
@@ -397,10 +440,7 @@ function removeCharacter(idx) {
   renderAll();
 }
 
-function selectCharacter(idx) {
-  activeIdx = idx;
-  renderAll();
-}
+function selectCharacter(idx) { activeIdx = idx; renderAll(); }
 
 function showError(msg) {
   const el = document.getElementById("error-msg");
@@ -408,74 +448,57 @@ function showError(msg) {
   el.style.display = "block";
 }
 
-// ── 전체 렌더 ─────────────────────────────────────────────────────────────────
+// ── Render all ─────────────────────────────────────────────────────────────────
 function renderAll() {
   renderTabs();
   renderCompare();
   renderDetail(roster[activeIdx]);
 }
 
-// ── 탭 ────────────────────────────────────────────────────────────────────────
+// ── Tabs ───────────────────────────────────────────────────────────────────────
 function renderTabs() {
   const wrap = document.getElementById("roster-tabs");
   wrap.innerHTML = "";
   roster.forEach((c, i) => {
-    const sc = c.enchantTotal || 0;
     const div = document.createElement("div");
     div.className = `roster-tab${i === activeIdx ? " active" : ""}`;
-    div.innerHTML = `
-      <div>
-        <span style="font-weight:600">${c.characterName}</span>
-        <span class="tab-lv"> Lv.${c.level}</span>
-      </div>
-      ${sc ? `<span class="tab-score">${sc}</span>` : ""}
-      <span class="tab-x" data-idx="${i}" onclick="event.stopPropagation();removeCharacter(${i})">✕</span>`;
+    div.innerHTML = `<span style="font-weight:600">${c.characterName}</span>
+      <span class="tab-lv">Lv.${c.level}</span>
+      <span class="tab-x" onclick="event.stopPropagation();removeCharacter(${i})">✕</span>`;
     div.addEventListener("click", () => selectCharacter(i));
     wrap.appendChild(div);
   });
 }
 
-// ── 비교 테이블 ───────────────────────────────────────────────────────────────
+// ── Compare table ──────────────────────────────────────────────────────────────
 function renderCompare() {
   const section = document.getElementById("compare-section");
   if (roster.length < 2) { section.style.display = "none"; return; }
   section.style.display = "block";
 
-  const maxScore = Math.max(...roster.map(c => c.enchantTotal || 0)) || 1;
-  const tbody = document.getElementById("compare-tbody");
+  const rarityCount = (c, r) => (c.equipment || []).filter(e => e.rarity === r).length;
+  const hasCalib    = (c) => (c.equipment || []).some(e => (e.calibration || []).length > 0);
+  const enchantCount = (c) => (c.equipment || []).filter(e => e.enchantGrade).length;
+
+  const tbody = document.getElementById("cmp-tbody");
   tbody.innerHTML = "";
-
-  // 희귀도별 장비 수 계산
-  const rarityCount = (c, rarity) =>
-    (c.equipment || []).filter(e => e.rarity === rarity).length;
-
   roster.forEach((c, i) => {
-    const sc  = c.enchantTotal || 0;
-    const pct = Math.round(sc / maxScore * 100);
-    const scCls = sc >= 60 ? "var(--s-hi)" : sc >= 30 ? "var(--s-mid)" : "var(--s-lo)";
     const tr = document.createElement("tr");
     if (i === activeIdx) tr.className = "active-row";
     tr.innerHTML = `
       <td><span class="cmp-name" onclick="selectCharacter(${i})">${c.characterName}</span></td>
-      <td><span class="cmp-job">${c.jobGrowName || c.jobName}</span></td>
-      <td><span style="font-family:'JetBrains Mono',monospace;font-size:.75rem">${c.level}</span></td>
-      <td style="text-align:right">
-        <span class="cmp-sc" style="color:${scCls}">${sc}</span>
-      </td>
-      <td>
-        <div class="bar-wrap">
-          <div class="bar" style="width:${pct}%;background:${scCls};height:6px;border-radius:3px"></div>
-          <span style="font-size:.62rem;color:var(--muted)">${pct}%</span>
-        </div>
-      </td>
-      <td style="color:var(--epic);font-family:'JetBrains Mono',monospace;font-size:.75rem">${rarityCount(c,'에픽')}</td>
-      <td style="color:var(--legendary);font-family:'JetBrains Mono',monospace;font-size:.75rem">${rarityCount(c,'레전더리')}</td>
-      <td style="color:var(--unique);font-family:'JetBrains Mono',monospace;font-size:.75rem">${rarityCount(c,'유니크')}</td>`;
+      <td style="font-size:.72rem;color:var(--muted)">${c.jobGrowName || c.jobName}</td>
+      <td style="font-family:'JetBrains Mono',monospace;font-size:.75rem">${c.level}</td>
+      <td style="color:#c084fc;font-family:'JetBrains Mono',monospace;font-size:.75rem">${rarityCount(c,"에픽")}</td>
+      <td style="color:#fbbf24;font-family:'JetBrains Mono',monospace;font-size:.75rem">${rarityCount(c,"레전더리")}</td>
+      <td style="color:#f97316;font-family:'JetBrains Mono',monospace;font-size:.75rem">${rarityCount(c,"유니크")}</td>
+      <td style="font-size:.72rem;color:${hasCalib(c)?"#a78bfa":"var(--border2)"}">${hasCalib(c)?"○":"—"}</td>
+      <td style="font-size:.72rem;color:var(--sub)">${enchantCount(c)}개</td>`;
     tbody.appendChild(tr);
   });
 }
 
-// ── 캐릭터 상세 ───────────────────────────────────────────────────────────────
+// ── Detail ─────────────────────────────────────────────────────────────────────
 function renderDetail(d) {
   if (!d) return;
 
@@ -483,44 +506,54 @@ function renderDetail(d) {
   document.getElementById("r-lv").textContent     = `Lv.${d.level}`;
   document.getElementById("r-server").textContent = d.server;
   document.getElementById("r-job").textContent    = `${d.jobName} · ${d.jobGrowName}`;
-  document.getElementById("r-score").textContent  = d.enchantTotal || 0;
 
-  // 장비
-  const equipGrid = document.getElementById("equip-grid");
-  equipGrid.innerHTML = "";
+  // ── 장비 ──────────────────────────────────────────────────────────────────
+  const grid = document.getElementById("equip-grid");
+  grid.innerHTML = "";
   const equipMap = {};
   for (const eq of (d.equipment || [])) equipMap[eq.slot] = eq;
 
   for (const slot of SLOT_ORDER) {
-    const eq     = equipMap[slot];
-    const icon   = SLOT_ICON[slot] || "";
-    const sc     = eq?.enchantScore || 0;
-    const scCls  = sc >= 15 ? "hi" : sc >= 8 ? "mid" : sc > 0 ? "lo" : "zero";
-    const rarity = eq?.rarity || "";
-    const nameCls = rarity ? `rarity-${rarity}` : "empty";
-    const reinf  = eq?.reinforce    ? `<span class="reinf">+${eq.reinforce}</span>` : "";
-    const amp    = eq?.amplification? `<span class="amp-tag">${eq.amplification}</span>` : "";
-    const encTxt = eq?.enchantText  ? `<span class="enc-txt">${eq.enchantText}</span>` : "";
+    const eq      = equipMap[slot];
+    const icon    = SLOT_ICON[slot] || "";
+    const display = SLOT_DISPLAY[slot] || slot;
+    const rarity  = eq?.rarity || "";
+    const rc      = RARITY_COLOR[rarity] || "";
+    const hasEnc  = !!(eq?.enchantText || eq?.enchantGrade);
 
-    equipGrid.insertAdjacentHTML("beforeend", `
-      <div class="equip-row${sc > 0 ? ' enchanted' : ''}">
-        <img class="slot-icon${!eq ? ' empty' : ''}" src="${icon}" alt="${slot}">
+    // 강화/증폭/조율
+    const reinf   = eq?.reinforce     ? `<span class="reinf">+${eq.reinforce}</span>` : "";
+    const amp     = eq?.amplification ? `<span class="amp">${eq.amplification}</span>` : "";
+    const calib   = (eq?.calibration || []).map(o =>
+      `<span class="calib-tag">${o.name} ${o.value}</span>`).join("");
+
+    // 마법부여
+    let encHtml = "";
+    if (hasEnc) {
+      const gd  = eq.enchantGrade;
+      const gc  = gd ? ENCHANT_GRADE_COLOR[gd] : null;
+      const gradeBadge = gc
+        ? `<span class="enc-grade" style="color:${gc.color};background:${gc.bg};border:1px solid ${gc.border}">${gd} 마법부여</span>`
+        : "";
+      encHtml = `<div class="enc-block">${gradeBadge}<div class="enc-text"${gc ? ` style="color:${gc.color};opacity:.85"` : ""}>${(eq.enchantText || "").replace(/\n/g,"<br>")}</div></div>`;
+    }
+
+    grid.insertAdjacentHTML("beforeend", `
+      <div class="equip-row${hasEnc ? ' has-enc' : ''}"${hasEnc && eq.enchantGrade ? ` style="border-left-color:${(ENCHANT_GRADE_COLOR[eq.enchantGrade]||{}).border||'var(--accent)'}"` : ''}>
+        <img class="slot-icon${!eq ? ' empty' : ''}" src="${icon}" alt="${display}">
         <div class="equip-info">
           <div class="equip-top">
-            <span class="equip-slot">${slot}</span>
-            <div class="ra">${reinf}${amp}</div>
+            <span class="equip-slot-name">${display}</span>
+            <div class="reinf-row">${reinf}${amp}</div>
           </div>
-          <div class="equip-name ${nameCls}">${eq?.itemName || "—"}</div>
-          ${encTxt || sc > 0 ? `
-          <div class="enc-row">
-            ${encTxt}
-            <span class="sc-badge ${scCls}">${sc > 0 ? sc : ""}</span>
-          </div>` : ""}
+          <div class="item-name${!eq ? ' empty' : ''}" style="${rc ? `color:${rc}` : ''}">${eq?.itemName || "—"}</div>
+          ${calib ? `<div class="calib-row">${calib}</div>` : ""}
+          ${encHtml}
         </div>
       </div>`);
   }
 
-  // 스탯
+  // ── 스탯 ──────────────────────────────────────────────────────────────────
   const statGrid = document.getElementById("stat-grid");
   statGrid.innerHTML = "";
   const status = d.status || {};
@@ -534,57 +567,101 @@ function renderDetail(d) {
     }
   }
 
-  // 아바타
-  const avGrid = document.getElementById("avatar-grid");
-  avGrid.innerHTML = "";
-  for (const av of (d.avatar || [])) {
-    const emblems = (av.emblems || []).map(e => {
-      const nm  = e.name || "";
-      const cls = nm.includes("플래티넘") ? "pl" : nm.includes("골드") ? "gd" : "";
-      return `<span class="emb ${cls}">${nm}</span>`;
-    }).join("");
-    avGrid.insertAdjacentHTML("beforeend", `
-      <div class="avatar-card">
-        <div class="av-slot">${av.slot}</div>
-        <div class="av-name">${av.itemName || "—"}</div>
-        ${av.optionAbility ? `<div class="av-opt">${av.optionAbility}</div>` : ""}
-        ${emblems ? `<div class="emb-list">${emblems}</div>` : ""}
-      </div>`);
-  }
-
-  // 세트
-  const sets = d.oath || [];
+  // ── 세트 아이템 (서약세트 + 장비세트) ─────────────────────────────────────
+  const allSets = [
+    ...(d.oathSets  || []).map(s => ({...s, isOath: true})),
+    ...(d.equipSets || []).map(s => ({...s, isOath: false})),
+  ];
   const setSection = document.getElementById("set-section");
-  const setList    = document.getElementById("set-list");
-  setList.innerHTML = "";
-  if (sets.length) {
+  const setWrap    = document.getElementById("set-wrap");
+  setWrap.innerHTML = "";
+  if (allSets.length) {
     setSection.style.display = "block";
-    for (const s of sets) {
-      setList.insertAdjacentHTML("beforeend", `
-        <div class="set-card">
+    for (const s of allSets) {
+      const badge = s.isOath
+        ? `<span class="set-badge oath-badge">서약 세트</span>`
+        : `<span class="set-badge equip-badge">장비 세트</span>`;
+      const point = s.oathPoint
+        ? `<span class="set-point">${s.oathPoint}pt</span>` : "";
+      setWrap.insertAdjacentHTML("beforeend", `
+        <div class="set-card${s.isOath ? ' oath' : ''}">
           <div class="set-top">
+            ${badge}
             <span class="set-name">${s.setName}</span>
-            <span class="set-lv"><span class="act">${s.active}세트</span><span style="color:var(--muted)"> / ${s.maxLevel}</span></span>
+            <span class="set-lv"><span class="act">${s.active}</span> / ${s.maxLevel}세트</span>
+            ${point}
           </div>
           <div class="set-items">${(s.items||[]).join(" · ")}</div>
         </div>`);
     }
   } else { setSection.style.display = "none"; }
 
-  // 크리처
+  // ── 크리처 + 아티팩트 ─────────────────────────────────────────────────────
   const cr = d.creature;
   const creatureSection = document.getElementById("creature-section");
-  const creatureCard    = document.getElementById("creature-card");
-  creatureCard.innerHTML = "";
+  const creatureWrapEl  = document.getElementById("creature-wrap");
+  creatureWrapEl.innerHTML = "";
   if (cr?.itemName) {
     creatureSection.style.display = "block";
-    const arts = (cr.artifact || []).map(a =>
-      `<span class="art-tag">${a.slot}: ${a.name}</span>`).join("");
-    creatureCard.innerHTML = `
-      <div class="cr-name">${cr.itemName}</div>
-      <div class="cr-rarity">${cr.itemRarity || ""}</div>
-      ${arts ? `<div class="cr-arts">${arts}</div>` : ""}`;
+    const crRarityColor = RARITY_COLOR[cr.itemRarity] || "var(--sub)";
+    const artifacts = cr.artifact || [];
+    const artHtml = ["RED","BLUE","GREEN"].map(key => {
+      const art = artifacts.find(a => ART_KEY(a.slot) === key);
+      const slotName = {"RED":"레드","BLUE":"블루","GREEN":"그린"}[key];
+      const artRarity = art ? (RARITY_COLOR[art.rarity] || "var(--sub)") : "";
+      return `
+        <div class="artifact-card ${key}">
+          <div class="art-slot ${key}">${slotName} 아티팩트</div>
+          <div class="art-name">${art?.name || "—"}</div>
+          ${art?.rarity ? `<div class="art-rarity" style="color:${artRarity}">${art.rarity}</div>` : ""}
+        </div>`;
+    }).join("");
+
+    creatureWrapEl.innerHTML = `
+      <div class="creature-main">
+        <div class="cr-top">
+          <img class="cr-icon" src="/dnf/image13.png" alt="크리처">
+          <div>
+            <div class="cr-name">${cr.itemName}</div>
+            <div class="cr-rarity" style="color:${crRarityColor}">${cr.itemRarity || ""}</div>
+          </div>
+        </div>
+        ${artifacts.length ? `<div class="artifact-grid">${artHtml}</div>` : ""}
+      </div>`;
   } else { creatureSection.style.display = "none"; }
+
+  // ── 아바타 (칭호/오라/무기아바타 강조) ───────────────────────────────────
+  const avGrid = document.getElementById("avatar-grid");
+  avGrid.innerHTML = "";
+  const avatars = d.avatar || [];
+
+  // 특수 슬롯 먼저 상단에
+  const specialOrder = ["칭호","오라","무기"];
+  const sortedAv = [
+    ...specialOrder.map(s => avatars.find(a => a.slot === s)).filter(Boolean),
+    ...avatars.filter(a => !SPECIAL_AVATAR_SLOTS.has(a.slot)),
+  ];
+
+  for (const av of sortedAv) {
+    const isSpecial = SPECIAL_AVATAR_SLOTS.has(av.slot);
+    const avIcon    = AVATAR_ICON[av.slot] || "";
+    const rColor    = RARITY_COLOR[av.rarity] || "";
+    const emblems = (av.emblems || []).map(e => {
+      const nm  = e.name || "";
+      const cls = nm.includes("플래티넘") ? "pl" : nm.includes("골드") ? "gd" : "";
+      return `<span class="emb ${cls}">${nm}</span>`;
+    }).join("");
+    avGrid.insertAdjacentHTML("beforeend", `
+      <div class="avatar-card${isSpecial ? ' special' : ''}">
+        <div class="av-top">
+          ${avIcon ? `<img class="av-icon" src="${avIcon}" alt="${av.slot}">` : ""}
+          <span class="av-slot${isSpecial ? ' special' : ''}">${av.slot}</span>
+        </div>
+        <div class="av-name"${rColor ? ` style="color:${rColor}"` : ""}>${av.itemName || "—"}</div>
+        ${av.optionAbility ? `<div class="av-opt">${av.optionAbility}</div>` : ""}
+        ${emblems ? `<div class="emb-list">${emblems}</div>` : ""}
+      </div>`);
+  }
 }
 
 // ── Enter & cursor glow ───────────────────────────────────────────────────────
