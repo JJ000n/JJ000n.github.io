@@ -180,16 +180,7 @@
         <label>캐릭터명</label>
         <input id="inp-name" type="text" placeholder="캐릭터 이름 입력" autocomplete="off">
       </div>
-      <div class="form-group wide">
-        <label>API Key</label>
-        <input id="inp-apikey" type="password" placeholder="Neople API Key">
-      </div>
       <button class="btn-search" id="btn-search" onclick="searchCharacter()">조회</button>
-    </div>
-    <div class="api-hint">
-      API Key →
-      <a href="https://developers.neople.co.kr/" target="_blank">Neople 개발자 센터</a>
-      에서 발급 (무료, 앱 등록 후 즉시 발급)
     </div>
   </div>
 
@@ -249,40 +240,8 @@
 </div>
 
 <script>
-// ── 설정 ──────────────────────────────────────────────────────────────────────
-const NEOPLE_BASE = "https://api.neople.co.kr/df";
-
-const SERVER_MAP = {
-  "카인":"cain","디레지에":"diregie","시로코":"siroco",
-  "바칼":"bakal","하자드":"hilder","안톤":"anton","카시야스":"kasias"
-};
-
-// 마법부여 스탯 점수표 (Apps Script '마법부여 기준' 시트 대응)
-const ENCHANT_SCORE_TABLE = {
-  "물리 공격력":  { score: 5, per: 1 },
-  "마법 공격력":  { score: 5, per: 1 },
-  "힘":           { score: 3, per: 1 },
-  "지능":         { score: 3, per: 1 },
-  "체력":         { score: 2, per: 1 },
-  "정신력":       { score: 2, per: 1 },
-  "공격 속도":    { score: 4, per: 1 },
-  "캐스팅 속도":  { score: 4, per: 1 },
-  "이동 속도":    { score: 2, per: 1 },
-  "화속성 강화":  { score: 4, per: 1 },
-  "수속성 강화":  { score: 4, per: 1 },
-  "명속성 강화":  { score: 4, per: 1 },
-  "암속성 강화":  { score: 4, per: 1 },
-  "화속성 저항":  { score: 2, per: 1 },
-  "수속성 저항":  { score: 2, per: 1 },
-  "명속성 저항":  { score: 2, per: 1 },
-  "암속성 저항":  { score: 2, per: 1 },
-  "크리티컬 히트":{ score: 4, per: 1 },
-  "HP":           { score: 1, per: 100 },
-  "MP":           { score: 1, per: 100 },
-  "HP MAX":       { score: 1, per: 100 },
-  "MP MAX":       { score: 1, per: 100 },
-  "스킬 쿨타임 감소": { score: 6, per: 1 },
-};
+// ── 백엔드 URL ────────────────────────────────────────────────────────────────
+const API_BASE = "https://dnf-api-exml.onrender.com";
 
 const SLOT_ORDER = [
   "머리 갑옷","상체 갑옷","하체 갑옷","어깨 갑옷","손 갑옷",
@@ -297,47 +256,11 @@ const STAT_DISPLAY = [
   "크리티컬 히트","공격 속도","캐스팅 속도"
 ];
 
-// ── Enchant helpers ───────────────────────────────────────────────────────────
-function enchantToText(enchant) {
-  if (!enchant) return "";
-  const parts = [];
-  for (const line of (enchant.explains || [])) {
-    const s = line.replace(/^[◇▶►·\s]+/, "").trim();
-    if (s) parts.push(s);
-  }
-  for (const stat of (enchant.status || [])) {
-    if (stat.name && stat.value !== undefined) parts.push(`${stat.name} +${stat.value}`);
-  }
-  return parts.join(" / ");
-}
-
-function calcEnchantScore(enchant) {
-  if (!enchant) return 0;
-  let total = 0;
-  for (const stat of (enchant.status || [])) {
-    const info = ENCHANT_SCORE_TABLE[stat.name];
-    if (info) total += Math.floor(parseFloat(stat.value || 0) / info.per) * info.score;
-  }
-  return total;
-}
-
-// ── API fetch ─────────────────────────────────────────────────────────────────
-async function neopleGet(path, params, apiKey) {
-  const url = new URL(`${NEOPLE_BASE}${path}`);
-  for (const [k, v] of Object.entries(params)) url.searchParams.set(k, v);
-  url.searchParams.set("apikey", apiKey);
-  const resp = await fetch(url);
-  if (!resp.ok) throw new Error(`API 오류 ${resp.status}: ${path}`);
-  return resp.json();
-}
-
+// ── 검색 ──────────────────────────────────────────────────────────────────────
 async function searchCharacter() {
   const server = document.getElementById("inp-server").value;
   const name   = document.getElementById("inp-name").value.trim();
-  const apiKey = document.getElementById("inp-apikey").value.trim();
-
-  if (!name)   return showError("캐릭터명을 입력해주세요.");
-  if (!apiKey) return showError("Neople API Key를 입력해주세요.");
+  if (!name) return showError("캐릭터명을 입력해주세요.");
 
   const btn = document.getElementById("btn-search");
   btn.disabled = true;
@@ -346,76 +269,14 @@ async function searchCharacter() {
   document.getElementById("error-msg").style.display = "none";
 
   try {
-    const serverCode = SERVER_MAP[server] || server.toLowerCase();
-
-    // 1. 캐릭터 검색
-    const searchData = await neopleGet(
-      `/servers/${serverCode}/characters`,
-      { characterName: name, wordType: "full", limit: 1 },
-      apiKey
-    );
-    const rows = searchData.rows || [];
-    if (!rows.length) throw new Error("캐릭터를 찾을 수 없습니다.");
-    const char = rows[0];
-    const cid  = char.characterId;
-
-    // 2. 병렬 조회
-    const [equipData, oathData, avatarData, creatureData, statusData] = await Promise.allSettled([
-      neopleGet(`/servers/${serverCode}/characters/${cid}/equip/equipment`, {}, apiKey),
-      neopleGet(`/servers/${serverCode}/characters/${cid}/equip/oath`,      {}, apiKey),
-      neopleGet(`/servers/${serverCode}/characters/${cid}/equip/avatar`,    {}, apiKey),
-      neopleGet(`/servers/${serverCode}/characters/${cid}/equip/creature`,  {}, apiKey),
-      neopleGet(`/servers/${serverCode}/characters/${cid}/status`,          {}, apiKey),
-    ]);
-
-    const safe = (r, key) => r.status === "fulfilled" ? (key ? r.value[key] : r.value) : (key ? [] : {});
-
-    const equipment = safe(equipData,   "equipment");
-    const oath      = safe(oathData);
-    const avatar    = safe(avatarData,  "avatar");
-    const creature  = safe(creatureData);
-    const status    = safe(statusData,  "status");
-
-    // 3. 장비 가공
-    const processedEquip = equipment.map(item => ({
-      slot:          item.slotName || "",
-      itemName:      item.itemName || "",
-      rarity:        item.itemRarity || "",
-      reinforce:     item.reinforce || 0,
-      amplification: item.amplificationName || "",
-      enchantText:   enchantToText(item.enchant),
-      enchantScore:  calcEnchantScore(item.enchant),
-    }));
-
-    // 4. 세트 가공
-    const sets = (oath.setItems || []).map(s => ({
-      setName:  s.setItemName || "",
-      active:   s.activeSetNo || 0,
-      maxLevel: s.maxSetNo || 0,
-      items:    (s.setItemList || []).map(i => i.itemName || ""),
-    }));
-
-    // 5. 스탯 맵
-    const statusMap = {};
-    for (const s of (status || [])) statusMap[s.name] = s.value;
-
-    renderResult({
-      characterName: char.characterName,
-      server,
-      level:    char.level,
-      jobName:  char.jobName || "",
-      jobGrow:  char.jobGrowName || "",
-      equipment: processedEquip,
-      avatar:   avatar || [],
-      sets,
-      creature: creature.creature || null,
-      status:   statusMap,
-      enchantTotal: processedEquip.reduce((s, e) => s + e.enchantScore, 0),
-    });
-
+    const params = new URLSearchParams({ server, name });
+    const resp = await fetch(`${API_BASE}/character?${params}`);
+    const data = await resp.json();
+    if (!resp.ok) throw new Error(data.detail || `오류 ${resp.status}`);
+    renderResult(data);
     document.getElementById("result").style.display = "block";
   } catch (e) {
-    showError(e.message || "알 수 없는 오류가 발생했습니다.");
+    showError(e.message || "서버 연결 실패. 잠시 후 다시 시도해주세요.");
   } finally {
     btn.disabled = false;
     document.getElementById("loading").style.display = "none";
@@ -428,23 +289,23 @@ function showError(msg) {
   el.style.display = "block";
 }
 
-// ── Render ─────────────────────────────────────────────────────────────────────
+// ── 결과 렌더 ─────────────────────────────────────────────────────────────────
 function renderResult(d) {
   // 캐릭터 요약
   document.getElementById("r-name").textContent = d.characterName;
   document.getElementById("r-meta").innerHTML =
-    `<span>${d.server}</span> · Lv.${d.level} · ${d.jobName} (${d.jobGrow})`;
+    `<span>${d.server}</span> · Lv.${d.level} · ${d.jobName} (${d.jobGrowName})`;
   document.getElementById("r-score").textContent = d.enchantTotal;
 
   // 장비
   const tbody = document.getElementById("equip-tbody");
   tbody.innerHTML = "";
-  const sorted = [...d.equipment].sort((a, b) => {
+  const sorted = [...(d.equipment || [])].sort((a, b) => {
     const ai = SLOT_ORDER.indexOf(a.slot), bi = SLOT_ORDER.indexOf(b.slot);
     return (ai < 0 ? 99 : ai) - (bi < 0 ? 99 : bi);
   });
   for (const eq of sorted) {
-    const sc = eq.enchantScore;
+    const sc = eq.enchantScore || 0;
     const scCls = sc >= 15 ? "score-hi" : sc >= 8 ? "score-mid" : sc > 0 ? "score-lo" : "score-zero";
     const reinforce = eq.reinforce ? `<span class="reinforce-val">+${eq.reinforce}</span>` : "";
     const amp = eq.amplification ? `<br><span class="amp-val">${eq.amplification}</span>` : "";
@@ -461,12 +322,13 @@ function renderResult(d) {
   // 스탯
   const grid = document.getElementById("status-grid");
   grid.innerHTML = "";
+  const status = d.status || {};
   for (const key of STAT_DISPLAY) {
-    if (d.status[key] !== undefined) {
+    if (status[key] !== undefined) {
       grid.insertAdjacentHTML("beforeend", `
         <div class="stat-item">
           <span class="stat-name">${key}</span>
-          <span class="stat-value">${Number(d.status[key]).toLocaleString()}</span>
+          <span class="stat-value">${Number(status[key]).toLocaleString()}</span>
         </div>`);
     }
   }
@@ -474,15 +336,15 @@ function renderResult(d) {
   // 아바타
   const avTbody = document.getElementById("avatar-tbody");
   avTbody.innerHTML = "";
-  for (const av of d.avatar) {
+  for (const av of (d.avatar || [])) {
     const emblems = (av.emblems || []).map(e => {
-      const name = e.itemName || "";
+      const name = e.name || "";
       const cls  = name.includes("플래티넘") ? "platinum" : name.includes("골드") ? "gold-em" : "";
       return `<span class="emblem-tag ${cls}">${name}</span>`;
     }).join("");
     avTbody.insertAdjacentHTML("beforeend", `
       <tr>
-        <td class="slot-name">${av.slotName || ""}</td>
+        <td class="slot-name">${av.slot}</td>
         <td class="item-name">${av.itemName || "—"}</td>
         <td class="enchant-text">${av.optionAbility || "—"}</td>
         <td><div class="emblem-list">${emblems || "—"}</div></td>
@@ -491,16 +353,17 @@ function renderResult(d) {
 
   // 세트
   const setSection = document.getElementById("set-section");
-  const setList = document.getElementById("set-list");
+  const setList    = document.getElementById("set-list");
   setList.innerHTML = "";
-  if (d.sets.length) {
+  const sets = d.oath || [];
+  if (sets.length) {
     setSection.style.display = "block";
-    for (const s of d.sets) {
+    for (const s of sets) {
       setList.insertAdjacentHTML("beforeend", `
         <div class="set-card">
           <div class="set-name">${s.setName}</div>
           <div class="set-level"><span class="active">${s.active}세트</span> <span style="color:var(--muted)">/ ${s.maxLevel}세트</span></div>
-          <div class="set-items-list">${s.items.join(" · ")}</div>
+          <div class="set-items-list">${(s.items || []).join(" · ")}</div>
         </div>`);
     }
   } else {
@@ -509,17 +372,18 @@ function renderResult(d) {
 
   // 크리처
   const creatureSection = document.getElementById("creature-section");
-  const creatureInfo = document.getElementById("creature-info");
+  const creatureInfo    = document.getElementById("creature-info");
   creatureInfo.innerHTML = "";
-  if (d.creature?.itemName) {
+  const cr = d.creature;
+  if (cr?.itemName) {
     creatureSection.style.display = "block";
-    const arts = (d.creature.artifact || [])
-      .map(a => `<span style="color:var(--sub)">${a.slotName}: ${a.itemName}</span>`)
+    const arts = (cr.artifact || [])
+      .map(a => `<span style="color:var(--sub)">${a.slot}: ${a.name}</span>`)
       .join(" / ");
     creatureInfo.innerHTML = `
       <div>
-        <div class="char-name" style="font-size:1rem">${d.creature.itemName}</div>
-        <div class="char-meta">${d.creature.itemRarity || ""}</div>
+        <div class="char-name" style="font-size:1rem">${cr.itemName}</div>
+        <div class="char-meta">${cr.itemRarity || ""}</div>
         ${arts ? `<div style="font-size:.8rem;margin-top:.4rem;color:var(--muted)">${arts}</div>` : ""}
       </div>`;
   } else {
@@ -527,7 +391,7 @@ function renderResult(d) {
   }
 }
 
-// ── Enter key & cursor glow ───────────────────────────────────────────────────
+// ── Enter & cursor glow ───────────────────────────────────────────────────────
 document.getElementById("inp-name").addEventListener("keydown", e => {
   if (e.key === "Enter") searchCharacter();
 });
