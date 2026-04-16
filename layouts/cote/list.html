@@ -1,0 +1,470 @@
+{{- define "main" }}
+<style>
+/* ══════════════════════════════════════
+   COTE LIST PAGE
+══════════════════════════════════════ */
+.cote-wrap {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 1rem 3rem;
+}
+
+/* ── Header ── */
+.cote-hdr {
+  text-align: center;
+  padding: 2rem 0 1.8rem;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 1.6rem;
+}
+.cote-hdr h1 { font-size: 1.9rem; font-weight: 800; margin: 0 0 .4rem; }
+.cote-hdr p  { color: var(--secondary); margin: 0; font-size: .92rem; }
+
+/* ── Stats ── */
+.cote-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  gap: .7rem;
+  margin-bottom: 1.5rem;
+}
+.stat-box {
+  background: var(--entry);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: .85rem .8rem;
+  text-align: center;
+}
+.stat-val  { font-size: 1.55rem; font-weight: 800; line-height: 1; margin-bottom: .25rem; }
+.stat-lbl  { font-size: .72rem; color: var(--secondary); }
+.stat-box.boj       .stat-val { color: #3b82f6; }
+.stat-box.prog      .stat-val { color: #f97316; }
+.stat-box.leet      .stat-val { color: #ca8a04; }
+.stat-box.solved-s  .stat-val { color: #22c55e; }
+.stat-box.wrong-s   .stat-val { color: #f97316; }
+
+/* ── Toolbar ── */
+.cote-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .55rem;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+#cote-search {
+  flex: 1;
+  min-width: 170px;
+  padding: .48rem .9rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--entry);
+  color: var(--primary);
+  font-size: .88rem;
+  outline: none;
+  transition: border-color .15s;
+}
+#cote-search:focus { border-color: var(--primary); }
+#cote-search::placeholder { color: var(--secondary); }
+
+.flt-group { display: flex; flex-wrap: wrap; gap: .35rem; }
+.flt-sep { width: 1px; background: var(--border); align-self: stretch; margin: 0 .1rem; }
+
+.flt-btn {
+  padding: .28rem .7rem;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: transparent;
+  color: var(--secondary);
+  font-size: .76rem;
+  cursor: pointer;
+  transition: all .15s;
+  white-space: nowrap;
+}
+.flt-btn:hover  { background: var(--entry); color: var(--primary); }
+.flt-btn.active { background: var(--primary); color: var(--theme); border-color: var(--primary); }
+
+/* ── Count ── */
+.cote-count {
+  font-size: .82rem;
+  color: var(--secondary);
+  margin-bottom: .9rem;
+}
+
+/* ── Cards ── */
+.cote-grid {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+
+.cote-card {
+  display: flex;
+  align-items: center;
+  gap: .9rem;
+  background: var(--entry);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: .8rem 1rem;
+  text-decoration: none !important;
+  color: var(--primary) !important;
+  transition: border-color .15s, transform .1s, box-shadow .15s;
+}
+.cote-card:hover {
+  border-color: var(--primary);
+  transform: translateY(-1px);
+  box-shadow: 0 3px 12px rgba(0,0,0,.09);
+}
+.cote-card.hidden { display: none !important; }
+.cote-card[data-type="log"] { border-left: 3px solid #60a5fa; }
+
+/* Platform badge */
+.plat {
+  font-size: .68rem;
+  font-weight: 700;
+  padding: .22rem .55rem;
+  border-radius: 5px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  letter-spacing: .01em;
+}
+.plat-BOJ          { background:#3b82f6; color:#fff; }
+.plat-Programmers  { background:#f97316; color:#fff; }
+.plat-LeetCode     { background:#eab308; color:#111; }
+.plat-log          { background:#60a5fa; color:#fff; }
+.plat-기타          { background:#6b7280; color:#fff; }
+
+/* Card body */
+.card-body  { flex: 1; min-width: 0; }
+.card-title {
+  font-size: .92rem;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: .3rem;
+  color: var(--primary);
+}
+.card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .35rem;
+  font-size: .73rem;
+  color: var(--secondary);
+}
+
+/* Difficulty chips */
+.diff {
+  padding: .1rem .42rem;
+  border-radius: 4px;
+  font-size: .69rem;
+  font-weight: 700;
+}
+.diff-bronze   { background:rgba(205,127,50,.15);  color:#b45309; }
+.diff-silver   { background:rgba(160,160,160,.18); color:#6b7280; }
+.diff-gold     { background:rgba(234,179,8,.18);   color:#b45309; }
+.diff-platinum { background:rgba(20,184,166,.16);  color:#0d9488; }
+.diff-diamond  { background:rgba(96,165,250,.18);  color:#2563eb; }
+.diff-ruby     { background:rgba(239,68,68,.18);   color:#dc2626; }
+.diff-easy     { background:rgba(34,197,94,.16);   color:#15803d; }
+.diff-medium   { background:rgba(234,179,8,.18);   color:#b45309; }
+.diff-hard     { background:rgba(239,68,68,.18);   color:#dc2626; }
+.diff-level1   { background:rgba(34,197,94,.16);   color:#15803d; }
+.diff-level2   { background:rgba(96,165,250,.18);  color:#2563eb; }
+.diff-level3   { background:rgba(234,179,8,.18);   color:#b45309; }
+.diff-level4   { background:rgba(249,115,22,.18);  color:#ea580c; }
+.diff-level5   { background:rgba(239,68,68,.18);   color:#dc2626; }
+
+/* Tag chips */
+.tag-chip {
+  padding: .1rem .42rem;
+  background: rgba(99,102,241,.12);
+  color: #6366f1;
+  border-radius: 4px;
+  font-size: .69rem;
+}
+
+/* Right side */
+.card-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: .2rem;
+  flex-shrink: 0;
+  text-align: right;
+}
+.solved-ok  { font-size: .8rem; font-weight: 700; color: #22c55e; }
+.solved-no  { font-size: .8rem; font-weight: 700; color: #ef4444; }
+.wrong-lbl  { font-size: .69rem; color: #f97316; }
+.card-date  { font-size: .69rem; color: var(--secondary); }
+
+/* Empty */
+.cote-empty {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--secondary);
+  display: none;
+  font-size: .9rem;
+}
+
+@media (max-width: 500px) {
+  .cote-card { flex-wrap: wrap; gap: .6rem; }
+  .card-right { flex-direction: row; align-items: center; }
+}
+</style>
+
+<div class="cote-wrap">
+
+  <!-- Header -->
+  <div class="cote-hdr">
+    <h1>코딩테스트 노트</h1>
+    <p>문제 풀이 기록 &amp; 오답노트</p>
+  </div>
+
+  <!-- Stats (populated by JS) -->
+  <div class="cote-stats" id="cote-stats"></div>
+
+  <!-- Toolbar -->
+  <div class="cote-toolbar">
+    <input type="text" id="cote-search" placeholder="문제 검색...">
+    <div class="flt-group" id="flt-platform"></div>
+    <div class="flt-sep"></div>
+    <div class="flt-group" id="flt-status">
+      <button class="flt-btn active" data-status="all">전체</button>
+      <button class="flt-btn" data-status="solved">풀었음</button>
+      <button class="flt-btn" data-status="unsolved">미해결</button>
+    </div>
+  </div>
+
+  <!-- Tag filter row -->
+  <div class="flt-group" id="flt-tags" style="flex-wrap:wrap;gap:.35rem;margin-bottom:.9rem;"></div>
+
+  <!-- Count -->
+  <div class="cote-count" id="cote-count"></div>
+
+  <!-- Grid -->
+  <div class="cote-grid" id="cote-grid">
+    {{- range (.Pages.ByDate.Reverse) }}
+    {{- $platform := .Params.platform | default "기타" }}
+    {{- $type     := .Params.type | default "problem" }}
+    {{- $solved   := .Params.solved | default false }}
+    {{- $wrong    := .Params.wrong_count | default 0 }}
+    {{- $diff     := .Params.difficulty | default "" }}
+    {{- $num      := .Params.number | default "" }}
+    {{- $tags     := .Params.tags | default slice }}
+
+    {{- $platClass := printf "plat-%s" $platform }}
+    {{- if eq $type "log" }}{{- $platClass = "plat-log" }}{{- end }}
+
+    {{- $diffClass := "" }}
+    {{- $diffLow   := lower $diff }}
+    {{- if hasPrefix $diffLow "bronze"   }}{{- $diffClass = "diff-bronze"   }}
+    {{- else if hasPrefix $diffLow "silver"   }}{{- $diffClass = "diff-silver"   }}
+    {{- else if hasPrefix $diffLow "gold"     }}{{- $diffClass = "diff-gold"     }}
+    {{- else if hasPrefix $diffLow "platinum" }}{{- $diffClass = "diff-platinum" }}
+    {{- else if hasPrefix $diffLow "diamond"  }}{{- $diffClass = "diff-diamond"  }}
+    {{- else if hasPrefix $diffLow "ruby"     }}{{- $diffClass = "diff-ruby"     }}
+    {{- else if hasPrefix $diffLow "easy"     }}{{- $diffClass = "diff-easy"     }}
+    {{- else if hasPrefix $diffLow "medium"   }}{{- $diffClass = "diff-medium"   }}
+    {{- else if hasPrefix $diffLow "hard"     }}{{- $diffClass = "diff-hard"     }}
+    {{- else if contains $diffLow "level1"    }}{{- $diffClass = "diff-level1"   }}
+    {{- else if contains $diffLow "level2"    }}{{- $diffClass = "diff-level2"   }}
+    {{- else if contains $diffLow "level3"    }}{{- $diffClass = "diff-level3"   }}
+    {{- else if contains $diffLow "level4"    }}{{- $diffClass = "diff-level4"   }}
+    {{- else if contains $diffLow "level5"    }}{{- $diffClass = "diff-level5"   }}
+    {{- else if contains $diffLow "1레벨"     }}{{- $diffClass = "diff-level1"   }}
+    {{- else if contains $diffLow "2레벨"     }}{{- $diffClass = "diff-level2"   }}
+    {{- else if contains $diffLow "3레벨"     }}{{- $diffClass = "diff-level3"   }}
+    {{- else if contains $diffLow "4레벨"     }}{{- $diffClass = "diff-level4"   }}
+    {{- else if contains $diffLow "5레벨"     }}{{- $diffClass = "diff-level5"   }}
+    {{- end }}
+
+    <a class="cote-card"
+       href="{{ .Permalink }}"
+       data-platform="{{ if eq $type "log" }}log{{ else }}{{ $platform }}{{ end }}"
+       data-tags="{{ delimit $tags "," }}"
+       data-solved="{{ $solved }}"
+       data-type="{{ $type }}">
+
+      {{- if eq $type "log" }}
+      <span class="plat plat-log">공부기록</span>
+      {{- else }}
+      <span class="plat {{ $platClass }}">{{ $platform }}</span>
+      {{- end }}
+
+      <div class="card-body">
+        <div class="card-title">
+          {{- if and $num (ne $num "") }}{{ $num }}. {{ end }}{{ .Title }}
+        </div>
+        <div class="card-meta">
+          {{- if and $diff (ne $diff "") }}
+          <span class="diff {{ $diffClass }}">{{ $diff }}</span>
+          {{- end }}
+          {{- range first 4 $tags }}
+          <span class="tag-chip">{{ . }}</span>
+          {{- end }}
+          {{- if gt (len $tags) 4 }}
+          <span style="color:var(--secondary);font-size:.69rem">+{{ sub (len $tags) 4 }}</span>
+          {{- end }}
+        </div>
+      </div>
+
+      <div class="card-right">
+        {{- if eq $type "log" }}
+        <span class="card-date">{{ .Date.Format "01/02" }}</span>
+        {{- else }}
+        {{- if $solved }}
+        <span class="solved-ok">✓ 해결</span>
+        {{- else }}
+        <span class="solved-no">✗ 미해결</span>
+        {{- end }}
+        {{- if gt $wrong 0 }}
+        <span class="wrong-lbl">오답 {{ $wrong }}회</span>
+        {{- end }}
+        <span class="card-date">{{ .Date.Format "01/02" }}</span>
+        {{- end }}
+      </div>
+    </a>
+    {{- end }}
+  </div>
+
+  <div class="cote-empty" id="cote-empty">해당하는 문제가 없습니다.</div>
+
+</div>
+
+<script>
+(function () {
+  const cards  = Array.from(document.querySelectorAll('.cote-card'));
+  const search = document.getElementById('cote-search');
+  const count  = document.getElementById('cote-count');
+  const empty  = document.getElementById('cote-empty');
+  const statsEl= document.getElementById('cote-stats');
+
+  /* ── Build stats ── */
+  const problems = cards.filter(c => c.dataset.type !== 'log');
+  const logs     = cards.filter(c => c.dataset.type === 'log');
+  const solvedN  = problems.filter(c => c.dataset.solved === 'true').length;
+  const wrongN   = problems.filter(c => {
+    const w = c.querySelector('.wrong-lbl');
+    return w && parseInt(w.textContent) > 0;
+  }).length;
+
+  const platCount = {};
+  problems.forEach(c => {
+    const p = c.dataset.platform;
+    platCount[p] = (platCount[p] || 0) + 1;
+  });
+
+  const statItems = [
+    { cls:'', val: problems.length, lbl:'전체 문제' },
+    { cls:'solved-s', val: solvedN, lbl:'해결' },
+    { cls:'wrong-s',  val: problems.length - solvedN, lbl:'미해결' },
+    ...Object.entries(platCount).map(([p,n]) => ({
+      cls: p === 'BOJ' ? 'boj' : p === 'Programmers' ? 'prog' : p === 'LeetCode' ? 'leet' : '',
+      val: n, lbl: p
+    })),
+    { cls:'', val: logs.length, lbl:'공부 기록' },
+  ].filter(s => s.val > 0);
+
+  statsEl.innerHTML = statItems.map(s =>
+    `<div class="stat-box ${s.cls}">
+       <div class="stat-val">${s.val}</div>
+       <div class="stat-lbl">${s.lbl}</div>
+     </div>`
+  ).join('');
+
+  /* ── Build platform filter ── */
+  const platforms = ['전체', ...Object.keys(platCount), ...(logs.length ? ['공부기록'] : [])];
+  document.getElementById('flt-platform').innerHTML = platforms.map((p, i) =>
+    `<button class="flt-btn ${i===0?'active':''}" data-plat="${p}">${p}</button>`
+  ).join('');
+
+  /* ── Build tag filter ── */
+  const tagSet = new Set();
+  problems.forEach(c => c.dataset.tags.split(',').forEach(t => t.trim() && tagSet.add(t.trim())));
+  const tagEl = document.getElementById('flt-tags');
+  if (tagSet.size) {
+    tagEl.innerHTML = ['전체', ...Array.from(tagSet).sort()].map((t, i) =>
+      `<button class="flt-btn ${i===0?'active':''}" data-tag="${t}">${t}</button>`
+    ).join('');
+  }
+
+  /* ── State ── */
+  let activePlat   = '전체';
+  let activeStatus = 'all';
+  let activeTag    = '전체';
+  let searchText   = '';
+
+  /* ── Filter fn ── */
+  function applyFilter() {
+    let visible = 0;
+    cards.forEach(c => {
+      const plat   = c.dataset.platform;
+      const solved = c.dataset.solved === 'true';
+      const type   = c.dataset.type;
+      const tags   = c.dataset.tags.split(',').map(t => t.trim());
+      const title  = c.querySelector('.card-title').textContent.toLowerCase();
+
+      let show = true;
+
+      // Platform / 공부기록
+      if (activePlat !== '전체') {
+        if (activePlat === '공부기록') show = show && type === 'log';
+        else show = show && plat === activePlat && type !== 'log';
+      }
+
+      // Status
+      if (activeStatus === 'solved')   show = show && solved && type !== 'log';
+      if (activeStatus === 'unsolved') show = show && !solved && type !== 'log';
+
+      // Tag
+      if (activeTag !== '전체') show = show && tags.includes(activeTag);
+
+      // Search
+      if (searchText) show = show && title.includes(searchText);
+
+      c.classList.toggle('hidden', !show);
+      if (show) visible++;
+    });
+
+    count.textContent = `${visible}개 표시됨`;
+    empty.style.display = visible === 0 ? 'block' : 'none';
+  }
+
+  /* ── Event listeners ── */
+  search.addEventListener('input', e => {
+    searchText = e.target.value.toLowerCase().trim();
+    applyFilter();
+  });
+
+  document.getElementById('flt-platform').addEventListener('click', e => {
+    const btn = e.target.closest('.flt-btn');
+    if (!btn) return;
+    document.querySelectorAll('#flt-platform .flt-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    activePlat = btn.dataset.plat;
+    applyFilter();
+  });
+
+  document.getElementById('flt-status').addEventListener('click', e => {
+    const btn = e.target.closest('.flt-btn');
+    if (!btn) return;
+    document.querySelectorAll('#flt-status .flt-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    activeStatus = btn.dataset.status;
+    applyFilter();
+  });
+
+  if (tagEl.children.length) {
+    tagEl.addEventListener('click', e => {
+      const btn = e.target.closest('.flt-btn');
+      if (!btn) return;
+      tagEl.querySelectorAll('.flt-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      activeTag = btn.dataset.tag;
+      applyFilter();
+    });
+  }
+
+  applyFilter();
+})();
+</script>
+{{- end }}

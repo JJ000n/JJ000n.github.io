@@ -1,0 +1,186 @@
+{{- define "main" }}
+{{- $p := .Params }}
+{{- $platform  := $p.platform    | default "" }}
+{{- $number    := $p.number      | default "" }}
+{{- $diff      := $p.difficulty  | default "" }}
+{{- $tags      := $p.tags        | default slice }}
+{{- $solved    := $p.solved      | default false }}
+{{- $wrong     := $p.wrong_count | default 0 }}
+{{- $time      := $p.time_taken  | default "" }}
+{{- $type      := $p.type        | default "problem" }}
+
+<style>
+/* ── Problem info box ── */
+.cote-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .55rem;
+  align-items: center;
+  background: var(--entry);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: .85rem 1.1rem;
+  margin-bottom: 1.6rem;
+  font-size: .82rem;
+}
+
+.ci-badge {
+  font-size: .72rem;
+  font-weight: 700;
+  padding: .25rem .65rem;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+.ci-boj          { background:#3b82f6; color:#fff; }
+.ci-programmers  { background:#f97316; color:#fff; }
+.ci-leetcode     { background:#eab308; color:#111; }
+.ci-기타          { background:#6b7280; color:#fff; }
+.ci-log          { background:#60a5fa; color:#fff; }
+
+.ci-diff {
+  padding: .22rem .6rem;
+  border-radius: 6px;
+  font-size: .73rem;
+  font-weight: 700;
+}
+.ci-bronze   { background:rgba(205,127,50,.15);  color:#b45309; }
+.ci-silver   { background:rgba(160,160,160,.18); color:#6b7280; }
+.ci-gold     { background:rgba(234,179,8,.18);   color:#b45309; }
+.ci-platinum { background:rgba(20,184,166,.16);  color:#0d9488; }
+.ci-diamond  { background:rgba(96,165,250,.18);  color:#2563eb; }
+.ci-ruby     { background:rgba(239,68,68,.18);   color:#dc2626; }
+.ci-easy     { background:rgba(34,197,94,.16);   color:#15803d; }
+.ci-medium   { background:rgba(234,179,8,.18);   color:#b45309; }
+.ci-hard     { background:rgba(239,68,68,.18);   color:#dc2626; }
+.ci-level1   { background:rgba(34,197,94,.16);   color:#15803d; }
+.ci-level2   { background:rgba(96,165,250,.18);  color:#2563eb; }
+.ci-level3   { background:rgba(234,179,8,.18);   color:#b45309; }
+.ci-level4   { background:rgba(249,115,22,.18);  color:#ea580c; }
+.ci-level5   { background:rgba(239,68,68,.18);   color:#dc2626; }
+
+.ci-tag {
+  padding: .22rem .55rem;
+  background: rgba(99,102,241,.12);
+  color: #6366f1;
+  border-radius: 6px;
+  font-size: .72rem;
+}
+
+.ci-solved-ok { font-weight: 700; color: #22c55e; }
+.ci-solved-no { font-weight: 700; color: #ef4444; }
+.ci-wrong     { color: #f97316; }
+.ci-time      { color: var(--secondary); }
+
+.ci-divider { color: var(--border); }
+
+/* ── Odam-note section styling ── */
+.post-content h2 { margin-top: 2rem; }
+
+/* 오답 이유 heading → red tint */
+.post-content h2:has(+ *) {
+  /* fallback: all h2 styled normally by PaperMod */
+}
+
+/* Callout-style sections via blockquote not needed —
+   just rely on PaperMod's existing styles */
+</style>
+
+<article class="post-single">
+  <header class="post-header">
+    {{ partial "breadcrumbs.html" . }}
+    <h1 class="post-title">{{ .Title }}</h1>
+    {{- if not (.Param "hideMeta") }}
+    <div class="post-meta">
+      {{- partial "post_meta.html" . -}}
+    </div>
+    {{- end }}
+  </header>
+
+  {{- if ne $type "log" }}
+  {{- $diffLow := lower $diff }}
+  {{- $dc := "" }}
+  {{- if hasPrefix $diffLow "bronze"   }}{{- $dc = "ci-bronze"   }}
+  {{- else if hasPrefix $diffLow "silver"   }}{{- $dc = "ci-silver"   }}
+  {{- else if hasPrefix $diffLow "gold"     }}{{- $dc = "ci-gold"     }}
+  {{- else if hasPrefix $diffLow "platinum" }}{{- $dc = "ci-platinum" }}
+  {{- else if hasPrefix $diffLow "diamond"  }}{{- $dc = "ci-diamond"  }}
+  {{- else if hasPrefix $diffLow "ruby"     }}{{- $dc = "ci-ruby"     }}
+  {{- else if hasPrefix $diffLow "easy"     }}{{- $dc = "ci-easy"     }}
+  {{- else if hasPrefix $diffLow "medium"   }}{{- $dc = "ci-medium"   }}
+  {{- else if hasPrefix $diffLow "hard"     }}{{- $dc = "ci-hard"     }}
+  {{- else if contains $diffLow "level1"    }}{{- $dc = "ci-level1"   }}
+  {{- else if contains $diffLow "level2"    }}{{- $dc = "ci-level2"   }}
+  {{- else if contains $diffLow "level3"    }}{{- $dc = "ci-level3"   }}
+  {{- else if contains $diffLow "level4"    }}{{- $dc = "ci-level4"   }}
+  {{- else if contains $diffLow "level5"    }}{{- $dc = "ci-level5"   }}
+  {{- else if contains $diffLow "1레벨"     }}{{- $dc = "ci-level1"   }}
+  {{- else if contains $diffLow "2레벨"     }}{{- $dc = "ci-level2"   }}
+  {{- else if contains $diffLow "3레벨"     }}{{- $dc = "ci-level3"   }}
+  {{- else if contains $diffLow "4레벨"     }}{{- $dc = "ci-level4"   }}
+  {{- else if contains $diffLow "5레벨"     }}{{- $dc = "ci-level5"   }}
+  {{- end }}
+
+  <div class="cote-info">
+    {{- if $platform }}
+    {{- $pc := printf "ci-%s" (lower $platform) }}
+    <span class="ci-badge {{ $pc }}">{{ $platform }}</span>
+    {{- end }}
+
+    {{- if and $number (ne $number "") }}
+    <span><strong>#{{ $number }}</strong></span>
+    <span class="ci-divider">|</span>
+    {{- end }}
+
+    {{- if and $diff (ne $diff "") }}
+    <span class="ci-diff {{ $dc }}">{{ $diff }}</span>
+    {{- end }}
+
+    {{- range $tags }}
+    <span class="ci-tag">{{ . }}</span>
+    {{- end }}
+
+    {{- if or $solved (gt $wrong 0) (ne $time "") }}
+    <span class="ci-divider">|</span>
+    {{- end }}
+
+    {{- if $solved }}
+    <span class="ci-solved-ok">✓ 해결</span>
+    {{- else }}
+    <span class="ci-solved-no">✗ 미해결</span>
+    {{- end }}
+
+    {{- if gt $wrong 0 }}
+    <span class="ci-wrong">오답 {{ $wrong }}회</span>
+    {{- end }}
+
+    {{- if and $time (ne $time "") }}
+    <span class="ci-time">⏱ {{ $time }}</span>
+    {{- end }}
+  </div>
+  {{- end }}
+
+  {{- if (.Param "ShowToc") }}
+  {{- partial "toc.html" . }}
+  {{- end }}
+
+  {{- if .Content }}
+  <div class="post-content">
+    {{- if not (.Param "disableAnchoredHeadings") }}
+    {{- partial "anchored_headings.html" .Content -}}
+    {{- else }}{{ .Content }}{{ end }}
+  </div>
+  {{- end }}
+
+  <footer class="post-footer">
+    {{- $taxtag := .Language.Params.Taxonomies.tag | default "tags" }}
+    <ul class="post-tags">
+      {{- range ($.GetTerms $taxtag) }}
+      <li><a href="{{ .Permalink }}">{{ .LinkTitle }}</a></li>
+      {{- end }}
+    </ul>
+    {{- if (.Param "ShowPostNavLinks") }}
+    {{- partial "post_nav_links.html" . }}
+    {{- end }}
+  </footer>
+</article>
+{{- end }}

@@ -65,6 +65,12 @@ buildExpired = false
     weight = 30
 
   [[menu.main]]
+    identifier = "cote"
+    name = "코테"
+    url = "/cote/"
+    weight = 35
+
+  [[menu.main]]
     identifier = "about"
     name = "About"
     url = "/about/"
