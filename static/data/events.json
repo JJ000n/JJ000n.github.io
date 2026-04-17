@@ -56,6 +56,14 @@
       "status": "confirmed"
     },
     {
+      "id": "10",
+      "title": "한국해양수산개발원",
+      "date": "2026-05-04",
+      "type": "deadline",
+      "status": "confirmed",
+      "memo": "https://kmi.recruiter.co.kr/app/applicant/registResume?jobnoticeSn=250702&systemKindCode=MRS2"
+    },
+    {
       "id": "9",
       "title": "면접 전략 특강",
       "date": "2026-05-04",
