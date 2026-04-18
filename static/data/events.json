@@ -11,6 +11,14 @@
       "status": "confirmed"
     },
     {
+      "id": "11",
+      "title": "유헤이븐",
+      "date": "2026-04-19",
+      "type": "meeting",
+      "startTime": "12:00",
+      "status": "confirmed"
+    },
+    {
       "id": "2",
       "title": "현대 글로비스 인턴",
       "date": "2026-04-18",
