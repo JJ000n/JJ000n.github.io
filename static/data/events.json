@@ -49,6 +49,14 @@
       "status": "confirmed"
     },
     {
+      "id": "14",
+      "title": "SKALA 울산대학교",
+      "date": "2026-04-28",
+      "type": "meeting",
+      "startTime": "12:00",
+      "status": "confirmed"
+    },
+    {
       "id": "12",
       "title": "한국투자",
       "date": "2026-04-22",
