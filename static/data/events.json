@@ -49,6 +49,14 @@
       "status": "confirmed"
     },
     {
+      "id": "16",
+      "title": "국가기술진흥연구소 상반기 기간제",
+      "date": "2026-04-30",
+      "type": "deadline",
+      "startTime": "15:00",
+      "status": "confirmed"
+    },
+    {
       "id": "15",
       "title": "SSAFY 16기",
       "date": "2026-05-11",
