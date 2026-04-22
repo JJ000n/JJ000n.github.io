@@ -49,6 +49,14 @@
       "status": "confirmed"
     },
     {
+      "id": "17",
+      "title": "중소벤처기업진흥공단",
+      "date": "2026-05-07",
+      "type": "deadline",
+      "startTime": "17:00",
+      "status": "confirmed"
+    },
+    {
       "id": "16",
       "title": "국가기술진흥연구소 상반기 기간제",
       "date": "2026-04-30",
