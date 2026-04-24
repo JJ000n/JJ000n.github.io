@@ -135,6 +135,14 @@
       "description": "104동 E207호",
       "status": "confirmed"
     }
+    ,{
+      "id": "19",
+      "title": "한국남부발전 상반기 체험형 인턴",
+      "date": "2026-05-07",
+      "type": "deadline",
+      "memo": "접수기간: 4월 29일 11:00 ~ 5월 7일",
+      "status": "confirmed"
+    }
   ],
   "blocked": []
 }
