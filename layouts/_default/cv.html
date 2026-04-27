@@ -205,6 +205,33 @@
     }
     .pub-btn:hover { border-color: var(--accent); color: var(--accent); }
 
+    /* ── Awards ── */
+    .award-list { display: flex; flex-direction: column; gap: .9rem; }
+    .award-card {
+      padding: 1.1rem 1.3rem;
+      background: var(--bg3); border: 1px solid var(--border);
+      border-radius: 12px; transition: border-color .2s, box-shadow .2s;
+    }
+    .award-card:hover { border-color: var(--border2); box-shadow: 0 0 22px rgba(139,124,248,.07); }
+    .award-meta { display: flex; align-items: center; gap: .5rem; margin-bottom: .5rem; flex-wrap: wrap; }
+    .award-date { font-family: 'JetBrains Mono', monospace; font-size: .68rem; color: var(--muted); }
+    .award-title { font-size: .9rem; font-weight: 600; color: var(--text); line-height: 1.4; }
+    .award-org { font-size: .78rem; color: var(--accent); margin-top: .15rem; }
+    .award-detail { margin-top: .55rem; }
+    .award-detail summary {
+      font-size: .74rem; color: var(--muted); cursor: pointer;
+      list-style: none; display: flex; align-items: center; gap: .3rem;
+    }
+    .award-detail summary::-webkit-details-marker { display: none; }
+    .award-detail summary::before { content: '▸'; font-size: .65rem; transition: transform .2s; }
+    .award-detail[open] summary::before { transform: rotate(90deg); }
+    .award-detail-body {
+      margin-top: .45rem; font-size: .8rem; color: var(--sub);
+      padding: .65rem .9rem; background: var(--bg2);
+      border-radius: 8px; border-left: 2px solid var(--border2);
+      line-height: 1.6;
+    }
+
     /* ── Skills ── */
     .skill-groups { display: flex; flex-direction: column; gap: 1rem; }
     .skill-group-label { font-size: .72rem; color: var(--muted); margin-bottom: .35rem; letter-spacing: .03em; }
@@ -420,6 +447,39 @@
           <div class="pub-links">
             <!-- <a class="pub-btn" href="#">Paper</a> -->
           </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Awards & Honors (full width) -->
+    <div class="card wide" id="awards">
+      <div class="card-label">Awards &amp; Honors</div>
+      <div class="award-list">
+
+        <div class="award-card">
+          <div class="award-meta">
+            <span class="pub-badge gold">최우수상</span>
+            <span class="award-date">2022.11.03</span>
+          </div>
+          <div class="award-title">경남대학교 수학교육과 학술제 최우수상</div>
+          <div class="award-org">경남대학교 수학교육과</div>
+          <details class="award-detail">
+            <summary>내용 보기</summary>
+            <div class="award-detail-body">
+              "Image Analysis With Linear Algebra"를 주제로 발표.<br>
+              선형대수학의 고유값 분해(SVD) 등 수학적 기법이 이미지 압축·분석에 활용되는 원리를 연구하여 발표함.
+            </div>
+          </details>
+        </div>
+
+        <div class="award-card">
+          <div class="award-meta">
+            <span class="pub-badge domestic">포스터 발표</span>
+            <span class="award-date">2025.02.07</span>
+          </div>
+          <div class="award-title">자연어 기반 영상 내 차량 검색 모델의 일반화 성능 검증을 위한 외부 검증 데이터셋 구축</div>
+          <div class="award-org">IPIU 2025 · 한국방송미디어공학회</div>
         </div>
 
       </div>
