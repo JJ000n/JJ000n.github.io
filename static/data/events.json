@@ -145,6 +145,14 @@
       "memo": "접수기간: 4월 29일 11:00 ~ 5월 7일",
       "status": "confirmed"
     }
+    ,{
+      "id": "20",
+      "title": "한국해양과학기술원",
+      "date": "2026-05-13",
+      "type": "deadline",
+      "startTime": "10:00",
+      "status": "confirmed"
+    }
   ],
   "blocked": []
 }
