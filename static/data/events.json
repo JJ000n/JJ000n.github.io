@@ -167,6 +167,13 @@
       "type": "deadline",
       "status": "confirmed"
     }
+    ,{
+      "id": "23",
+      "title": "KRIT 발표",
+      "date": "2026-05-12",
+      "type": "meeting",
+      "status": "confirmed"
+    }
   ],
   "blocked": []
 }
