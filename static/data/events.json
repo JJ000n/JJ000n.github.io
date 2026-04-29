@@ -160,6 +160,13 @@
       "type": "deadline",
       "status": "confirmed"
     }
+    ,{
+      "id": "22",
+      "title": "한미약품 AI 역량검사",
+      "date": "2026-05-03",
+      "type": "deadline",
+      "status": "confirmed"
+    }
   ],
   "blocked": []
 }
