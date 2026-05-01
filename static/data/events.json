@@ -175,6 +175,14 @@
       "type": "meeting",
       "status": "confirmed"
     }
+    ,{
+      "id": "24",
+      "title": "한국전자통신연구원 채용",
+      "date": "2026-05-07",
+      "type": "deadline",
+      "startTime": "13:00",
+      "status": "confirmed"
+    }
   ],
   "blocked": []
 }
