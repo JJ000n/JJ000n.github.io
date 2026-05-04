@@ -198,6 +198,14 @@
       "type": "deadline",
       "status": "confirmed"
     }
+    ,{
+      "id": "27",
+      "title": "BC카드",
+      "date": "2026-05-11",
+      "type": "deadline",
+      "startTime": "15:00",
+      "status": "confirmed"
+    }
   ],
   "blocked": []
 }
