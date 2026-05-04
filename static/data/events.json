@@ -191,6 +191,13 @@
       "startTime": "17:00",
       "status": "confirmed"
     }
+    ,{
+      "id": "26",
+      "title": "현대 위아",
+      "date": "2026-05-19",
+      "type": "deadline",
+      "status": "confirmed"
+    }
   ],
   "blocked": []
 }
