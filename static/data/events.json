@@ -183,6 +183,14 @@
       "startTime": "13:00",
       "status": "confirmed"
     }
+    ,{
+      "id": "25",
+      "title": "SKALA 지원",
+      "date": "2026-05-13",
+      "type": "deadline",
+      "startTime": "17:00",
+      "status": "confirmed"
+    }
   ],
   "blocked": []
 }
