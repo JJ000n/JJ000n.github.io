@@ -206,6 +206,13 @@
       "startTime": "15:00",
       "status": "confirmed"
     }
+    ,{
+      "id": "28",
+      "title": "포항산업과학연구원",
+      "date": "2026-05-14",
+      "type": "deadline",
+      "status": "confirmed"
+    }
   ],
   "blocked": []
 }
