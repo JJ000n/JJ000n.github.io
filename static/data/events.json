@@ -173,6 +173,13 @@
       "title": "KRIT 발표",
       "date": "2026-05-12",
       "type": "meeting",
+      "status": "confirmed"
+    }
+    ,{
+      "id": "29",
+      "title": "포스코DX 설명회",
+      "date": "2026-05-12",
+      "type": "class",
       "startTime": "13:00",
       "endTime": "14:00",
       "description": "110동 2층 해동홀 A (더치앤빈)",
