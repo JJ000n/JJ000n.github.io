@@ -2,11 +2,6 @@
   "date": "2026-04-13",
   "items": [
     {
-      "id": "1",
-      "text": "토스 시험",
-      "deadline": "May 3rd"
-    },
-    {
       "id": "2",
       "text": "NCS Study"
     },
