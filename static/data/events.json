@@ -187,7 +187,7 @@
     }
     ,{
       "id": "24",
-      "title": "KETI 채용",
+      "title": "한국전자통신연구원 채용",
       "date": "2026-05-07",
       "type": "deadline",
       "startTime": "13:00",
@@ -202,25 +202,42 @@
       "status": "confirmed"
     }
     ,{
-      "id": "26",
-      "title": "현대 위아",
-      "date": "2026-05-19",
-      "type": "deadline",
-      "status": "confirmed"
-    }
-    ,{
-      "id": "27",
-      "title": "BC카드",
-      "date": "2026-05-11",
-      "type": "deadline",
-      "startTime": "15:00",
-      "status": "confirmed"
-    }
-    ,{
       "id": "28",
       "title": "포항산업과학연구원",
       "date": "2026-05-14",
       "type": "deadline",
+      "status": "confirmed"
+    }
+    ,{
+      "id": "30",
+      "title": "넥슨네트웍스 게임QA 채용연계형 인턴",
+      "date": "2026-05-10",
+      "type": "deadline",
+      "memo": "지원기간: 4/30~5/10 | 나이·전공 제한 없음, 6월 입사 판교 6개월 | careers.nexon.com",
+      "status": "confirmed"
+    }
+    ,{
+      "id": "31",
+      "title": "이투스에듀 AI융합연구소 데이터 운영 담당",
+      "date": "2026-05-30",
+      "type": "deadline",
+      "memo": "마감 추정 (D-23 기준) — jobkorea.co.kr에서 확인 권장 | 서울, 신입·경력",
+      "status": "confirmed"
+    }
+    ,{
+      "id": "32",
+      "title": "실리콘투 AX(AI전환) 주니어 담당자",
+      "date": "2026-05-31",
+      "type": "deadline",
+      "memo": "상시채용 (마감 없음) | 경기, 신입·경력 | jobkorea.co.kr 확인",
+      "status": "confirmed"
+    }
+    ,{
+      "id": "33",
+      "title": "한글과컴퓨터 공공시장 영업 전환형 인턴",
+      "date": "2026-05-31",
+      "type": "deadline",
+      "memo": "수시채용 | 공고 개시 4/28 | hancom.career.greetinghr.com",
       "status": "confirmed"
     }
   ],
