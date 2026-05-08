@@ -240,6 +240,20 @@
       "memo": "수시채용 | 공고 개시 4/28 | hancom.career.greetinghr.com",
       "status": "confirmed"
     }
+    ,{
+      "id": "34",
+      "title": "CV 정리하기",
+      "date": "2026-05-08",
+      "type": "class",
+      "status": "confirmed"
+    }
+    ,{
+      "id": "35",
+      "title": "한국행동과학연구소 지원서",
+      "date": "2026-05-15",
+      "type": "deadline",
+      "status": "confirmed"
+    }
   ],
   "blocked": []
 }
