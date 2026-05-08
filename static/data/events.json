@@ -255,6 +255,14 @@
       "startTime": "23:59",
       "status": "confirmed"
     }
+    ,{
+      "id": "37",
+      "title": "한온시스템 채용연계형 인턴십",
+      "date": "2026-05-19",
+      "type": "deadline",
+      "memo": "2026 상반기 채용연계형 인턴십",
+      "status": "confirmed"
+    }
   ],
   "blocked": []
 }
