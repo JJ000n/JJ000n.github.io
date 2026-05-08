@@ -247,6 +247,14 @@
       "type": "deadline",
       "status": "confirmed"
     }
+    ,{
+      "id": "36",
+      "title": "한국화학산업협회",
+      "date": "2026-05-31",
+      "type": "deadline",
+      "startTime": "23:59",
+      "status": "confirmed"
+    }
   ],
   "blocked": []
 }
