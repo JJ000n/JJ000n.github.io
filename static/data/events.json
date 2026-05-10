@@ -263,6 +263,13 @@
       "memo": "2026 상반기 채용연계형 인턴십",
       "status": "confirmed"
     }
+    ,{
+      "id": "38",
+      "title": "과학기술정책연구원 채용",
+      "date": "2026-05-26",
+      "type": "deadline",
+      "status": "confirmed"
+    }
   ],
   "blocked": []
 }
