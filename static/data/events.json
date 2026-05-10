@@ -270,6 +270,14 @@
       "type": "deadline",
       "status": "confirmed"
     }
+    ,{
+      "id": "39",
+      "title": "현대백화점 채용",
+      "date": "2026-05-13",
+      "type": "deadline",
+      "startTime": "17:00",
+      "status": "confirmed"
+    }
   ],
   "blocked": []
 }
