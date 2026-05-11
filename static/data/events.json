@@ -270,6 +270,13 @@
       "startTime": "17:00",
       "status": "confirmed"
     }
+    ,{
+      "id": "40",
+      "title": "BC카드 채용",
+      "date": "2026-05-11",
+      "type": "deadline",
+      "status": "confirmed"
+    }
   ],
   "blocked": []
 }
