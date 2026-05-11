@@ -277,6 +277,14 @@
       "type": "deadline",
       "status": "confirmed"
     }
+    ,{
+      "id": "41",
+      "title": "현대위아 HRD(AX 교육) 채용",
+      "date": "2026-05-19",
+      "type": "deadline",
+      "startTime": "11:59",
+      "status": "confirmed"
+    }
   ],
   "blocked": []
 }
