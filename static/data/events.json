@@ -285,6 +285,14 @@
       "startTime": "11:59",
       "status": "confirmed"
     }
+    ,{
+      "id": "42",
+      "title": "한화에너지 채용",
+      "date": "2026-05-24",
+      "type": "deadline",
+      "memo": "https://jasoseol.com/recruit/104033",
+      "status": "confirmed"
+    }
   ],
   "blocked": []
 }
