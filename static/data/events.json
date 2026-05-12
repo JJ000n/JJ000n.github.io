@@ -286,6 +286,14 @@
       "status": "confirmed"
     }
     ,{
+      "id": "45",
+      "title": "한국통계정보원 채용",
+      "date": "2026-05-25",
+      "type": "deadline",
+      "startTime": "18:00",
+      "status": "confirmed"
+    }
+    ,{
       "id": "44",
       "title": "국기연 1차 면접",
       "date": "2026-05-20",
