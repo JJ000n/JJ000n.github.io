@@ -652,17 +652,24 @@ textarea.form-input { resize: vertical; min-height: 85px; }
 
     // Sync to Supabase
     try {
+      const numId = parseInt(id, 10);
+      let res;
       if (isDone) {
-        await fetch(`${SB_URL}/rest/v1/todo_checks?item_id=eq.${encodeURIComponent(id)}`,
+        res = await fetch(`${SB_URL}/rest/v1/todo_checks?item_id=eq.${numId}`,
           { method: 'DELETE', headers: sbHeaders });
       } else {
-        await fetch(`${SB_URL}/rest/v1/todo_checks`, {
+        res = await fetch(`${SB_URL}/rest/v1/todo_checks`, {
           method: 'POST',
           headers: { ...sbHeaders, 'Prefer': 'return=minimal' },
-          body: JSON.stringify({ item_id: id })
+          body: JSON.stringify({ item_id: numId })
         });
       }
-    } catch(err) { console.error('Todo sync failed', err); }
+      if (!res.ok) {
+        const errText = await res.text();
+        console.error('Todo sync failed', res.status, errText);
+        showToast('저장 실패: ' + res.status);
+      }
+    } catch(err) { console.error('Todo sync failed', err); showToast('저장 오류'); }
   });
 
   function updateProgress() {
