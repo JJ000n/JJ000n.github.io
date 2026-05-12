@@ -479,16 +479,16 @@ textarea.form-input { resize: vertical; min-height: 85px; }
     cell.appendChild(num);
 
     if (!otherMonth && !isBlocked) {
-      dayEvents.slice(0, 2).forEach(ev => {
+      dayEvents.slice(0, 3).forEach(ev => {
         const b = document.createElement('div');
         const isApplied = appliedIds.has(String(ev.id));
         b.className = `event-badge ${ev.status==='pending' ? 'status-pending' : 'type-'+(ev.type||'meeting')}${isApplied ? ' applied' : ''}`;
         b.textContent = (isApplied ? '✓ ' : '') + ev.title;
         cell.appendChild(b);
       });
-      if (dayEvents.length > 2) {
+      if (dayEvents.length > 3) {
         const m = document.createElement('div');
-        m.className = 'event-more'; m.textContent = `+${dayEvents.length - 2}`;
+        m.className = 'event-more'; m.textContent = `+${dayEvents.length - 3}`;
         cell.appendChild(m);
       }
     }
