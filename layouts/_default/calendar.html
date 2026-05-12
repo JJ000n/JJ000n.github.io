@@ -71,7 +71,16 @@
 .type-class    { background: rgba(80,250,123,.18);  color: #50fa7b; }
 .type-blocked  { background: rgba(255,255,255,.05); color: var(--muted); }
 .status-pending { background: rgba(251,146,60,.22); color: #fb923c; }
+.event-badge.applied { opacity: .4; text-decoration: line-through; }
 .event-more { font-size: .63rem; color: var(--muted); padding-left: 4px; }
+.applied-toggle {
+  display: inline-flex; align-items: center; gap: 5px; margin-top: .5rem;
+  padding: 3px 10px; border-radius: 6px; cursor: pointer; font-size: .74rem;
+  border: 1px solid var(--border2); background: none; color: var(--muted);
+  font-family: 'Inter', sans-serif; transition: all .18s;
+}
+.applied-toggle:hover { border-color: var(--accent); color: var(--accent); }
+.applied-toggle.done { background: rgba(139,124,248,.15); border-color: var(--accent); color: var(--accent); }
 
 .side-panel { display: flex; flex-direction: column; gap: 1rem; position: sticky; top: 80px; }
 .panel-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 14px; padding: 1.3rem; }
@@ -379,6 +388,7 @@ textarea.form-input { resize: vertical; min-height: 85px; }
   let blockedDates = [];
   let currentYear, currentMonth;
   let selectedDateStr = null;
+  let appliedIds = new Set(JSON.parse(localStorage.getItem('cal_applied') || '[]'));
 
   const sbHeaders = { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}`, 'Content-Type': 'application/json' };
 
@@ -471,8 +481,9 @@ textarea.form-input { resize: vertical; min-height: 85px; }
     if (!otherMonth && !isBlocked) {
       dayEvents.slice(0, 2).forEach(ev => {
         const b = document.createElement('div');
-        b.className = `event-badge ${ev.status==='pending' ? 'status-pending' : 'type-'+(ev.type||'meeting')}`;
-        b.textContent = ev.title;
+        const isApplied = appliedIds.has(String(ev.id));
+        b.className = `event-badge ${ev.status==='pending' ? 'status-pending' : 'type-'+(ev.type||'meeting')}${isApplied ? ' applied' : ''}`;
+        b.textContent = (isApplied ? '✓ ' : '') + ev.title;
         cell.appendChild(b);
       });
       if (dayEvents.length > 2) {
@@ -506,9 +517,24 @@ textarea.form-input { resize: vertical; min-height: 85px; }
         ${isPending ? '<span class="panel-pending-tag">대기 중 · Pending</span>' : ''}
         ${ev.description ? `<div class="panel-event-desc">${ev.description}</div>` : ''}
         ${ev.memo ? `<div class="panel-event-memo"><span class="memo-label">MEMO</span>${ev.memo}</div>` : ''}
+        ${ev.type === 'deadline' ? (() => { const a = appliedIds.has(String(ev.id)); return `<button class="applied-toggle${a?' done':''}" data-eid="${ev.id}">${a?'✓ 지원 완료':'지원 완료 체크'}</button>`; })() : ''}
       </div>`;
     }).join('');
   }
+
+  /* ── Applied toggle ── */
+  document.getElementById('panel-events').addEventListener('click', function(e) {
+    const btn = e.target.closest('.applied-toggle');
+    if (!btn) return;
+    const eid = String(btn.dataset.eid);
+    if (appliedIds.has(eid)) { appliedIds.delete(eid); } else { appliedIds.add(eid); }
+    localStorage.setItem('cal_applied', JSON.stringify([...appliedIds]));
+    render();
+    if (selectedDateStr) {
+      const [y, m, d] = selectedDateStr.split('-').map(Number);
+      showPanel(new Date(y, m-1, d), getEventsForDate(selectedDateStr));
+    }
+  });
 
   /* ── Navigation ── */
   document.getElementById('prev-month').addEventListener('click', () => {
