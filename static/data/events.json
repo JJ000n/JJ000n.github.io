@@ -302,6 +302,14 @@
       "description": "진주복합혁신센터(진주시 소호로 113) 2층 대회의실",
       "status": "confirmed"
     }
+    ,{
+      "id": "46",
+      "title": "졸업 신청 마감",
+      "date": "2026-05-22",
+      "type": "deadline",
+      "memo": "관련 서류 제출하기",
+      "status": "confirmed"
+    }
   ],
   "blocked": []
 }
