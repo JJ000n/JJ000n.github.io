@@ -285,6 +285,23 @@
       "memo": "https://jasoseol.com/recruit/104033",
       "status": "confirmed"
     }
+    ,{
+      "id": "43",
+      "title": "국기연 인성검사",
+      "date": "2026-05-13",
+      "type": "deadline",
+      "startTime": "23:59",
+      "status": "confirmed"
+    }
+    ,{
+      "id": "44",
+      "title": "국기연 1차 면접",
+      "date": "2026-05-20",
+      "type": "meeting",
+      "startTime": "10:35",
+      "description": "진주복합혁신센터(진주시 소호로 113) 2층 대회의실",
+      "status": "confirmed"
+    }
   ],
   "blocked": []
 }
