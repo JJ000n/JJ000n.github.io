@@ -310,6 +310,13 @@
       "memo": "관련 서류 제출하기",
       "status": "confirmed"
     }
+    ,{
+      "id": "47",
+      "title": "대한항공 인턴",
+      "date": "2026-05-26",
+      "type": "deadline",
+      "status": "confirmed"
+    }
   ],
   "blocked": []
 }
