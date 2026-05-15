@@ -317,6 +317,21 @@
       "type": "deadline",
       "status": "confirmed"
     }
+    ,{
+      "id": "48",
+      "title": "SSAFY 에세이",
+      "date": "2026-05-23",
+      "type": "deadline",
+      "status": "confirmed"
+    }
+    ,{
+      "id": "49",
+      "title": "SSAFY 적성진단",
+      "date": "2026-05-16",
+      "type": "meeting",
+      "startTime": "10:30",
+      "status": "confirmed"
+    }
   ],
   "blocked": []
 }
