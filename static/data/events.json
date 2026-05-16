@@ -332,6 +332,13 @@
       "startTime": "10:30",
       "status": "confirmed"
     }
+    ,{
+      "id": "50",
+      "title": "은 -> 거제",
+      "date": "2026-05-17",
+      "type": "meeting",
+      "status": "confirmed"
+    }
   ],
   "blocked": []
 }
