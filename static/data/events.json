@@ -332,6 +332,13 @@
       "startTime": "10:30",
       "status": "confirmed"
     }
+    ,{
+      "id": "51",
+      "title": "기품원 필기시험",
+      "date": "2026-07-04",
+      "type": "meeting",
+      "status": "confirmed"
+    }
   ],
   "blocked": []
 }
