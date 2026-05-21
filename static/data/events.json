@@ -339,6 +339,13 @@
       "type": "meeting",
       "status": "confirmed"
     }
+    ,{
+      "id": "52",
+      "title": "연구노트 업로드(상훈)",
+      "date": "2026-05-27",
+      "type": "deadline",
+      "status": "confirmed"
+    }
   ],
   "blocked": []
 }
