@@ -346,6 +346,14 @@
       "type": "deadline",
       "status": "confirmed"
     }
+    ,{
+      "id": "53",
+      "title": "청모 (정민)",
+      "date": "2026-06-13",
+      "type": "meeting",
+      "memo": "사상(점심)",
+      "status": "confirmed"
+    }
   ],
   "blocked": []
 }
