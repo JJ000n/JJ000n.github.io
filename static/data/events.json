@@ -354,6 +354,20 @@
       "memo": "사상(점심)",
       "status": "confirmed"
     }
+    ,{
+      "id": "54",
+      "title": "KETI 결과 발표",
+      "date": "2026-05-22",
+      "type": "deadline",
+      "status": "confirmed"
+    }
+    ,{
+      "id": "55",
+      "title": "KRIT 결과 발표",
+      "date": "2026-05-22",
+      "type": "deadline",
+      "status": "confirmed"
+    }
   ],
   "blocked": []
 }
