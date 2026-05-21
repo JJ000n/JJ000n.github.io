@@ -368,6 +368,14 @@
       "type": "deadline",
       "status": "confirmed"
     }
+    ,{
+      "id": "56",
+      "title": "SKCT (SKALA) 응시",
+      "date": "2026-05-23",
+      "type": "deadline",
+      "startTime": "23:59",
+      "status": "confirmed"
+    }
   ],
   "blocked": []
 }
