@@ -376,6 +376,13 @@
       "startTime": "23:59",
       "status": "confirmed"
     }
+    ,{
+      "id": "57",
+      "title": "포스코DX 역량검사",
+      "date": "2026-05-25",
+      "type": "deadline",
+      "status": "confirmed"
+    }
   ],
   "blocked": []
 }
