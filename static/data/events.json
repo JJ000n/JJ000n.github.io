@@ -383,6 +383,13 @@
       "type": "deadline",
       "status": "confirmed"
     }
+    ,{
+      "id": "58",
+      "title": "디펜스",
+      "date": "2026-06-12",
+      "type": "meeting",
+      "status": "confirmed"
+    }
   ],
   "blocked": []
 }
