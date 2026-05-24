@@ -201,22 +201,6 @@
       "status": "confirmed"
     }
     ,{
-      "id": "32",
-      "title": "실리콘투 AX(AI전환) 주니어 담당자",
-      "date": "2026-05-31",
-      "type": "deadline",
-      "memo": "상시채용 (마감 없음) | 경기, 신입·경력 | jobkorea.co.kr 확인",
-      "status": "confirmed"
-    }
-    ,{
-      "id": "33",
-      "title": "한글과컴퓨터 공공시장 영업 전환형 인턴",
-      "date": "2026-05-31",
-      "type": "deadline",
-      "memo": "수시채용 | 공고 개시 4/28 | hancom.career.greetinghr.com",
-      "status": "confirmed"
-    }
-    ,{
       "id": "35",
       "title": "한국행동과학연구소 지원서",
       "date": "2026-05-15",
@@ -380,6 +364,13 @@
       "id": "57",
       "title": "포스코DX 역량검사",
       "date": "2026-05-25",
+      "type": "deadline",
+      "status": "confirmed"
+    }
+    ,{
+      "id": "59",
+      "title": "Defense 자료 및 논문 작성 완료",
+      "date": "2026-05-31",
       "type": "deadline",
       "status": "confirmed"
     }
