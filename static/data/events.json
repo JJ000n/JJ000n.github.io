@@ -130,22 +130,6 @@
       "status": "confirmed"
     }
     ,{
-      "id": "19",
-      "title": "한국남부발전 상반기 체험형 인턴",
-      "date": "2026-05-07",
-      "type": "deadline",
-      "memo": "접수기간: 4월 29일 11:00 ~ 5월 7일",
-      "status": "confirmed"
-    }
-    ,{
-      "id": "21",
-      "title": "한국교통연구원",
-      "date": "2026-05-14",
-      "type": "deadline",
-      "startTime": "13:00",
-      "status": "confirmed"
-    }
-    ,{
       "id": "22",
       "title": "한미약품 AI 역량검사",
       "date": "2026-05-03",
@@ -216,14 +200,6 @@
       "status": "confirmed"
     }
     ,{
-      "id": "37",
-      "title": "한온시스템 채용연계형 인턴십",
-      "date": "2026-05-19",
-      "type": "deadline",
-      "memo": "2026 상반기 채용연계형 인턴십",
-      "status": "confirmed"
-    }
-    ,{
       "id": "38",
       "title": "과학기술정책연구원 채용",
       "date": "2026-05-26",
@@ -243,22 +219,6 @@
       "title": "BC카드 채용",
       "date": "2026-05-11",
       "type": "deadline",
-      "status": "confirmed"
-    }
-    ,{
-      "id": "41",
-      "title": "현대위아 HRD(AX 교육) 채용",
-      "date": "2026-05-19",
-      "type": "deadline",
-      "startTime": "11:59",
-      "status": "confirmed"
-    }
-    ,{
-      "id": "42",
-      "title": "한화에너지 채용",
-      "date": "2026-05-24",
-      "type": "deadline",
-      "memo": "https://jasoseol.com/recruit/104033",
       "status": "confirmed"
     }
     ,{
@@ -350,14 +310,6 @@
       "title": "KRIT 결과 발표",
       "date": "2026-05-22",
       "type": "deadline",
-      "status": "confirmed"
-    }
-    ,{
-      "id": "56",
-      "title": "SKCT (SKALA) 응시",
-      "date": "2026-05-23",
-      "type": "deadline",
-      "startTime": "23:59",
       "status": "confirmed"
     }
     ,{
