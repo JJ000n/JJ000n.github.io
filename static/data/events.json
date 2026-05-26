@@ -321,10 +321,11 @@
     }
     ,{
       "id": "60",
-      "title": "용산",
+      "title": "정연, 민정 약속",
       "date": "2026-07-08",
       "type": "meeting",
       "startTime": "18:00",
+      "memo": "용산",
       "status": "confirmed"
     }
   ],
