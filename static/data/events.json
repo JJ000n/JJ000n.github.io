@@ -319,6 +319,14 @@
       "type": "meeting",
       "status": "confirmed"
     }
+    ,{
+      "id": "60",
+      "title": "용산",
+      "date": "2026-07-08",
+      "type": "meeting",
+      "startTime": "18:00",
+      "status": "confirmed"
+    }
   ],
   "blocked": []
 }
