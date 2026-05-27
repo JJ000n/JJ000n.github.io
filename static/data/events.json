@@ -335,6 +335,15 @@
       "memo": "용산",
       "status": "confirmed"
     }
+    ,{
+      "id": "63",
+      "title": "ICML 2026",
+      "date": "2026-07-06",
+      "endDate": "2026-07-11",
+      "type": "class",
+      "description": "International Conference on Machine Learning",
+      "status": "confirmed"
+    }
   ],
   "blocked": []
 }

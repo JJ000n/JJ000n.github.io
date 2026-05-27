@@ -42,7 +42,7 @@
 .day-cell {
   min-height: 90px; padding: .45rem .4rem;
   border-right: 1px solid var(--border); border-bottom: 1px solid var(--border);
-  cursor: pointer; transition: background .15s; overflow: hidden;
+  cursor: pointer; transition: background .15s; overflow: visible;
 }
 .day-cell:nth-child(7n) { border-right: none; }
 .day-cell:hover { background: rgba(139,124,248,.05); }
@@ -66,6 +66,9 @@
   display: block; font-size: .67rem; padding: 2px 5px; border-radius: 4px;
   margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 500;
 }
+.event-badge.range-start { border-radius: 4px 0 0 4px; margin-right: calc(-0.4rem - 1px); padding-right: 0.5rem; }
+.event-badge.range-mid   { border-radius: 0; margin-left: calc(-0.4rem - 1px); margin-right: calc(-0.4rem - 1px); padding: 2px 0.4rem; }
+.event-badge.range-end   { border-radius: 0 4px 4px 0; margin-left: calc(-0.4rem - 1px); padding-left: 0.5rem; }
 .type-meeting  { background: rgba(139,124,248,.22); color: var(--accent); }
 .type-deadline { background: rgba(232,184,75,.22);  color: var(--gold); }
 .type-class    { background: rgba(80,250,123,.18);  color: #50fa7b; }
@@ -431,7 +434,10 @@ textarea.form-input { resize: vertical; min-height: 85px; }
   }
 
   function getEventsForDate(dateStr) {
-    return allEvents.filter(e => e.date === dateStr);
+    return allEvents.filter(e => {
+      if (e.endDate && e.endDate > e.date) return e.date <= dateStr && dateStr <= e.endDate;
+      return e.date === dateStr;
+    });
   }
 
   /* ── Render ── */
@@ -482,8 +488,15 @@ textarea.form-input { resize: vertical; min-height: 85px; }
       dayEvents.slice(0, 3).forEach(ev => {
         const b = document.createElement('div');
         const isApplied = appliedIds.has(String(ev.id));
-        b.className = `event-badge ${ev.status==='pending' ? 'status-pending' : 'type-'+(ev.type||'meeting')}${isApplied ? ' applied' : ''}`;
-        b.textContent = (isApplied ? '✓ ' : '') + ev.title;
+        let rangeClass = '';
+        let displayTitle = (isApplied ? '✓ ' : '') + ev.title;
+        if (ev.endDate && ev.endDate > ev.date) {
+          if (dateStr === ev.date)         { rangeClass = ' range-start'; }
+          else if (dateStr === ev.endDate) { rangeClass = ' range-end'; displayTitle = '\u00A0'; }
+          else                             { rangeClass = ' range-mid';  displayTitle = '\u00A0'; }
+        }
+        b.className = `event-badge ${ev.status==='pending' ? 'status-pending' : 'type-'+(ev.type||'meeting')}${isApplied ? ' applied' : ''}${rangeClass}`;
+        b.textContent = displayTitle;
         cell.appendChild(b);
       });
       if (dayEvents.length > 3) {
@@ -513,7 +526,7 @@ textarea.form-input { resize: vertical; min-height: 85px; }
           <div class="panel-event-dot" style="background:${color}"></div>
           <div class="panel-event-title">${ev.title}</div>
         </div>
-        ${ev.startTime ? `<div class="panel-event-time">${ev.startTime}${ev.endTime?' – '+ev.endTime:''}</div>` : ''}
+        ${ev.endDate && ev.endDate > ev.date ? `<div class="panel-event-time">${ev.date} – ${ev.endDate}</div>` : ev.startTime ? `<div class="panel-event-time">${ev.startTime}${ev.endTime?' – '+ev.endTime:''}</div>` : ''}
         ${isPending ? '<span class="panel-pending-tag">대기 중 · Pending</span>' : ''}
         ${ev.description ? `<div class="panel-event-desc">${ev.description}</div>` : ''}
         ${ev.memo ? `<div class="panel-event-memo"><span class="memo-label">MEMO</span>${ev.memo}</div>` : ''}
