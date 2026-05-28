@@ -42,7 +42,7 @@
 .day-cell {
   min-height: 90px; padding: .45rem .4rem;
   border-right: 1px solid var(--border); border-bottom: 1px solid var(--border);
-  cursor: pointer; transition: background .15s; overflow: visible;
+  cursor: pointer; transition: background .15s; overflow: hidden;
 }
 .day-cell:nth-child(7n) { border-right: none; }
 .day-cell:hover { background: rgba(139,124,248,.05); }
@@ -66,9 +66,9 @@
   display: block; font-size: .67rem; padding: 2px 5px; border-radius: 4px;
   margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 500;
 }
-.event-badge.range-start { border-radius: 4px 0 0 4px; margin-right: calc(-0.4rem - 1px); padding-right: 0.5rem; }
-.event-badge.range-mid   { border-radius: 0; margin-left: calc(-0.4rem - 1px); margin-right: calc(-0.4rem - 1px); padding: 2px 0.4rem; }
-.event-badge.range-end   { border-radius: 0 4px 4px 0; margin-left: calc(-0.4rem - 1px); padding-left: 0.5rem; }
+.event-badge.range-start { border-radius: 4px 0 0 4px; }
+.event-badge.range-mid   { border-radius: 0; }
+.event-badge.range-end   { border-radius: 0 4px 4px 0; }
 .type-meeting  { background: rgba(139,124,248,.22); color: var(--accent); }
 .type-deadline { background: rgba(232,184,75,.22);  color: var(--gold); }
 .type-class    { background: rgba(80,250,123,.18);  color: #50fa7b; }
