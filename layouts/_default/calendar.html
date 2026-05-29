@@ -226,6 +226,31 @@ textarea.form-input { resize: vertical; min-height: 85px; }
 .todo-bar-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent2)); border-radius: 2px; transition: width .35s; }
 .todo-progress-text { font-family: 'JetBrains Mono', monospace; font-size: .68rem; color: var(--muted); white-space: nowrap; }
 
+/* ── Sub-items ── */
+.todo-item.has-children { flex-direction: column; align-items: stretch; gap: 0; }
+.todo-item-header { display: flex; align-items: center; gap: .75rem; cursor: pointer; }
+.todo-children {
+  display: flex; flex-direction: column; gap: .3rem;
+  margin: .5rem 0 .15rem 1.65rem; padding-left: .9rem;
+  border-left: 2px solid var(--border2);
+}
+.todo-sub-item {
+  display: flex; align-items: center; gap: .55rem;
+  padding: .35rem .65rem; border-radius: 7px;
+  background: var(--bg); border: 1px solid var(--border);
+  cursor: pointer; transition: all .18s; user-select: none;
+}
+.todo-sub-item:hover { border-color: var(--border2); }
+.todo-sub-item.done { opacity: .4; }
+.todo-sub-check {
+  width: 14px; height: 14px; border-radius: 3px; flex-shrink: 0;
+  border: 1px solid var(--border2); background: var(--bg2);
+  display: flex; align-items: center; justify-content: center; transition: all .18s;
+}
+.todo-sub-item.done .todo-sub-check { background: var(--accent); border-color: var(--accent); }
+.todo-sub-text { font-size: .81rem; color: var(--sub); }
+.todo-sub-item.done .todo-sub-text { text-decoration: line-through; color: var(--muted); }
+
 /* ── Daily Routine ── */
 .routine-list { display: flex; flex-direction: column; gap: .42rem; margin-bottom: .75rem; }
 .routine-item {
@@ -634,7 +659,8 @@ textarea.form-input { resize: vertical; min-height: 85px; }
   /* ── To-Do ── */
   let todoItems = [];
   let checkedIds = new Set();
-  const CHECK_SVG = '<svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  const CHECK_SVG    = '<svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  const CHECK_SVG_SM = '<svg width="8" height="6" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
   async function loadTodos() {
     try {
@@ -662,58 +688,71 @@ textarea.form-input { resize: vertical; min-height: 85px; }
     }
     el.innerHTML = items.map(item => {
       const done = checkedIds.has(String(item.id));
-      return `<div class="todo-item${done?' done':''}" data-id="${item.id}">
+      const children = item.children || [];
+      const hasChildren = children.length > 0;
+      const rowContent = `
         <div class="todo-check">${done ? CHECK_SVG : ''}</div>
         <div class="todo-text">${item.text}</div>
-        ${item.deadline ? `<div class="todo-deadline">deadline : ${item.deadline}</div>` : ''}
-      </div>`;
+        ${item.deadline ? `<div class="todo-deadline">deadline : ${item.deadline}</div>` : ''}`;
+      const childrenHtml = hasChildren ? `<div class="todo-children">
+        ${children.map(ch => {
+          const chDone = checkedIds.has(String(ch.id));
+          return `<div class="todo-sub-item${chDone?' done':''}" data-id="${ch.id}">
+            <div class="todo-sub-check">${chDone ? CHECK_SVG_SM : ''}</div>
+            <div class="todo-sub-text">${ch.text}</div>
+          </div>`;
+        }).join('')}
+      </div>` : '';
+      if (hasChildren) {
+        return `<div class="todo-item has-children${done?' done':''}" data-id="${item.id}">
+          <div class="todo-item-header">${rowContent}</div>
+          ${childrenHtml}
+        </div>`;
+      }
+      return `<div class="todo-item${done?' done':''}" data-id="${item.id}">${rowContent}</div>`;
     }).join('');
     updateProgress();
   }
 
   document.getElementById('todo-items').addEventListener('click', async function(e) {
-    const item = e.target.closest('.todo-item');
-    if (!item) return;
-    const id = String(item.dataset.id);
-    const isDone = item.classList.contains('done');
+    // Sub-item 클릭 먼저 체크
+    const subEl = e.target.closest('.todo-sub-item');
+    if (subEl) { await toggleTodo(String(subEl.dataset.id), subEl, true); return; }
+    if (e.target.closest('.todo-children')) return;
+    // has-children 부모 헤더 클릭
+    const headerEl = e.target.closest('.todo-item-header');
+    if (headerEl) { await toggleTodo(String(headerEl.closest('.todo-item').dataset.id), headerEl.closest('.todo-item'), false); return; }
+    // 일반 아이템 클릭
+    const itemEl = e.target.closest('.todo-item:not(.has-children)');
+    if (itemEl) await toggleTodo(String(itemEl.dataset.id), itemEl, false);
+  });
 
-    // Optimistic UI update
-    if (isDone) {
-      item.classList.remove('done');
-      item.querySelector('.todo-check').innerHTML = '';
-      checkedIds.delete(id);
-    } else {
-      item.classList.add('done');
-      item.querySelector('.todo-check').innerHTML = CHECK_SVG;
-      checkedIds.add(id);
-    }
+  async function toggleTodo(id, el, isSub) {
+    const isDone = el.classList.contains('done');
+    const checkEl = el.querySelector(isSub ? '.todo-sub-check' : '.todo-check');
+    if (isDone) { el.classList.remove('done'); checkEl.innerHTML = ''; checkedIds.delete(id); }
+    else { el.classList.add('done'); checkEl.innerHTML = isSub ? CHECK_SVG_SM : CHECK_SVG; checkedIds.add(id); }
     updateProgress();
-
-    // Sync to Supabase
     try {
       const numId = parseInt(id, 10);
       let res;
       if (isDone) {
-        res = await fetch(`${SB_URL}/rest/v1/todo_checks?item_id=eq.${numId}`,
-          { method: 'DELETE', headers: sbHeaders });
+        res = await fetch(`${SB_URL}/rest/v1/todo_checks?item_id=eq.${numId}`, { method: 'DELETE', headers: sbHeaders });
       } else {
         res = await fetch(`${SB_URL}/rest/v1/todo_checks`, {
-          method: 'POST',
-          headers: { ...sbHeaders, 'Prefer': 'return=minimal' },
+          method: 'POST', headers: { ...sbHeaders, 'Prefer': 'return=minimal' },
           body: JSON.stringify({ item_id: numId })
         });
       }
-      if (!res.ok) {
-        const errText = await res.text();
-        console.error('Todo sync failed', res.status, errText);
-        showToast('저장 실패: ' + res.status);
-      }
+      if (!res.ok) { const t = await res.text(); console.error('Todo sync failed', res.status, t); showToast('저장 실패: ' + res.status); }
     } catch(err) { console.error('Todo sync failed', err); showToast('저장 오류'); }
-  });
+  }
 
   function updateProgress() {
-    const total = todoItems.length;
-    const done = todoItems.filter(i => checkedIds.has(String(i.id))).length;
+    const allItems = [];
+    todoItems.forEach(i => { allItems.push(i); if (i.children) allItems.push(...i.children); });
+    const total = allItems.length;
+    const done = allItems.filter(i => checkedIds.has(String(i.id))).length;
     const progress = document.getElementById('todo-progress');
     progress.style.display = total ? 'flex' : 'none';
     document.getElementById('todo-bar-fill').style.width = total ? (done / total * 100) + '%' : '0%';
