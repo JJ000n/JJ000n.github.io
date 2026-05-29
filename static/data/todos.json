@@ -17,6 +17,20 @@
     {
       "id": "20",
       "text": "CV 정리하기"
+    },
+    {
+      "id": "30",
+      "text": "Thesis 작성",
+      "children": [
+        { "id": "301", "text": "Abstract" },
+        { "id": "302", "text": "Intro" },
+        { "id": "303", "text": "Background" },
+        { "id": "304", "text": "Related Works" },
+        { "id": "305", "text": "Motivation" },
+        { "id": "306", "text": "Method" },
+        { "id": "307", "text": "Experiment" },
+        { "id": "308", "text": "Conclusion" }
+      ]
     }
   ]
 }

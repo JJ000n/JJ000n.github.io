@@ -727,24 +727,60 @@ textarea.form-input { resize: vertical; min-height: 85px; }
     if (itemEl) await toggleTodo(String(itemEl.dataset.id), itemEl, false);
   });
 
-  async function toggleTodo(id, el, isSub) {
-    const isDone = el.classList.contains('done');
+  function applyDone(el, done, isSub) {
     const checkEl = el.querySelector(isSub ? '.todo-sub-check' : '.todo-check');
-    if (isDone) { el.classList.remove('done'); checkEl.innerHTML = ''; checkedIds.delete(id); }
-    else { el.classList.add('done'); checkEl.innerHTML = isSub ? CHECK_SVG_SM : CHECK_SVG; checkedIds.add(id); }
-    updateProgress();
-    try {
-      const numId = parseInt(id, 10);
-      let res;
-      if (isDone) {
-        res = await fetch(`${SB_URL}/rest/v1/todo_checks?item_id=eq.${numId}`, { method: 'DELETE', headers: sbHeaders });
-      } else {
-        res = await fetch(`${SB_URL}/rest/v1/todo_checks`, {
-          method: 'POST', headers: { ...sbHeaders, 'Prefer': 'return=minimal' },
-          body: JSON.stringify({ item_id: numId })
+    if (done) { el.classList.add('done'); if (checkEl) checkEl.innerHTML = isSub ? CHECK_SVG_SM : CHECK_SVG; }
+    else       { el.classList.remove('done'); if (checkEl) checkEl.innerHTML = ''; }
+  }
+
+  async function toggleTodo(id, el, isSub) {
+    const newDone = !el.classList.contains('done');
+    const changes = [];
+
+    // 클릭한 항목 토글
+    applyDone(el, newDone, isSub);
+    if (newDone) checkedIds.add(id); else checkedIds.delete(id);
+    changes.push({ numId: parseInt(id, 10), done: newDone });
+
+    if (!isSub) {
+      // 부모 토글 → 모든 자식도 같이 변경
+      const parentData = todoItems.find(i => String(i.id) === id);
+      if (parentData && parentData.children) {
+        parentData.children.forEach(child => {
+          const childId = String(child.id);
+          if (checkedIds.has(childId) === newDone) return; // 이미 같은 상태면 스킵
+          if (newDone) checkedIds.add(childId); else checkedIds.delete(childId);
+          const childEl = document.querySelector(`.todo-sub-item[data-id="${childId}"]`);
+          if (childEl) applyDone(childEl, newDone, true);
+          changes.push({ numId: parseInt(childId, 10), done: newDone });
         });
       }
-      if (!res.ok) { const t = await res.text(); console.error('Todo sync failed', res.status, t); showToast('저장 실패: ' + res.status); }
+    } else {
+      // 자식 토글 → 모두 체크됐으면 부모 자동 체크, 하나라도 해제되면 부모 해제
+      const parentData = todoItems.find(i => i.children && i.children.some(c => String(c.id) === id));
+      if (parentData) {
+        const parentId = String(parentData.id);
+        const allDone = parentData.children.every(c => checkedIds.has(String(c.id)));
+        if (checkedIds.has(parentId) !== allDone) {
+          if (allDone) checkedIds.add(parentId); else checkedIds.delete(parentId);
+          const parentEl = document.querySelector(`.todo-item[data-id="${parentId}"]`);
+          if (parentEl) applyDone(parentEl, allDone, false);
+          changes.push({ numId: parseInt(parentId, 10), done: allDone });
+        }
+      }
+    }
+
+    updateProgress();
+
+    try {
+      await Promise.all(changes.map(({ numId, done }) =>
+        done
+          ? fetch(`${SB_URL}/rest/v1/todo_checks`, {
+              method: 'POST', headers: { ...sbHeaders, 'Prefer': 'return=minimal' },
+              body: JSON.stringify({ item_id: numId })
+            })
+          : fetch(`${SB_URL}/rest/v1/todo_checks?item_id=eq.${numId}`, { method: 'DELETE', headers: sbHeaders })
+      ));
     } catch(err) { console.error('Todo sync failed', err); showToast('저장 오류'); }
   }
 
