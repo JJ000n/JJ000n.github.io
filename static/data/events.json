@@ -355,6 +355,13 @@
       "memo": "지원분야: 기획03 | 수험번호: 0029-000153",
       "status": "confirmed"
     }
+    ,{
+      "id": "65",
+      "title": "연구노트 작성",
+      "date": "2026-06-01",
+      "type": "deadline",
+      "status": "confirmed"
+    }
   ],
   "blocked": []
 }
