@@ -362,6 +362,14 @@
       "type": "deadline",
       "status": "confirmed"
     }
+    ,{
+      "id": "66",
+      "title": "기품원 지원서 제출",
+      "date": "2026-06-15",
+      "type": "deadline",
+      "startTime": "14:00",
+      "status": "confirmed"
+    }
   ],
   "blocked": []
 }
