@@ -372,6 +372,15 @@
       "startTime": "14:00",
       "status": "confirmed"
     }
+    ,{
+      "id": "67",
+      "title": "정민 결혼식",
+      "date": "2026-06-21",
+      "type": "meeting",
+      "startTime": "11:00",
+      "description": "국제빌딩 4층 K웨딩홀",
+      "status": "confirmed"
+    }
   ],
   "blocked": []
 }
