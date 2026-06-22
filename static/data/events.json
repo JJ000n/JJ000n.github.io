@@ -389,6 +389,20 @@
       "description": "국제빌딩 4층 K웨딩홀",
       "status": "confirmed"
     }
+    ,{
+      "id": "69",
+      "title": "논문전자파일제출",
+      "date": "2026-07-15",
+      "type": "deadline",
+      "status": "confirmed"
+    }
+    ,{
+      "id": "70",
+      "title": "논문 하드커버 제출",
+      "date": "2026-07-20",
+      "type": "deadline",
+      "status": "confirmed"
+    }
   ],
   "blocked": []
 }
