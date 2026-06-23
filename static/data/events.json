@@ -390,6 +390,14 @@
       "status": "confirmed"
     }
     ,{
+      "id": "72",
+      "title": "기술보증기금",
+      "date": "2026-06-30",
+      "type": "deadline",
+      "startTime": "16:00",
+      "status": "confirmed"
+    }
+    ,{
       "id": "71",
       "title": "주택도시보증공사",
       "date": "2026-07-08",
