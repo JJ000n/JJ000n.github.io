@@ -164,6 +164,38 @@ textarea.form-input { resize: vertical; min-height: 85px; }
 .form-success { text-align: center; padding: 2rem 1rem; font-size: .92rem; color: var(--sub); line-height: 2; display: none; }
 .form-success-icon { font-size: 2rem; margin-bottom: .5rem; display: block; }
 
+/* Owner filter */
+.owner-filter { display: flex; gap: .4rem; align-items: center; flex-wrap: wrap; }
+.owner-btn {
+  padding: 4px 13px; border-radius: 20px; border: 1px solid var(--border2);
+  background: none; color: var(--muted); font-size: .77rem; cursor: pointer;
+  font-family: 'Inter', sans-serif; transition: all .18s;
+}
+.owner-btn:hover { border-color: var(--accent); color: var(--accent); }
+.owner-btn.active { color: #fff; border-color: transparent; }
+.owner-btn.active[data-owner="all"] { background: var(--accent); }
+.owner-btn.active[data-owner="seongjun"] { background: #22d3ee; }
+.owner-btn.active[data-owner="yeo eun"] { background: #f472b6; }
+
+/* Owner tag in side panel */
+.owner-tag {
+  display: inline-block; font-size: .66rem; padding: 1px 8px;
+  border-radius: 10px; margin-top: .3rem; font-family: 'JetBrains Mono', monospace;
+  letter-spacing: .04em;
+}
+.owner-seongjun { background: rgba(34,211,238,.18); color: #22d3ee; }
+.owner-yeo-eun  { background: rgba(244,114,182,.18); color: #f472b6; }
+
+/* Owner color on grid badge */
+.event-badge.owner-sj {
+  border-left: 3px solid #22d3ee;
+  padding-left: 4px;
+}
+.event-badge.owner-ye {
+  border-left: 3px solid #f472b6;
+  padding-left: 4px;
+}
+
 /* Toast */
 .toast {
   position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%);
@@ -307,6 +339,11 @@ textarea.form-input { resize: vertical; min-height: 85px; }
       <span class="cal-month-label" id="month-label"></span>
       <button class="cal-nav-btn" id="next-month">›</button>
     </div>
+    <div class="owner-filter">
+      <button class="owner-btn active" data-owner="all">All</button>
+      <button class="owner-btn" data-owner="seongjun">Seongjun</button>
+      <button class="owner-btn" data-owner="yeo eun">Yeo Eun</button>
+    </div>
     <button class="req-btn" id="open-modal">+ Meeting Request</button>
   </div>
 
@@ -416,6 +453,7 @@ textarea.form-input { resize: vertical; min-height: 85px; }
   let blockedDates = [];
   let currentYear, currentMonth;
   let selectedDateStr = null;
+  let ownerFilter = 'all';
   let appliedIds = new Set(JSON.parse(localStorage.getItem('cal_applied') || '[]'));
 
   const sbHeaders = { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}`, 'Content-Type': 'application/json' };
@@ -460,8 +498,12 @@ textarea.form-input { resize: vertical; min-height: 85px; }
 
   function getEventsForDate(dateStr) {
     return allEvents.filter(e => {
-      if (e.endDate && e.endDate > e.date) return e.date <= dateStr && dateStr <= e.endDate;
-      return e.date === dateStr;
+      const matchDate = e.endDate && e.endDate > e.date
+        ? e.date <= dateStr && dateStr <= e.endDate
+        : e.date === dateStr;
+      if (!matchDate) return false;
+      if (ownerFilter !== 'all' && e.owner && e.owner !== ownerFilter) return false;
+      return true;
     });
   }
 
@@ -521,6 +563,9 @@ textarea.form-input { resize: vertical; min-height: 85px; }
           else                             { rangeClass = ' range-mid';  displayTitle = '\u00A0'; }
         }
         b.className = `event-badge ${ev.status==='pending' ? 'status-pending' : 'type-'+(ev.type||'meeting')}${isApplied ? ' applied' : ''}${rangeClass}`;
+        if (ev.owner) {
+          b.classList.add(ev.owner === 'seongjun' ? 'owner-sj' : 'owner-ye');
+        }
         b.textContent = displayTitle;
         cell.appendChild(b);
       });
@@ -553,6 +598,7 @@ textarea.form-input { resize: vertical; min-height: 85px; }
         </div>
         ${ev.endDate && ev.endDate > ev.date ? `<div class="panel-event-time">${ev.date} – ${ev.endDate}</div>` : ev.startTime ? `<div class="panel-event-time">${ev.startTime}${ev.endTime?' – '+ev.endTime:''}</div>` : ''}
         ${isPending ? '<span class="panel-pending-tag">대기 중 · Pending</span>' : ''}
+        ${ev.owner ? `<span class="owner-tag ${ev.owner==='seongjun'?'owner-seongjun':'owner-yeo-eun'}">${ev.owner==='seongjun'?'Seongjun':'Yeo Eun'}</span>` : ''}
         ${ev.description ? `<div class="panel-event-desc">${ev.description}</div>` : ''}
         ${ev.memo ? `<div class="panel-event-memo"><span class="memo-label">MEMO</span>${ev.memo}</div>` : ''}
         ${ev.type === 'deadline' ? (() => { const a = appliedIds.has(String(ev.id)); return `<button class="applied-toggle${a?' done':''}" data-eid="${ev.id}">${a?'✓ 지원 완료':'지원 완료 체크'}</button>`; })() : ''}
@@ -572,6 +618,19 @@ textarea.form-input { resize: vertical; min-height: 85px; }
       const [y, m, d] = selectedDateStr.split('-').map(Number);
       showPanel(new Date(y, m-1, d), getEventsForDate(selectedDateStr));
     }
+  });
+
+  /* ── Owner filter ── */
+  document.querySelectorAll('.owner-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      ownerFilter = btn.dataset.owner;
+      document.querySelectorAll('.owner-btn').forEach(b => b.classList.toggle('active', b === btn));
+      render();
+      if (selectedDateStr) {
+        const [y, m, d] = selectedDateStr.split('-').map(Number);
+        showPanel(new Date(y, m-1, d), getEventsForDate(selectedDateStr));
+      }
+    });
   });
 
   /* ── Navigation ── */

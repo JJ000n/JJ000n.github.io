@@ -8,6 +8,7 @@
       "startTime": "11:00",
       "description": "해운대 팔레드시즈",
       "memo": "9:40 은[거제->동래]",
+      "owner": "seongjun",
       "status": "confirmed"
     },
     {
@@ -16,6 +17,7 @@
       "date": "2026-04-19",
       "type": "meeting",
       "startTime": "12:00",
+      "owner": "seongjun",
       "status": "confirmed"
     },
     {
@@ -23,6 +25,7 @@
       "title": "현대 글로비스 인턴",
       "date": "2026-04-18",
       "type": "deadline",
+      "owner": "seongjun",
       "status": "confirmed"
     },
     {
@@ -32,6 +35,7 @@
       "type": "deadline",
       "startTime": "11:30",
       "description": "KPC자격울산지역센터",
+      "owner": "seongjun",
       "status": "confirmed"
     },
     {
@@ -39,6 +43,7 @@
       "title": "한국교육학술정보원",
       "date": "2026-04-27",
       "type": "deadline",
+      "owner": "seongjun",
       "status": "confirmed",
       "memo": "수험번호: 0093-000268"
     },
@@ -47,6 +52,7 @@
       "title": "랩미팅 발표",
       "date": "2026-05-08",
       "type": "class",
+      "owner": "seongjun",
       "status": "confirmed"
     },
     {
@@ -55,6 +61,7 @@
       "date": "2026-05-07",
       "type": "deadline",
       "startTime": "17:00",
+      "owner": "seongjun",
       "status": "confirmed"
     },
     {
@@ -63,6 +70,7 @@
       "date": "2026-04-30",
       "type": "deadline",
       "startTime": "15:00",
+      "owner": "seongjun",
       "status": "confirmed"
     },
     {
@@ -70,6 +78,7 @@
       "title": "SSAFY 16기",
       "date": "2026-05-11",
       "type": "deadline",
+      "owner": "seongjun",
       "status": "confirmed"
     },
     {
@@ -79,6 +88,7 @@
       "type": "meeting",
       "startTime": "12:00",
       "memo": "학생회관(22호관) 지하 소강당",
+      "owner": "seongjun",
       "status": "confirmed"
     },
     {
@@ -86,6 +96,7 @@
       "title": "한국투자",
       "date": "2026-04-22",
       "type": "deadline",
+      "owner": "seongjun",
       "status": "confirmed"
     },
     {
@@ -93,6 +104,7 @@
       "title": "한미그룹",
       "date": "2026-04-26",
       "type": "deadline",
+      "owner": "seongjun",
       "status": "confirmed"
     },
     {
@@ -100,6 +112,7 @@
       "title": "도쿄일렉트론코리아 채용연계 인턴",
       "date": "2026-04-26",
       "type": "deadline",
+      "owner": "seongjun",
       "status": "confirmed",
       "memo": "https://tel.recruiter.co.kr/career/jobs/106631"
     },
@@ -109,6 +122,7 @@
       "date": "2026-04-27",
       "type": "deadline",
       "startTime": "17:00",
+      "owner": "seongjun",
       "status": "confirmed"
     },
     {
@@ -116,6 +130,7 @@
       "title": "한국해양수산개발원",
       "date": "2026-05-04",
       "type": "deadline",
+      "owner": "seongjun",
       "status": "confirmed",
       "memo": "https://kmi.recruiter.co.kr/app/applicant/registResume?jobnoticeSn=250702&systemKindCode=MRS2"
     },
@@ -127,6 +142,7 @@
       "startTime": "18:00",
       "endTime": "21:00",
       "description": "104동 E207호",
+      "owner": "seongjun",
       "status": "confirmed"
     }
     ,{
@@ -134,6 +150,7 @@
       "title": "한미약품 AI 역량검사",
       "date": "2026-05-03",
       "type": "deadline",
+      "owner": "seongjun",
       "status": "confirmed"
     }
     ,{
@@ -141,6 +158,7 @@
       "title": "KRIT 발표",
       "date": "2026-05-12",
       "type": "meeting",
+      "owner": "seongjun",
       "status": "confirmed"
     }
     ,{
@@ -151,6 +169,7 @@
       "startTime": "13:00",
       "endTime": "14:00",
       "description": "110동 2층 해동홀 A (더치앤빈)",
+      "owner": "seongjun",
       "status": "confirmed"
     }
     ,{
@@ -159,6 +178,7 @@
       "date": "2026-05-07",
       "type": "deadline",
       "startTime": "13:00",
+      "owner": "seongjun",
       "status": "confirmed"
     }
     ,{
@@ -167,6 +187,7 @@
       "date": "2026-05-13",
       "type": "deadline",
       "startTime": "17:00",
+      "owner": "seongjun",
       "status": "confirmed"
     }
     ,{
@@ -174,6 +195,7 @@
       "title": "포항산업과학연구원",
       "date": "2026-05-14",
       "type": "deadline",
+      "owner": "seongjun",
       "status": "confirmed"
     }
     ,{
@@ -182,6 +204,7 @@
       "date": "2026-05-30",
       "type": "deadline",
       "memo": "마감 추정 (D-23 기준) — jobkorea.co.kr에서 확인 권장 | 서울, 신입·경력",
+      "owner": "seongjun",
       "status": "confirmed"
     }
     ,{
@@ -189,6 +212,7 @@
       "title": "한국행동과학연구소 지원서",
       "date": "2026-05-15",
       "type": "deadline",
+      "owner": "seongjun",
       "status": "confirmed"
     }
     ,{
@@ -197,6 +221,7 @@
       "date": "2026-05-31",
       "type": "deadline",
       "startTime": "23:59",
+      "owner": "seongjun",
       "status": "confirmed"
     }
     ,{
@@ -205,6 +230,7 @@
       "date": "2026-05-13",
       "type": "deadline",
       "startTime": "17:00",
+      "owner": "seongjun",
       "status": "confirmed"
     }
     ,{
@@ -212,6 +238,7 @@
       "title": "BC카드 채용",
       "date": "2026-05-11",
       "type": "deadline",
+      "owner": "seongjun",
       "status": "confirmed"
     }
     ,{
@@ -220,6 +247,7 @@
       "date": "2026-05-13",
       "type": "deadline",
       "startTime": "23:59",
+      "owner": "seongjun",
       "status": "confirmed"
     }
     ,{
@@ -228,6 +256,7 @@
       "date": "2026-05-25",
       "type": "deadline",
       "startTime": "18:00",
+      "owner": "seongjun",
       "status": "confirmed"
     }
     ,{
@@ -237,6 +266,7 @@
       "type": "meeting",
       "startTime": "10:35",
       "description": "진주복합혁신센터(진주시 소호로 113) 2층 대회의실",
+      "owner": "seongjun",
       "status": "confirmed"
     }
     ,{
@@ -245,6 +275,7 @@
       "date": "2026-05-22",
       "type": "deadline",
       "memo": "관련 서류 제출하기",
+      "owner": "seongjun",
       "status": "confirmed"
     }
     ,{
@@ -252,6 +283,7 @@
       "title": "SSAFY 에세이",
       "date": "2026-05-23",
       "type": "deadline",
+      "owner": "seongjun",
       "status": "confirmed"
     }
     ,{
@@ -260,6 +292,7 @@
       "date": "2026-05-16",
       "type": "meeting",
       "startTime": "10:30",
+      "owner": "seongjun",
       "status": "confirmed"
     }
     ,{
@@ -267,6 +300,7 @@
       "title": "기품원 필기시험",
       "date": "2026-07-04",
       "type": "meeting",
+      "owner": "seongjun",
       "status": "confirmed"
     }
     ,{
@@ -274,6 +308,7 @@
       "title": "연구노트 업로드(상훈)",
       "date": "2026-05-27",
       "type": "deadline",
+      "owner": "seongjun",
       "status": "confirmed"
     }
     ,{
@@ -284,6 +319,7 @@
       "startTime": "13:00",
       "description": "부산에뜬고등어 사상점",
       "memo": "사상(점심)",
+      "owner": "seongjun",
       "status": "confirmed"
     }
     ,{
@@ -291,6 +327,7 @@
       "title": "KETI 결과 발표",
       "date": "2026-05-22",
       "type": "deadline",
+      "owner": "seongjun",
       "status": "confirmed"
     }
     ,{
@@ -298,6 +335,7 @@
       "title": "KRIT 결과 발표",
       "date": "2026-05-22",
       "type": "deadline",
+      "owner": "seongjun",
       "status": "confirmed"
     }
     ,{
@@ -305,6 +343,7 @@
       "title": "Defense 자료 및 논문 작성 완료",
       "date": "2026-05-31",
       "type": "deadline",
+      "owner": "seongjun",
       "status": "confirmed"
     }
     ,{
@@ -312,6 +351,7 @@
       "title": "디펜스",
       "date": "2026-06-12",
       "type": "meeting",
+      "owner": "seongjun",
       "status": "confirmed"
     }
     ,{
@@ -319,6 +359,7 @@
       "title": "노바투스 조교",
       "date": "2026-05-29",
       "type": "class",
+      "owner": "seongjun",
       "status": "confirmed"
     }
     ,{
@@ -326,6 +367,7 @@
       "title": "차 수리 찾기",
       "date": "2026-05-29",
       "type": "meeting",
+      "owner": "seongjun",
       "status": "confirmed"
     }
     ,{
@@ -335,6 +377,7 @@
       "type": "meeting",
       "startTime": "18:00",
       "memo": "용산",
+      "owner": "seongjun",
       "status": "confirmed"
     }
     ,{
@@ -345,6 +388,7 @@
       "type": "class",
       "description": "International Conference on Machine Learning",
       "memo": "숙소: 서울시 강남구 학동로 82길 28 신우 실버타운 가동 201호 (꼭대기층 왼쪽집) / 녹색 현관",
+      "owner": "seongjun",
       "status": "confirmed"
     }
     ,{
@@ -355,6 +399,7 @@
       "startTime": "09:55",
       "description": "진주복합혁신센터 2층 대회의실",
       "memo": "지원분야: 기획03 | 수험번호: 0029-000153",
+      "owner": "seongjun",
       "status": "confirmed"
     }
     ,{
@@ -362,6 +407,7 @@
       "title": "연구노트 작성",
       "date": "2026-06-01",
       "type": "deadline",
+      "owner": "seongjun",
       "status": "confirmed"
     }
     ,{
@@ -370,6 +416,7 @@
       "date": "2026-06-15",
       "type": "deadline",
       "startTime": "14:00",
+      "owner": "seongjun",
       "status": "confirmed"
     }
     ,{
@@ -378,6 +425,7 @@
       "date": "2026-06-26",
       "type": "deadline",
       "memo": "심사위원 사인 포함된 승인서 — 포탈 업로드 후 원본 제출",
+      "owner": "seongjun",
       "status": "confirmed"
     }
     ,{
@@ -387,6 +435,40 @@
       "type": "meeting",
       "startTime": "11:00",
       "description": "국제빌딩 4층 K웨딩홀",
+      "owner": "seongjun",
+      "status": "confirmed"
+    }
+    ,{
+      "id": "73",
+      "title": "논문 하드커버 주문",
+      "date": "2026-06-26",
+      "type": "deadline",
+      "owner": "seongjun",
+      "status": "confirmed"
+    }
+    ,{
+      "id": "74",
+      "title": "논문 제본 컨펌",
+      "date": "2026-06-29",
+      "type": "deadline",
+      "owner": "seongjun",
+      "status": "confirmed"
+    }
+    ,{
+      "id": "75",
+      "title": "교수님 원투원",
+      "date": "2026-07-01",
+      "type": "meeting",
+      "startTime": "14:30",
+      "owner": "seongjun",
+      "status": "confirmed"
+    }
+    ,{
+      "id": "76",
+      "title": "[은] 부서회식 (점심)",
+      "date": "2026-07-01",
+      "type": "meeting",
+      "owner": "yeo eun",
       "status": "confirmed"
     }
     ,{
@@ -395,6 +477,7 @@
       "date": "2026-06-30",
       "type": "deadline",
       "startTime": "16:00",
+      "owner": "seongjun",
       "status": "confirmed"
     }
     ,{
@@ -402,6 +485,7 @@
       "title": "주택도시보증공사",
       "date": "2026-07-08",
       "type": "deadline",
+      "owner": "seongjun",
       "status": "confirmed"
     }
     ,{
@@ -409,6 +493,7 @@
       "title": "논문전자파일제출",
       "date": "2026-07-15",
       "type": "deadline",
+      "owner": "seongjun",
       "status": "confirmed"
     }
     ,{
@@ -416,6 +501,7 @@
       "title": "논문 하드커버 제출",
       "date": "2026-07-20",
       "type": "deadline",
+      "owner": "seongjun",
       "status": "confirmed"
     }
   ],
