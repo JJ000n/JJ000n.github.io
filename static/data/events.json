@@ -558,6 +558,15 @@
       "status": "confirmed"
     }
     ,{
+      "id": "87",
+      "title": "국기연 출근",
+      "date": "2026-07-13",
+      "type": "meeting",
+      "startTime": "09:00",
+      "owner": "seongjun",
+      "status": "confirmed"
+    }
+    ,{
       "id": "72",
       "title": "기술보증기금",
       "date": "2026-06-30",
