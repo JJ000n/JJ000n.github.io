@@ -481,6 +481,15 @@
       "status": "confirmed"
     }
     ,{
+      "id": "78",
+      "title": "[은] 인천·서울 여행",
+      "date": "2026-07-03",
+      "endDate": "2026-07-05",
+      "type": "meeting",
+      "owner": "yeo eun",
+      "status": "confirmed"
+    }
+    ,{
       "id": "72",
       "title": "기술보증기금",
       "date": "2026-06-30",
