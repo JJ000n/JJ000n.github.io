@@ -507,6 +507,15 @@
       "status": "confirmed"
     }
     ,{
+      "id": "81",
+      "title": "[은] 대구여행",
+      "date": "2026-07-31",
+      "endDate": "2026-08-01",
+      "type": "meeting",
+      "owner": "yeo eun",
+      "status": "confirmed"
+    }
+    ,{
       "id": "72",
       "title": "기술보증기금",
       "date": "2026-06-30",
