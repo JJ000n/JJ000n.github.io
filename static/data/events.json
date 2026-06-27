@@ -498,6 +498,15 @@
       "status": "confirmed"
     }
     ,{
+      "id": "80",
+      "title": "[은] 일본여행",
+      "date": "2026-07-24",
+      "endDate": "2026-07-30",
+      "type": "meeting",
+      "owner": "yeo eun",
+      "status": "confirmed"
+    }
+    ,{
       "id": "72",
       "title": "기술보증기금",
       "date": "2026-06-30",
