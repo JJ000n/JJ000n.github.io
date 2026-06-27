@@ -524,6 +524,32 @@
       "status": "confirmed"
     }
     ,{
+      "id": "83",
+      "title": "[은] 개학",
+      "date": "2026-08-12",
+      "type": "class",
+      "owner": "yeo eun",
+      "status": "confirmed"
+    }
+    ,{
+      "id": "84",
+      "title": "[은] 서울 여행",
+      "date": "2026-08-21",
+      "endDate": "2026-08-23",
+      "type": "meeting",
+      "owner": "yeo eun",
+      "status": "confirmed"
+    }
+    ,{
+      "id": "85",
+      "title": "[은] 빅뱅 콘서트",
+      "date": "2026-08-22",
+      "type": "meeting",
+      "startTime": "19:30",
+      "owner": "yeo eun",
+      "status": "confirmed"
+    }
+    ,{
       "id": "72",
       "title": "기술보증기금",
       "date": "2026-06-30",
