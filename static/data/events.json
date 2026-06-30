@@ -575,6 +575,15 @@
       "status": "confirmed"
     }
     ,{
+      "id": "89",
+      "title": "미용실",
+      "date": "2026-07-04",
+      "type": "meeting",
+      "startTime": "13:30",
+      "owner": "seongjun",
+      "status": "confirmed"
+    }
+    ,{
       "id": "72",
       "title": "기술보증기금",
       "date": "2026-06-30",
