@@ -723,14 +723,22 @@ textarea.form-input { resize: vertical; min-height: 85px; }
 
   async function loadTodos() {
     try {
-      const [todosRes, checksRes] = await Promise.all([
-        fetch('/data/todos.json?t=' + Date.now()),
-        fetch(`${SB_URL}/rest/v1/todo_checks?select=item_id`, { headers: sbHeaders })
-      ]);
+      const todosRes = await fetch('/data/todos.json?t=' + Date.now());
       const data = await todosRes.json();
-      const checks = await checksRes.json();
       todoItems = data.items || [];
-      checkedIds = new Set(Array.isArray(checks) ? checks.map(c => String(c.item_id)) : []);
+
+      // Auto-reset: todos.json date가 바뀌면 Supabase checks 초기화
+      const lastResetDate = localStorage.getItem('todo_reset_date');
+      if (data.date && data.date !== lastResetDate) {
+        await fetch(`${SB_URL}/rest/v1/todo_checks?item_id=gte.0`, { method: 'DELETE', headers: sbHeaders });
+        localStorage.setItem('todo_reset_date', data.date);
+        checkedIds = new Set();
+      } else {
+        const checksRes = await fetch(`${SB_URL}/rest/v1/todo_checks?select=item_id`, { headers: sbHeaders });
+        const checks = await checksRes.json();
+        checkedIds = new Set(Array.isArray(checks) ? checks.map(c => String(c.item_id)) : []);
+      }
+
       renderTodos(data);
     } catch (e) {
       document.getElementById('todo-items').innerHTML = '<div class="todo-empty-msg">할 일이 없습니다</div>';
