@@ -584,6 +584,14 @@
       "status": "confirmed"
     }
     ,{
+      "id": "90",
+      "title": "범훈 정산 보내기",
+      "date": "2026-07-25",
+      "type": "deadline",
+      "owner": "seongjun",
+      "status": "confirmed"
+    }
+    ,{
       "id": "72",
       "title": "기술보증기금",
       "date": "2026-06-30",
