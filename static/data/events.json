@@ -592,6 +592,16 @@
       "status": "confirmed"
     }
     ,{
+      "id": "91",
+      "title": "현진 약속",
+      "date": "2026-07-06",
+      "type": "meeting",
+      "startTime": "18:00",
+      "description": "시프트업 사옥",
+      "owner": "seongjun",
+      "status": "confirmed"
+    }
+    ,{
       "id": "72",
       "title": "기술보증기금",
       "date": "2026-06-30",
