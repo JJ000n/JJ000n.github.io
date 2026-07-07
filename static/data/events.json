@@ -611,6 +611,17 @@
       "status": "confirmed"
     }
     ,{
+      "id": "93",
+      "title": "[은] 중등신규교사 연수",
+      "date": "2026-08-07",
+      "type": "class",
+      "startTime": "09:00",
+      "endTime": "18:00",
+      "description": "창원",
+      "owner": "yeo eun",
+      "status": "confirmed"
+    }
+    ,{
       "id": "72",
       "title": "기술보증기금",
       "date": "2026-06-30",
