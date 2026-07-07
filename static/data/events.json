@@ -602,6 +602,15 @@
       "status": "confirmed"
     }
     ,{
+      "id": "92",
+      "title": "국기연",
+      "date": "2026-07-20",
+      "type": "deadline",
+      "startTime": "15:00",
+      "owner": "seongjun",
+      "status": "confirmed"
+    }
+    ,{
       "id": "72",
       "title": "기술보증기금",
       "date": "2026-06-30",
