@@ -632,6 +632,15 @@
       "status": "confirmed"
     }
     ,{
+      "id": "96",
+      "title": "신입 회식",
+      "date": "2026-07-23",
+      "type": "meeting",
+      "memo": "부장님이랑 함께",
+      "owner": "seongjun",
+      "status": "confirmed"
+    }
+    ,{
       "id": "95",
       "title": "[은] 현서 저녁약속",
       "date": "2026-07-23",
