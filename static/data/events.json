@@ -622,6 +622,16 @@
       "status": "confirmed"
     }
     ,{
+      "id": "94",
+      "title": "[은] 학교 전체 회식",
+      "date": "2026-07-21",
+      "type": "meeting",
+      "description": "상동 오리가",
+      "memo": "저녁",
+      "owner": "yeo eun",
+      "status": "confirmed"
+    }
+    ,{
       "id": "72",
       "title": "기술보증기금",
       "date": "2026-06-30",
@@ -657,3 +667,4 @@
   ],
   "blocked": []
 }
+
